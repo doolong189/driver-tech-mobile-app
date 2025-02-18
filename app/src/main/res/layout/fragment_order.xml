@@ -6,17 +6,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".presentation.ui.main.OrderFragment">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         >
+        <ProgressBar
+            android:id="@+id/order_pgLoading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"/>
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/order_rcView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:listitem="@layout/item_oder"
             tools:itemCount="2"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             />
-    </LinearLayout>
+    </RelativeLayout>
 </FrameLayout>

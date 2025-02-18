@@ -11,13 +11,13 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="#D0F6D2"
+        android:padding="10dp"
         >
         <ImageView
             android:id="@+id/splash_imageLogo"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/logo_driver_app"
-            android:scaleType="fitEnd"/>
+            android:layout_height="150dp"
+            android:src="@drawable/logo_driver_app" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
                 android:id="@+id/splash_btLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="5dp"
                 android:backgroundTint="@color/green"
                 android:background="@drawable/button_custom_default"
                 android:textStyle="bold"
@@ -46,7 +46,7 @@
                 android:id="@+id/splash_btRegister"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="5dp"
                 android:backgroundTint="@color/gray"
                 android:background="@drawable/border_shadow"
                 android:textStyle="bold"

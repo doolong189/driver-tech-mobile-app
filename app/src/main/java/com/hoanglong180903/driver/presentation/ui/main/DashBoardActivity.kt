@@ -1,4 +1,4 @@
-package com.hoanglong180903.driver.presentation.ui.account
+package com.hoanglong180903.driver.presentation.ui.main
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -6,16 +6,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.hoanglong180903.driver.R
 import com.hoanglong180903.driver.databinding.ActivityDashBoardBinding
-import com.hoanglong180903.driver.presentation.ui.main.BillFragment
-import com.hoanglong180903.driver.presentation.ui.main.HomeFragment
-import com.hoanglong180903.driver.presentation.ui.main.OrderFragment
-import com.hoanglong180903.driver.presentation.ui.main.UserFragment
 
 class DashBoardActivity : AppCompatActivity() {
     private lateinit var binding : ActivityDashBoardBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        binding = ActivityDashBoardBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setUpNavigation()
     }
@@ -49,7 +46,7 @@ class DashBoardActivity : AppCompatActivity() {
     private fun replaceFragment(fragment: Fragment) {
         val manager = supportFragmentManager
         val transaction = manager.beginTransaction()
-        transaction.replace(R.id.main_frame, fragment)
+        transaction.replace(R.id.dashboard_frame, fragment)
         transaction.commit()
     }
 }

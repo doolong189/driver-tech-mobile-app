@@ -9,6 +9,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:padding="5dp"
         >
         <LinearLayout
             android:layout_width="match_parent"
@@ -17,8 +18,9 @@
             android:background="@color/gray"
             >
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:id="@+id/signIn_iconBack"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:src="@drawable/baseline_keyboard_arrow_left_24"
                 android:layout_margin="10dp"
                 android:background="@drawable/border_shadow"/>
@@ -30,43 +32,27 @@
                 android:textSize="25sp"
                 android:textStyle="bold"
                 android:textColor="@color/black"/>
-            <EditText
-                android:id="@+id/edFullName"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/signIn_edEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/border_shadow"
-                android:hint="Họ tên"
-                android:padding="15dp" />
-            <EditText
-                android:id="@+id/edEmail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="5dp"
                 android:background="@drawable/border_shadow"
                 android:hint="Email"
-                android:padding="15dp" />
-            <EditText
-                android:id="@+id/edPhone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/border_shadow"
-                android:hint="Số điện thoại"
                 android:padding="15dp" />
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:passwordToggleEnabled="true"
-                android:layout_margin="10dp"
+                android:layout_margin="5dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 >
-                <EditText
-                    android:id="@+id/edPassword"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/signIn_edPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/border_shadow"
-                    android:hint="Mật khẩu"
+                    android:hint="Password"
                     android:inputType="textPassword"
                     />
             </com.google.android.material.textfield.TextInputLayout>
@@ -80,6 +66,7 @@
                 android:textAlignment="textEnd"
                 />
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/signIn_btnLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -99,16 +86,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="Bạn chưa có tài khoản?"
+                android:text="Bạn đã có tài khoản? "
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textAlignment="textEnd"
                 />
             <TextView
+                android:id="@+id/signIn_tvRegister"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="Đăng ký ngay"
+                android:text="Đăng ký ngay "
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textAlignment="textEnd"

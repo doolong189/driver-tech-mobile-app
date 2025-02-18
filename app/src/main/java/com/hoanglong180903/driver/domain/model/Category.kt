@@ -4,14 +4,13 @@ import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
 @Keep
-data class User(
+data class Category(
     @SerializedName("_id") val id: String,
     @SerializedName("name") val name: String,
-    @SerializedName("address") val address: String,
-    @SerializedName("password") val password: String,
-    @SerializedName("email") val email: String,
-    @SerializedName("phone") val phone: String,
     @SerializedName("image") val image: String,
-    @SerializedName("loc") val location: List<Double>,
     @SerializedName("__v") val version: Int
-)
+) {
+    override fun toString(): String {
+        return name
+    }
+}

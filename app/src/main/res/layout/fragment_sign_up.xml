@@ -9,6 +9,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:padding="5dp"
         >
         <LinearLayout
             android:layout_width="match_parent"
@@ -31,12 +32,28 @@
                 android:textStyle="bold"
                 android:textColor="@color/black"/>
             <EditText
+                android:id="@+id/edFullName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/border_shadow"
+                android:hint="Họ tên"
+                android:padding="15dp" />
+            <EditText
                 android:id="@+id/edEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:background="@drawable/border_shadow"
                 android:hint="Email"
+                android:padding="15dp" />
+            <EditText
+                android:id="@+id/edPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/border_shadow"
+                android:hint="Số điện thoại"
                 android:padding="15dp" />
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -45,12 +62,12 @@
                 android:layout_margin="10dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 >
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/border_shadow"
-                    android:hint="Password"
+                    android:hint="Mật khẩu"
                     android:inputType="textPassword"
                     />
             </com.google.android.material.textfield.TextInputLayout>
@@ -70,7 +87,7 @@
                 android:backgroundTint="@color/green"
                 android:background="@drawable/button_custom_default"
                 android:textStyle="bold"
-                android:text="Đăng nhập"/>
+                android:text="Đăng ký"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -83,7 +100,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="Bạn đã có tài khoản? "
+                android:text="Bạn chưa có tài khoản?"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textAlignment="textEnd"
@@ -92,7 +109,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="Đăng nhập ngay "
+                android:text="Đăng ký ngay"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textAlignment="textEnd"

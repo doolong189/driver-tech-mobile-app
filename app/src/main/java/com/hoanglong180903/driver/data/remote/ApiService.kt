@@ -15,7 +15,5 @@ import retrofit2.http.Query
 
 interface ApiService {
     @GET("/order/orders")
-    suspend fun requestGetBillOrder() : List<BillOrderResponse>
-
-
+    suspend fun requestGetBillOrder() : Response<BillOrderResponse>
 }
