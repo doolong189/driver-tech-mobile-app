@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".presentation.ui.account.login.SignInFragment">
+    tools:context=".ui.account.login.SignInFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"

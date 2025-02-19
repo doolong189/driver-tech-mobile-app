@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.hoanglong180903.driver.databinding.ActivityMainBinding
-import com.hoanglong180903.driver.presentation.ui.account.splash.SplashFragment
+import com.hoanglong180903.driver.ui.account.splash.SplashFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding

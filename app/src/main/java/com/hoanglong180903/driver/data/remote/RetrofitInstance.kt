@@ -1,6 +1,6 @@
 package com.hoanglong180903.driver.data.remote
 
-import com.hoanglong180903.driver.Utils.Contacts
+import com.hoanglong180903.driver.utils.Contacts
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
