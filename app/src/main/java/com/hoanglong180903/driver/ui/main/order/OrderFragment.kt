@@ -2,6 +2,7 @@ package com.hoanglong180903.driver.ui.main.order
 
 import android.app.Activity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +10,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.hoanglong180903.driver.R
 import com.hoanglong180903.driver.common.BaseFragment
 import com.hoanglong180903.driver.data.enity.GetOrdersRequest
 import com.hoanglong180903.driver.data.enity.GetOrdersResponse
@@ -45,13 +48,18 @@ class OrderFragment : BaseFragment() {
         binding.orderRcView.setHasFixedSize(true)
         binding.orderRcView.layoutManager = LinearLayoutManager(requireContext())
         binding.orderRcView.run { adapter = OrderAdapter().also { orderAdapter = it } }
-        orderViewModel.getOrders(GetOrdersRequest(receiptStatus =  1))
+        orderViewModel.getOrders(GetOrdersRequest(receiptStatus =  0))
     }
 
     override fun setView() {
+        binding.orderPgLoading.visibility = View.VISIBLE
     }
 
     override fun setAction() {
+        orderAdapter.showDetailNotification { id, position ->
+            val bundle = Bundle().apply { putString("orderId", id._id) }
+            findNavController().navigate(R.id.action_orderFragment_to_detailOrderFragment , bundle)
+        }
     }
 
     override fun setObserve() {
@@ -73,7 +81,6 @@ class OrderFragment : BaseFragment() {
                     binding.orderPgLoading.visibility = View.GONE
                     response.data?.let { picsResponse ->
                         orderAdapter.setOrderList(picsResponse.data!!)
-                        binding.orderRcView.adapter = orderAdapter
                     }
                 }
             }

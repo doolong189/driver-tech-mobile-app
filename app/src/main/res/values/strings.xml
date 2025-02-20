@@ -50,4 +50,25 @@
     <string name="no_internet_connection">Không có kết nối mạng\n</string>
     <string name="network_failure">Lỗi kết nối mạng</string>
     <string name="conversion_error">Lỗi gọi dữ liệu</string>
+    <string name="total_product">Mặt hàng</string>
+    <string name="time">Thời gian</string>
+    <string name="store">Cửa hàng</string>
+    <string name="address">Địa chỉ</string>
+    <string name="cancel">Hủy bỏ</string>
+    <string name="accept">Chấp nhận</string>
+    <string name="status_receiver">Giao hàng thu tiền</string>
+    <string name="detail_order">Chi tiết các đơn hàng</string>
+    <string name="order_id">Mã đơn</string>
+    <string name="status_order">Đang giao</string>
+    <string name="detail_store">Chi tiết cửa hàng</string>
+    <string name="call">Gọi</string>
+    <string name="direction">Điều hướng</string>
+    <string name="detail_client">Chi tiết khách hàng</string>
+    <string name="client">Khách hàng</string>
+    <string name="product">Product</string>
+    <string name="description">Description</string>
+    <string name="amount">Số lượng</string>
+    <string name="price">Giá tiền</string>
+    <string name="_0">0đ</string>
+    <string name="detail_product">Chi tiết sản phẩm</string>
 </resources>

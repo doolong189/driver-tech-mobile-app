@@ -13,20 +13,32 @@ import com.hoanglong180903.driver.R
 import com.hoanglong180903.driver.data.enity.GetOrdersResponse
 import com.hoanglong180903.driver.databinding.ItemOderBinding
 import com.hoanglong180903.driver.model.Order
+import com.hoanglong180903.driver.utils.Utils
 
+private var onClickShowDetail: ((id: Order, position: Int) -> Unit)? = null
 class OrderAdapter  : RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
     private var list: List<Order> = listOf()
+
+    fun showDetailNotification(id: ((id: Order, position: Int) -> Unit)) {
+        onClickShowDetail = id
+    }
+
 
     class OrderViewHolder(private val binding: ItemOderBinding) : RecyclerView.ViewHolder(binding.root){
         fun onBind(item: Order) {
             binding.run {
-                itemOrderTvTime.text = item.date
-                itemOrderTvUserName.text = item.products[0].product.idUser.name
-                itemOrderTvUserAddress.text = item.products[0].product.idUser.address
-                itemOrderTvListProductDetail.text = ""+item.products.size
+                itemOrderTvTime.text = "${Utils.getTimeDifference(item.date)}"
+                itemOrderTvUserName.text = "${binding.root.context.getString(R.string.store)}: ${item.products[0].product.idUser.name}"
+                itemOrderTvUserAddress.text = "${binding.root.context.getString(R.string.address)}: ${item.products[0].product.idUser.address}"
+                itemOrderTvListProductDetail.text = "${item.products.size} ${binding.root.context.getString(R.string.total_product)}"
                 Glide.with(binding.root.context)
                     .load(item.products[0].product.idUser.image)
                     .into(itemOrderImgUser)
+                itemView.setOnClickListener {
+                    onClickShowDetail?.let {
+                        it(item, adapterPosition)
+                    }
+                }
             }
         }
     }

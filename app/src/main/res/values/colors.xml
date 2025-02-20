@@ -5,4 +5,8 @@
     <color name="gray">#F5F5F5</color>
     <color name="green">#218a47</color>
     <color name="blue">#35C2C1</color>
+    <color name="text">#249DB7</color>
+    <color name="completed">#347C37</color>
+    <color name="process">#03A9F4</color>
+    <color name="cancel">#474747</color>
 </resources>

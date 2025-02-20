@@ -5,6 +5,10 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import com.hoanglong180903.driver.application.MyApplication
+import java.text.DecimalFormat
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 object Utils {
     fun hasInternetConnection(application: MyApplication): Boolean {
@@ -31,5 +35,52 @@ object Utils {
             }
         }
         return false
+    }
+
+    fun formatPrice(price: Double): String {
+        val decimalFormat = DecimalFormat("#,###")
+        return decimalFormat.format(price)
+    }
+
+    fun convertTimestampToDate(timestampStr: String): String {
+        val timestamp = timestampStr.toLongOrNull() ?: return "Invalid timestamp"
+        val date = Date(timestamp)
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val dateStr = dateFormat.format(date)
+        return dateStr
+    }
+
+    fun convertTimestampToTime(timestampStr: String): String {
+        val timestamp = timestampStr.toLongOrNull() ?: return "Invalid timestamp"
+        val date = Date(timestamp)
+        val timeFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
+        val timeStr = timeFormat.format(date)
+        return timeStr
+    }
+
+
+    fun getTimeDifference(timestampStr: String): String {
+        // Chuyển chuỗi timestamp thành Long
+        val timestamp = timestampStr.toLongOrNull() ?: return "Invalid timestamp"
+
+        // Lấy thời gian hiện tại
+        val currentTime = System.currentTimeMillis()
+
+        // Tính sự khác biệt giữa thời gian hiện tại và timestamp
+        val diffInMillis = currentTime - timestamp
+
+        // Quy đổi từ mili giây sang giây, phút, giờ, ngày
+        val diffInSeconds = diffInMillis / 1000
+        val diffInMinutes = diffInSeconds / 60
+        val diffInHours = diffInMinutes / 60
+        val diffInDays = diffInHours / 24
+
+        return when {
+            diffInSeconds < 60 -> "Vừa xong"
+            diffInMinutes < 60 -> "$diffInMinutes phút trước"
+            diffInHours < 24 -> "$diffInHours giờ trước"
+            diffInDays < 30 -> "$diffInDays ngày trước"
+            else -> SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date(timestamp))
+        }
     }
 }

@@ -14,6 +14,8 @@ import com.hoanglong180903.driver.utils.Resource
 import com.hoanglong180903.driver.utils.Utils
 import com.hoanglong180903.driver.application.MyApplication
 import com.hoanglong180903.driver.data.enity.ErrorResponse
+import com.hoanglong180903.driver.data.enity.GetDetailOrderRequest
+import com.hoanglong180903.driver.data.enity.GetDetailOrderResponse
 import com.hoanglong180903.driver.data.enity.GetOrdersRequest
 import com.hoanglong180903.driver.data.repository.OrderRepository
 import com.hoanglong180903.driver.data.enity.GetOrdersResponse
@@ -30,6 +32,7 @@ class OrderViewModel(private val app: Application) : AndroidViewModel(app) {
     fun getOrderResult(): LiveData<Event<Resource<GetOrdersResponse>>> {
         return getOrderResult
     }
+
 
     fun getOrders(request : GetOrdersRequest) : Job = viewModelScope.launch {
         getOrderResult.postValue(Event(Resource.Loading()))
@@ -50,16 +53,15 @@ class OrderViewModel(private val app: Application) : AndroidViewModel(app) {
             }
         } catch (t: Throwable) {
             when (t) {
-                is IOException ->{
+                is IOException -> {
                     getOrderResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
-                                R.string.network_failure
-                            ))))
+                        R.string.network_failure
+                    ))))
                 }
-
-                else ->{
+                else -> {
                     getOrderResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
-                                R.string.conversion_error
-                            ))))
+                        R.string.conversion_error
+                    ))))
                 }
             }
         }

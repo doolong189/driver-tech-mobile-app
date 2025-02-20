@@ -4,17 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
         >
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/item_order_imgUser"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:src="@drawable/item_shop"/>
         <LinearLayout
             android:layout_width="0dp"
@@ -27,13 +26,13 @@
                 android:id="@+id/item_order_tvUserName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Shop---"
+                android:text="@string/store"
                 android:textStyle="bold"/>
             <TextView
                 android:id="@+id/item_order_tvUserAddress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Address---"
+                android:text="@string/address"
                 android:textStyle="bold"
                 android:textColor="#6E7C78"/>
         </LinearLayout>
@@ -41,28 +40,27 @@
             android:id="@+id/item_order_tvPaymentMethod"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:text="Giao hàng thu tiền"
+            android:text="@string/status_receiver"
             android:backgroundTint="#218a47"
             android:background="@drawable/border_shadow"
             android:padding="5dp"
             android:layout_margin="5dp"
             android:textStyle="bold"
             android:textColor="#FFFFFF"
-            android:textSize="11dp"/>
+            android:textSize="11sp"/>
     </LinearLayout>
-
     <TextView
         android:id="@+id/item_order_tvListProductDetail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="0 Mặt hàng"
+        android:text="@string/total_product"
         android:textStyle="bold"
         android:layout_gravity="center"/>
     <TextView
         android:id="@+id/item_order_tvTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="0 phút trước"
+        android:text="@string/time"
         android:textStyle="bold"
         android:textColor="#6E7C78"
         android:layout_gravity="center"/>
@@ -77,25 +75,29 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Hủy bỏ"
+            android:text="@string/cancel"
             android:backgroundTint="#6E7C78"
             android:background="@drawable/border_shadow"
             android:layout_margin="5dp"
             android:textStyle="bold"
             android:textColor="#FFFFFF"
-            android:textSize="13dp"/>
+            android:textSize="13sp"/>
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/item_order_btnAccept"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Chấp nhận"
+            android:text="@string/accept"
             android:backgroundTint="#218a47"
             android:background="@drawable/border_shadow"
             android:padding="5dp"
             android:layout_margin="5dp"
             android:textStyle="bold"
             android:textColor="#FFFFFF"
-            android:textSize="13dp"/>
+            android:textSize="13sp"/>
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/green"/>
 </LinearLayout>
