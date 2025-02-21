@@ -16,6 +16,7 @@ import com.hoanglong180903.driver.R
 import com.hoanglong180903.driver.common.BaseFragment
 import com.hoanglong180903.driver.data.enity.GetOrdersRequest
 import com.hoanglong180903.driver.data.enity.GetOrdersResponse
+import com.hoanglong180903.driver.data.enity.UpdateOrderShipperRequest
 import com.hoanglong180903.driver.utils.Resource
 import com.hoanglong180903.driver.utils.SnackBar
 import com.hoanglong180903.driver.databinding.FragmentOrderBinding
@@ -59,6 +60,17 @@ class OrderFragment : BaseFragment() {
         orderAdapter.showDetailNotification { id, position ->
             val bundle = Bundle().apply { putString("orderId", id._id) }
             findNavController().navigate(R.id.action_orderFragment_to_detailOrderFragment , bundle)
+        }
+
+        orderAdapter.onClickItemOrderAccept { id, position ->
+            orderViewModel.updateOrderShipper(UpdateOrderShipperRequest(
+                orderId = id._id,
+                idShipper = "66e2faac041c84e872801234"
+            ))
+        }
+
+        orderAdapter.onClickItemOrderCancel { id, position ->
+
         }
     }
 

@@ -69,6 +69,11 @@
     <string name="description">Description</string>
     <string name="amount">Số lượng</string>
     <string name="price">Giá tiền</string>
-    <string name="_0">0đ</string>
+    <string name="_0">0</string>
     <string name="detail_product">Chi tiết sản phẩm</string>
+    <string name="total_order_today">Số đơn hôm nay</string>
+    <string name="click_to_detail">Bấm xem chi tiết</string>
+    <string name="amount_receiver">Số tiền nhận được</string>
+    <string name="order_complete">Đơn hoàn thành</string>
+    <string name="order_cancel">Đơn hủy bỏ</string>
 </resources>

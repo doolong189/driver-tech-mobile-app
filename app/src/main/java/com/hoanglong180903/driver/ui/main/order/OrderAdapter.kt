@@ -16,6 +16,8 @@ import com.hoanglong180903.driver.model.Order
 import com.hoanglong180903.driver.utils.Utils
 
 private var onClickShowDetail: ((id: Order, position: Int) -> Unit)? = null
+private var onClickItemOrderAccept : ((id : Order , position : Int) -> Unit)? = null
+private var onClickItemOrderCancel : ((id : Order , position : Int) -> Unit)? = null
 class OrderAdapter  : RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
     private var list: List<Order> = listOf()
 
@@ -23,6 +25,13 @@ class OrderAdapter  : RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
         onClickShowDetail = id
     }
 
+    fun onClickItemOrderAccept(id: ((id: Order, position: Int) -> Unit)) {
+        onClickItemOrderAccept = id
+    }
+
+    fun onClickItemOrderCancel(id: ((id: Order, position: Int) -> Unit)) {
+        onClickItemOrderCancel= id
+    }
 
     class OrderViewHolder(private val binding: ItemOderBinding) : RecyclerView.ViewHolder(binding.root){
         fun onBind(item: Order) {
@@ -37,6 +46,18 @@ class OrderAdapter  : RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
                 itemView.setOnClickListener {
                     onClickShowDetail?.let {
                         it(item, adapterPosition)
+                    }
+                }
+
+                itemOrderBtnAccept.setOnClickListener {
+                    onClickItemOrderAccept?.let {
+                        it(item, adapterPosition)
+                    }
+                }
+
+                itemOrderBtnCancel.setOnClickListener {
+                    onClickItemOrderCancel?.let {
+                        it(item,adapterPosition)
                     }
                 }
             }

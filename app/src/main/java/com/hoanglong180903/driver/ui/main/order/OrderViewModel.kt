@@ -19,6 +19,8 @@ import com.hoanglong180903.driver.data.enity.GetDetailOrderResponse
 import com.hoanglong180903.driver.data.enity.GetOrdersRequest
 import com.hoanglong180903.driver.data.repository.OrderRepository
 import com.hoanglong180903.driver.data.enity.GetOrdersResponse
+import com.hoanglong180903.driver.data.enity.UpdateOrderShipperRequest
+import com.hoanglong180903.driver.data.enity.UpdateOrderShipperResponse
 import com.hoanglong180903.driver.utils.Event
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -32,7 +34,11 @@ class OrderViewModel(private val app: Application) : AndroidViewModel(app) {
     fun getOrderResult(): LiveData<Event<Resource<GetOrdersResponse>>> {
         return getOrderResult
     }
+    private val updateOrderShipperResult = MutableLiveData<Event<Resource<UpdateOrderShipperResponse>>>()
 
+    fun updateOrderShipperResult() : LiveData<Event<Resource<UpdateOrderShipperResponse>>>{
+        return updateOrderShipperResult
+    }
 
     fun getOrders(request : GetOrdersRequest) : Job = viewModelScope.launch {
         getOrderResult.postValue(Event(Resource.Loading()))
@@ -67,5 +73,36 @@ class OrderViewModel(private val app: Application) : AndroidViewModel(app) {
         }
     }
 
-
+    fun updateOrderShipper(request : UpdateOrderShipperRequest) : Job = viewModelScope.launch {
+        updateOrderShipperResult.postValue(Event(Resource.Loading()))
+        try {
+            if (Utils.hasInternetConnection(getApplication<MyApplication>())) {
+                val response = repository.updateOrderShipper(request)
+                if (response.isSuccessful) {
+                    response.body()?.let { resultResponse ->
+                        updateOrderShipperResult.postValue(Event(Resource.Success(resultResponse)))
+                    }
+                } else {
+                    val errorResponse = response.errorBody()?.let {
+                        val gson = Gson()
+                        gson.fromJson(it.string(), ErrorResponse::class.java)
+                    }
+                    updateOrderShipperResult.postValue(Event(Resource.Error(errorResponse?.message ?: "")))
+                }
+            }
+        } catch (t: Throwable) {
+            when (t) {
+                is IOException -> {
+                    updateOrderShipperResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
+                        R.string.network_failure
+                    ))))
+                }
+                else -> {
+                    updateOrderShipperResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
+                        R.string.conversion_error
+                    ))))
+                }
+            }
+        }
+    }
 }

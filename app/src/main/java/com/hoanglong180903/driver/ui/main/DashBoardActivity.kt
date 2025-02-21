@@ -50,6 +50,8 @@ class DashBoardActivity : AppCompatActivity() {
                     navController.navigate(R.id.billFragment)
                 }
                 R.id.navUser -> {
+                    val navController = findNavController(R.id.nav_host_fragment)
+                    navController.navigate(R.id.userFragment)
                 }
                 else -> {}
             }

@@ -83,4 +83,33 @@ object Utils {
             else -> SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date(timestamp))
         }
     }
+
+
+//    private fun drawRouteOnMap(lat1: Double, lng1: Double, lat2: Double, lng2: Double) {
+//        // Sử dụng Directions API để lấy chỉ dẫn đường đi
+//        GlobalScope.launch(Dispatchers.IO) {
+//            try {
+//                val directions = DirectionsApi.newRequest(getGeoContext())
+//                    .origin(com.google.maps.model.LatLng(lat1, lng1))
+//                    .destination(com.google.maps.model.LatLng(lat2, lng2))
+//                    .mode(com.google.maps.model.TravelMode.DRIVING)
+//
+//                val result: DirectionsResult = directions.await()
+//
+//                if (result.routes.isNotEmpty()) {
+//                    val route: DirectionsRoute = result.routes[0]
+//                    val polylineOptions = PolylineOptions()
+//                        .addAll(route.overviewPolyline.decodePath())  // Giải mã polyline đường đi
+//                        .width(10f)
+//                        .color(Color.BLUE)
+//
+//                    runOnUiThread {
+//                        mMap.addPolyline(polylineOptions)
+//                    }
+//                }
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//            }
+//        }
+//    }
 }

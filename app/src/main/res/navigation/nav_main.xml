@@ -15,6 +15,9 @@
         <action
             android:id="@+id/action_homeFragment_to_orderFragment"
             app:destination="@id/orderFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_userFragment"
+            app:destination="@id/userFragment" />
     </fragment>
     <fragment
         android:id="@+id/orderFragment"
@@ -35,4 +38,10 @@
         android:name="com.hoanglong180903.driver.ui.main.order.detail.DetailOrderFragment"
         android:label="fragment_detail_order"
         tools:layout="@layout/fragment_detail_order" />
+    <fragment
+        android:id="@+id/userFragment"
+        android:name="com.hoanglong180903.driver.ui.main.user.UserFragment"
+        android:label="fragment_user"
+        tools:layout="@layout/fragment_user" />
+
 </navigation>

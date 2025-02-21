@@ -36,27 +36,27 @@
                     <ImageView
                         android:layout_width="68dp"
                         android:layout_height="68dp"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
                         android:scaleType="centerCrop"
                         android:src="@drawable/food_delivery_man_riding_motorcycles_cartoon_art_illustration" />
 
                     <TextView
-                        android:id="@+id/count_product"
+                        android:id="@+id/total_orders_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:text="0"
+                        android:layout_marginStart="10dp"
+                        android:text="@string/_0"
                         android:textColor="#fff"
-                        android:textSize="18dp"
+                        android:textSize="18sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:text="Số đơn hôm nay"
+                        android:layout_marginStart="10dp"
+                        android:text="@string/total_order_today"
                         android:textColor="#fff"
-                        android:textSize="15dp"
+                        android:textSize="15sp"
                         android:textStyle="bold" />
 
                     <RelativeLayout
@@ -69,15 +69,15 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:text="Bấm xem chi tiết"
+                            android:text="@string/click_to_detail"
                             android:textColor="#fff"
-                            android:textSize="11dp"
+                            android:textSize="11sp"
                             android:textStyle="bold" />
 
                         <ImageView
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
                             android:src="@drawable/baseline_trending_up_24" />
                     </RelativeLayout>
@@ -102,26 +102,26 @@
                     <ImageView
                         android:layout_width="68dp"
                         android:layout_height="68dp"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
                         android:src="@drawable/icon_money" />
 
                     <TextView
-                        android:id="@+id/count_orderDone"
+                        android:id="@+id/total_received_amount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:text="0"
+                        android:layout_marginStart="10dp"
+                        android:text="@string/_0"
                         android:textColor="#fff"
-                        android:textSize="18dp"
+                        android:textSize="18sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:text="Số tiền nhận được"
+                        android:layout_marginStart="10dp"
+                        android:text="@string/amount_receiver"
                         android:textColor="#fff"
-                        android:textSize="15dp"
+                        android:textSize="15sp"
                         android:textStyle="bold" />
 
                     <RelativeLayout
@@ -134,15 +134,15 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:text="Bấm xem chi tiết"
+                            android:text="@string/click_to_detail"
                             android:textColor="#fff"
-                            android:textSize="11dp"
+                            android:textSize="11sp"
                             android:textStyle="bold" />
 
                         <ImageView
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
                             android:src="@drawable/baseline_trending_up_24" />
                     </RelativeLayout>
@@ -167,27 +167,27 @@
                     <ImageView
                         android:layout_width="68dp"
                         android:layout_height="68dp"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
                         android:scaleType="centerCrop"
                         android:src="@drawable/icon_complete" />
 
                     <TextView
-                        android:id="@+id/count_client"
+                        android:id="@+id/completed_orders_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:text="0"
+                        android:layout_marginStart="10dp"
+                        android:text="@string/_0"
                         android:textColor="#fff"
-                        android:textSize="18dp"
+                        android:textSize="18sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:text="Đơn hoàn thành"
+                        android:layout_marginStart="10dp"
+                        android:text="@string/order_complete"
                         android:textColor="#fff"
-                        android:textSize="15dp"
+                        android:textSize="15sp"
                         android:textStyle="bold" />
 
                     <RelativeLayout
@@ -200,15 +200,15 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:text="Bấm xem chi tiết"
+                            android:text="@string/click_to_detail"
                             android:textColor="#fff"
-                            android:textSize="11dp"
+                            android:textSize="11sp"
                             android:textStyle="bold" />
 
                         <ImageView
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
                             android:src="@drawable/baseline_trending_up_24" />
                     </RelativeLayout>
@@ -233,27 +233,27 @@
                     <ImageView
                         android:layout_width="68dp"
                         android:layout_height="68dp"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
                         android:scaleType="centerCrop"
                         android:src="@drawable/icon_cancel" />
 
                     <TextView
-                        android:id="@+id/count_orderCancel"
+                        android:id="@+id/canceled_orders_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:text="0"
+                        android:layout_marginStart="10dp"
+                        android:text="@string/_0"
                         android:textColor="#fff"
-                        android:textSize="18dp"
+                        android:textSize="18sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:text="Đơn hủy bỏ"
+                        android:layout_marginStart="10dp"
+                        android:text="@string/order_cancel"
                         android:textColor="#fff"
-                        android:textSize="15dp"
+                        android:textSize="15sp"
                         android:textStyle="bold" />
 
                     <RelativeLayout
@@ -266,15 +266,15 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:text="Bấm xem chi tiết"
+                            android:text="@string/click_to_detail"
                             android:textColor="#fff"
-                            android:textSize="11dp"
+                            android:textSize="11sp"
                             android:textStyle="bold" />
 
                         <ImageView
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
                             android:src="@drawable/baseline_trending_up_24" />
                     </RelativeLayout>
@@ -282,4 +282,10 @@
             </androidx.cardview.widget.CardView>
         </GridLayout>
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/pbBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
 </FrameLayout>

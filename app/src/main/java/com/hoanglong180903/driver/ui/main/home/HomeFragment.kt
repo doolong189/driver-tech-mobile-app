@@ -6,13 +6,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import com.hoanglong180903.driver.R
 import com.hoanglong180903.driver.common.BaseFragment
+import com.hoanglong180903.driver.data.enity.GetStatisticalRequest
+import com.hoanglong180903.driver.data.enity.GetStatisticalResponse
+import com.hoanglong180903.driver.databinding.FragmentHomeBinding
+import com.hoanglong180903.driver.utils.Event
+import com.hoanglong180903.driver.utils.Resource
+import com.hoanglong180903.driver.utils.Utils
 
 class HomeFragment : BaseFragment() {
-
+    private lateinit var binding : FragmentHomeBinding
     override var isVisibleActionBar: Boolean = false
-
+    private val viewModel by activityViewModels<HomeViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -22,7 +30,8 @@ class HomeFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        binding =  FragmentHomeBinding.inflate(layoutInflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -30,6 +39,7 @@ class HomeFragment : BaseFragment() {
     }
 
     override fun initView() {
+        viewModel.getStatistical(GetStatisticalRequest(idShipper = "66e2faac041c84e872801234"))
     }
 
     override fun setView() {
@@ -39,5 +49,30 @@ class HomeFragment : BaseFragment() {
     }
 
     override fun setObserve() {
+        viewModel.getStatisticalResult().observe(viewLifecycleOwner, Observer {
+            getStatisticalResult(it)
+        })
+    }
+
+    private fun getStatisticalResult(event : Event<Resource<GetStatisticalResponse>>){
+        event.getContentIfNotHandled()?.let { response ->
+            when ( response ){
+                is Resource.Error -> {
+                    binding.pbBar.visibility = View.GONE
+                }
+                is Resource.Loading -> {
+                    binding.pbBar.visibility = View.VISIBLE
+                }
+                is Resource.Success -> {
+                    binding.pbBar.visibility = View.GONE
+                    response.data?.let {
+                        binding.totalOrdersCount.text = it.totalOrdersCount.toString()
+                        binding.totalReceivedAmount.text = Utils.formatPrice(it.totalReceivedAmount!!) + "đ"
+                        binding.completedOrdersCount.text = it.completedOrdersCount.toString()
+                        binding.canceledOrdersCount.text = it.canceledOrdersCount.toString()
+                    }
+                }
+            }
+        }
     }
 }
