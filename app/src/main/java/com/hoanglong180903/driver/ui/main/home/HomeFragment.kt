@@ -1,17 +1,14 @@
 package com.hoanglong180903.driver.ui.main.home
 
-import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import com.hoanglong180903.driver.R
 import com.hoanglong180903.driver.common.BaseFragment
-import com.hoanglong180903.driver.data.enity.GetStatisticalRequest
-import com.hoanglong180903.driver.data.enity.GetStatisticalResponse
+import com.hoanglong180903.driver.api.enity.GetStatisticalRequest
+import com.hoanglong180903.driver.api.enity.GetStatisticalResponse
 import com.hoanglong180903.driver.databinding.FragmentHomeBinding
 import com.hoanglong180903.driver.utils.Event
 import com.hoanglong180903.driver.utils.Resource
@@ -39,7 +36,7 @@ class HomeFragment : BaseFragment() {
     }
 
     override fun initView() {
-        viewModel.getStatistical(GetStatisticalRequest(idShipper = "66e2faac041c84e872801234"))
+//        viewModel.getStatistical(GetStatisticalRequest(idShipper = "66e2faac041c84e872801234"))
     }
 
     override fun setView() {

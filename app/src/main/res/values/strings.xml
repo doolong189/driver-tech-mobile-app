@@ -76,4 +76,6 @@
     <string name="amount_receiver">Số tiền nhận được</string>
     <string name="order_complete">Đơn hoàn thành</string>
     <string name="order_cancel">Đơn hủy bỏ</string>
+    <string name="space">Delivery: 0km</string>
+    <string name="order_generated">Đơn phát sinh</string>
 </resources>

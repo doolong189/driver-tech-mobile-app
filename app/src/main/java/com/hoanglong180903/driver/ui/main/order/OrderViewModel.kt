@@ -1,30 +1,24 @@
 package com.hoanglong180903.driver.ui.main.order
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.hoanglong180903.driver.R
 import com.hoanglong180903.driver.utils.Resource
 import com.hoanglong180903.driver.utils.Utils
 import com.hoanglong180903.driver.application.MyApplication
-import com.hoanglong180903.driver.data.enity.ErrorResponse
-import com.hoanglong180903.driver.data.enity.GetDetailOrderRequest
-import com.hoanglong180903.driver.data.enity.GetDetailOrderResponse
-import com.hoanglong180903.driver.data.enity.GetOrdersRequest
-import com.hoanglong180903.driver.data.repository.OrderRepository
-import com.hoanglong180903.driver.data.enity.GetOrdersResponse
-import com.hoanglong180903.driver.data.enity.UpdateOrderShipperRequest
-import com.hoanglong180903.driver.data.enity.UpdateOrderShipperResponse
+import com.hoanglong180903.driver.api.enity.ErrorResponse
+import com.hoanglong180903.driver.api.enity.GetOrdersRequest
+import com.hoanglong180903.driver.api.usecase.OrderRepository
+import com.hoanglong180903.driver.api.enity.GetOrdersResponse
+import com.hoanglong180903.driver.api.enity.UpdateOrderShipperRequest
+import com.hoanglong180903.driver.api.enity.UpdateOrderShipperResponse
 import com.hoanglong180903.driver.utils.Event
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import retrofit2.Response
 import java.io.IOException
 
 class OrderViewModel(private val app: Application) : AndroidViewModel(app) {

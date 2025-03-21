@@ -1,8 +1,7 @@
-package com.hoanglong180903.driver.data.enity
+package com.hoanglong180903.driver.api.enity
 
 import androidx.annotation.Keep
 import com.hoanglong180903.driver.model.Order
-import com.hoanglong180903.driver.model.Product
 
 @Keep
 data class GetOrdersResponse(

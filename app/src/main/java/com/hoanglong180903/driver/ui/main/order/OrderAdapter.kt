@@ -1,16 +1,10 @@
 package com.hoanglong180903.driver.ui.main.order
 
-import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.hoanglong180903.driver.R
-import com.hoanglong180903.driver.data.enity.GetOrdersResponse
 import com.hoanglong180903.driver.databinding.ItemOderBinding
 import com.hoanglong180903.driver.model.Order
 import com.hoanglong180903.driver.utils.Utils

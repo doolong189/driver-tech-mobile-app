@@ -281,11 +281,24 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         </GridLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/order_generated"
+            android:textStyle="bold"
+            android:textSize="16sp"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/item_delivery"
+        />
     </LinearLayout>
+
 
     <ProgressBar
         android:id="@+id/pbBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:visibility="gone"/>
 </FrameLayout>

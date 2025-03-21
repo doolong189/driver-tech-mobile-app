@@ -1,8 +1,9 @@
-package com.hoanglong180903.driver.data.remote
+package com.hoanglong180903.driver.api.remote
 
 import com.hoanglong180903.driver.utils.Contacts
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
@@ -28,4 +29,9 @@ object RetrofitInstance {
     val api: ApiService by lazy {
         retrofitService.create(ApiService::class.java)
     }
+
+//    fun getUserInfo(): Response<GetUserInfoResponse> {
+//        val service = restClient().create(IApiService::class.java)
+//        return service.getUserInfo().execute()
+//    }
 }

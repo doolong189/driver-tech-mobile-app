@@ -1,24 +1,19 @@
 package com.hoanglong180903.driver.ui.main.order
 
-import android.app.Activity
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hoanglong180903.driver.R
 import com.hoanglong180903.driver.common.BaseFragment
-import com.hoanglong180903.driver.data.enity.GetOrdersRequest
-import com.hoanglong180903.driver.data.enity.GetOrdersResponse
-import com.hoanglong180903.driver.data.enity.UpdateOrderShipperRequest
+import com.hoanglong180903.driver.api.enity.GetOrdersRequest
+import com.hoanglong180903.driver.api.enity.GetOrdersResponse
+import com.hoanglong180903.driver.api.enity.UpdateOrderShipperRequest
 import com.hoanglong180903.driver.utils.Resource
-import com.hoanglong180903.driver.utils.SnackBar
 import com.hoanglong180903.driver.databinding.FragmentOrderBinding
 import com.hoanglong180903.driver.utils.Event
 

@@ -1,19 +1,19 @@
-package com.hoanglong180903.driver.data.remote
+package com.hoanglong180903.driver.api.remote
 
 
-import com.hoanglong180903.driver.data.enity.GetDetailOrderRequest
-import com.hoanglong180903.driver.data.enity.GetDetailOrderResponse
-import com.hoanglong180903.driver.data.enity.GetOrdersRequest
-import com.hoanglong180903.driver.data.enity.GetOrdersResponse
-import com.hoanglong180903.driver.data.enity.GetShipperInfoRequest
-import com.hoanglong180903.driver.data.enity.GetShipperInfoResponse
-import com.hoanglong180903.driver.data.enity.GetStatisticalRequest
-import com.hoanglong180903.driver.data.enity.GetStatisticalResponse
-import com.hoanglong180903.driver.data.enity.UpdateOrderShipperRequest
-import com.hoanglong180903.driver.data.enity.UpdateOrderShipperResponse
+import com.hoanglong180903.driver.api.enity.GetDetailOrderRequest
+import com.hoanglong180903.driver.api.enity.GetDetailOrderResponse
+import com.hoanglong180903.driver.api.enity.GetOrdersRequest
+import com.hoanglong180903.driver.api.enity.GetOrdersResponse
+import com.hoanglong180903.driver.api.enity.GetShipperInfoRequest
+import com.hoanglong180903.driver.api.enity.GetShipperInfoResponse
+import com.hoanglong180903.driver.api.enity.GetStatisticalRequest
+import com.hoanglong180903.driver.api.enity.GetStatisticalResponse
+import com.hoanglong180903.driver.api.enity.UpdateOrderShipperRequest
+import com.hoanglong180903.driver.api.enity.UpdateOrderShipperResponse
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
-import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface ApiService {
@@ -31,4 +31,7 @@ interface ApiService {
 
     @POST("shipper/getShipperInfo")
     suspend fun getShipperInfo(@Body request : GetShipperInfoRequest) : Response<GetShipperInfoResponse>
+
+//    fun getUserInfo(): Call<GetUserInfoResponse>
+
 }
