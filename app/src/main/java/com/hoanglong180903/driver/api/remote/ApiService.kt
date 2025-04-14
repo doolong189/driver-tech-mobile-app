@@ -3,6 +3,8 @@ package com.hoanglong180903.driver.api.remote
 
 import com.hoanglong180903.driver.api.enity.GetDetailOrderRequest
 import com.hoanglong180903.driver.api.enity.GetDetailOrderResponse
+import com.hoanglong180903.driver.api.enity.GetOrderShipIDRequest
+import com.hoanglong180903.driver.api.enity.GetOrderShipIDResponse
 import com.hoanglong180903.driver.api.enity.GetOrdersRequest
 import com.hoanglong180903.driver.api.enity.GetOrdersResponse
 import com.hoanglong180903.driver.api.enity.GetShipperInfoRequest
@@ -34,4 +36,6 @@ interface ApiService {
 
 //    fun getUserInfo(): Call<GetUserInfoResponse>
 
+    @POST("")
+    suspend fun getOrdersShipID(@Body request : GetOrderShipIDRequest) : Response<GetOrderShipIDResponse>
 }

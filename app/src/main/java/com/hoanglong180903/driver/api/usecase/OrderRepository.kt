@@ -1,6 +1,7 @@
 package com.hoanglong180903.driver.api.usecase
 
 import com.hoanglong180903.driver.api.enity.GetDetailOrderRequest
+import com.hoanglong180903.driver.api.enity.GetOrderShipIDRequest
 import com.hoanglong180903.driver.api.enity.GetOrdersRequest
 import com.hoanglong180903.driver.api.enity.GetStatisticalRequest
 import com.hoanglong180903.driver.api.enity.UpdateOrderShipperRequest
@@ -14,4 +15,6 @@ class OrderRepository {
     suspend fun getStatistical(request : GetStatisticalRequest) = RetrofitInstance.api.getStatistical(request)
 
     suspend fun updateOrderShipper(request : UpdateOrderShipperRequest) = RetrofitInstance.api.updateOrderShipper(request)
+
+    suspend fun getOrdersShipID(request : GetOrderShipIDRequest) = RetrofitInstance.api.getOrdersShipID(request)
 }

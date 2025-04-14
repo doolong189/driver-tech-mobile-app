@@ -20,7 +20,7 @@ object RetrofitInstance {
             .addInterceptor(logging)
             .build()
         Retrofit.Builder()
-            .baseUrl(Contacts.BASE_URL)
+            .baseUrl(Contacts.API_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()

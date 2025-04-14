@@ -7,5 +7,6 @@ data class Order(
     val date : String,
     val receiptStatus : Int,
     val idClient : UserInfo,
+    val idShipper : UserInfo,
     val products : List<ProductOfOrder>
 )

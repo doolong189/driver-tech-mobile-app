@@ -1,6 +1,7 @@
 package com.hoanglong180903.driver.ui.main.order
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,6 +12,8 @@ import com.hoanglong180903.driver.utils.Resource
 import com.hoanglong180903.driver.utils.Utils
 import com.hoanglong180903.driver.application.MyApplication
 import com.hoanglong180903.driver.api.enity.ErrorResponse
+import com.hoanglong180903.driver.api.enity.GetOrderShipIDRequest
+import com.hoanglong180903.driver.api.enity.GetOrderShipIDResponse
 import com.hoanglong180903.driver.api.enity.GetOrdersRequest
 import com.hoanglong180903.driver.api.usecase.OrderRepository
 import com.hoanglong180903.driver.api.enity.GetOrdersResponse
@@ -32,6 +35,11 @@ class OrderViewModel(private val app: Application) : AndroidViewModel(app) {
 
     fun updateOrderShipperResult() : LiveData<Event<Resource<UpdateOrderShipperResponse>>>{
         return updateOrderShipperResult
+    }
+    private val getOrdersShipIDResult = MutableLiveData<Event<Resource<GetOrderShipIDResponse>>>()
+
+    fun getOrdersShipIDResult() : LiveData<Event<Resource<GetOrderShipIDResponse>>>{
+        return getOrdersShipIDResult
     }
 
     fun getOrders(request : GetOrdersRequest) : Job = viewModelScope.launch {
@@ -93,6 +101,39 @@ class OrderViewModel(private val app: Application) : AndroidViewModel(app) {
                 }
                 else -> {
                     updateOrderShipperResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
+                        R.string.conversion_error
+                    ))))
+                }
+            }
+        }
+    }
+
+    fun getOrdersShipID(request : GetOrderShipIDRequest) : Job = viewModelScope.launch {
+        getOrdersShipIDResult.postValue(Event(Resource.Loading()))
+        try {
+            if (Utils.hasInternetConnection(getApplication<MyApplication>())) {
+                val response = repository.getOrdersShipID(request)
+                if (response.isSuccessful) {
+                    response.body()?.let { resultResponse ->
+                        getOrdersShipIDResult.postValue(Event(Resource.Success(resultResponse)))
+                    }
+                } else {
+                    val errorResponse = response.errorBody()?.let {
+                        val gson = Gson()
+                        gson.fromJson(it.string(), ErrorResponse::class.java)
+                    }
+                    getOrdersShipIDResult.postValue(Event(Resource.Error(errorResponse?.message ?: "")))
+                }
+            }
+        } catch (t: Throwable) {
+            when (t) {
+                is IOException -> {
+                    getOrdersShipIDResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
+                        R.string.network_failure
+                    ))))
+                }
+                else -> {
+                    getOrdersShipIDResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
                         R.string.conversion_error
                     ))))
                 }

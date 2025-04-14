@@ -12,4 +12,5 @@ data class UserInfo(
     val phone: String,
     val image: String,
     val location: List<Double>,
+    val token : String,
 )
