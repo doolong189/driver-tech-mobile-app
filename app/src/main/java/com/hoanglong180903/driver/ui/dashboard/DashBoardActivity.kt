@@ -1,18 +1,19 @@
-package com.hoanglong180903.driver.ui.main
+package com.hoanglong180903.driver.ui.dashboard
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.hoanglong180903.driver.R
 import com.hoanglong180903.driver.databinding.ActivityDashBoardBinding
-import com.hoanglong180903.driver.ui.main.home.HomeFragment
-import com.hoanglong180903.driver.ui.main.order.OrderFragment
+import com.hoanglong180903.driver.ui.dashboard.home.HomeFragment
+import com.hoanglong180903.driver.utils.LocationPermissionHelper
+import java.lang.ref.WeakReference
 
 class DashBoardActivity : AppCompatActivity() {
+    private lateinit var locationPermissionHelper: LocationPermissionHelper
     private lateinit var binding : ActivityDashBoardBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,6 +21,7 @@ class DashBoardActivity : AppCompatActivity() {
         setContentView(binding.root)
         setView(savedInstanceState != null)
         setAction()
+        permissionLocation()
     }
 
     private fun setView(isRestore: Boolean){
@@ -58,5 +60,41 @@ class DashBoardActivity : AppCompatActivity() {
             true
         }
 
+    }
+
+    private fun permissionLocation(){
+        locationPermissionHelper = LocationPermissionHelper(WeakReference(this))
+        if (!locationPermissionHelper.hasAccessFinePermission(this)) {
+            locationPermissionHelper.requestFineLocationPermission(this)
+        } else {
+            Toast.makeText(this, "Location Permission Granted", Toast.LENGTH_SHORT).show()
+            // PERMISSION is Already granted ((navigate to Next Screen...))
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            locationPermissionHelper.BASIC_PERMISSION_REQUESTCODE -> {
+                if (!locationPermissionHelper.hasAccessFinePermission(this)) {
+                    Toast.makeText(
+                        this,
+                        "Location permission is needed to run this application",
+                        Toast.LENGTH_LONG
+                    ).show();
+
+                    if (!locationPermissionHelper.shouldShowRequestPermissionRationale(this)) {  // checking if don't show Again box checked and denied
+                        locationPermissionHelper.launchPermissionSettings(this)   // redirect user to Setting screen
+                        finish()
+                    }
+                }else {
+                    Toast.makeText(this, "Woola!!! Location permission is granted", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 }

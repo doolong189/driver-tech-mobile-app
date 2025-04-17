@@ -1,4 +1,4 @@
-package com.hoanglong180903.driver.ui.main.home
+package com.hoanglong180903.driver.ui.dashboard.home
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.hoanglong180903.driver.api.enity.GetOrdersRequest
@@ -17,8 +16,7 @@ import com.hoanglong180903.driver.common.BaseFragment
 import com.hoanglong180903.driver.api.enity.GetStatisticalRequest
 import com.hoanglong180903.driver.api.enity.GetStatisticalResponse
 import com.hoanglong180903.driver.databinding.FragmentHomeBinding
-import com.hoanglong180903.driver.ui.main.order.OrderAdapter
-import com.hoanglong180903.driver.ui.main.order.OrderViewModel
+import com.hoanglong180903.driver.ui.dashboard.order.OrderViewModel
 import com.hoanglong180903.driver.ui.map.NavigationMapboxActivity
 import com.hoanglong180903.driver.utils.Contacts
 import com.hoanglong180903.driver.utils.Event

@@ -6,7 +6,7 @@
     app:startDestination="@id/homeFragment">
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.hoanglong180903.driver.ui.main.home.HomeFragment"
+        android:name="com.hoanglong180903.driver.ui.dashboard.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -21,7 +21,7 @@
     </fragment>
     <fragment
         android:id="@+id/orderFragment"
-        android:name="com.hoanglong180903.driver.ui.main.order.OrderFragment"
+        android:name="com.hoanglong180903.driver.ui.dashboard.order.OrderFragment"
         android:label="fragment_order"
         tools:layout="@layout/fragment_order" >
         <action
@@ -30,17 +30,17 @@
     </fragment>
     <fragment
         android:id="@+id/billFragment"
-        android:name="com.hoanglong180903.driver.ui.main.bill.BillFragment"
+        android:name="com.hoanglong180903.driver.ui.dashboard.bill.BillFragment"
         android:label="fragment_bill"
         tools:layout="@layout/fragment_bill" />
     <fragment
         android:id="@+id/detailOrderFragment"
-        android:name="com.hoanglong180903.driver.ui.main.order.detail.DetailOrderFragment"
+        android:name="com.hoanglong180903.driver.ui.dashboard.order.detail.DetailOrderFragment"
         android:label="fragment_detail_order"
         tools:layout="@layout/fragment_detail_order" />
     <fragment
         android:id="@+id/userFragment"
-        android:name="com.hoanglong180903.driver.ui.main.user.UserFragment"
+        android:name="com.hoanglong180903.driver.ui.dashboard.user.UserFragment"
         android:label="fragment_user"
         tools:layout="@layout/fragment_user" />
 

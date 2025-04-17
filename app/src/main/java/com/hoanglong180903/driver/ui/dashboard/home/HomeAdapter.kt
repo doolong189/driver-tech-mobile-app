@@ -1,4 +1,4 @@
-package com.hoanglong180903.driver.ui.main.home
+package com.hoanglong180903.driver.ui.dashboard.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

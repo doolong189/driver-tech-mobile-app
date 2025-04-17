@@ -1,7 +1,6 @@
-package com.hoanglong180903.driver.ui.main.order
+package com.hoanglong180903.driver.ui.dashboard.order
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

@@ -1,4 +1,4 @@
-package com.hoanglong180903.driver.ui.main.order
+package com.hoanglong180903.driver.ui.dashboard.order
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.hoanglong180903.driver.databinding.FragmentSignInBinding
-import com.hoanglong180903.driver.ui.main.DashBoardActivity
+import com.hoanglong180903.driver.ui.dashboard.DashBoardActivity
 
 class SignInFragment : Fragment() {
     private lateinit var binding : FragmentSignInBinding

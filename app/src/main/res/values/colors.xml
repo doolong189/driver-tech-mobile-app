@@ -9,4 +9,5 @@
     <color name="completed">#347C37</color>
     <color name="process">#03A9F4</color>
     <color name="cancel">#474747</color>
+    <color name="colorAccent">#03A9F4</color>
 </resources>
