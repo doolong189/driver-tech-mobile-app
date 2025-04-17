@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.hoanglong180903.driver.databinding.ItemDeliveryBinding
-import com.hoanglong180903.driver.model.Order
+import com.hoanglong180903.driver.domain.model.Order
 
 private var onClickDirectionMap: ((id: Order, position: Int) -> Unit)? = null
 class HomeAdapter : RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {

@@ -4,7 +4,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
-import com.hoanglong180903.driver.application.MyApplication
+import com.hoanglong180903.driver.common.application.MyApplication
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.Date

@@ -6,12 +6,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.hoanglong180903.driver.R
 import com.hoanglong180903.driver.databinding.ItemOderBinding
-import com.hoanglong180903.driver.model.Order
+import com.hoanglong180903.driver.domain.model.Order
 import com.hoanglong180903.driver.utils.Utils
 
 private var onClickShowDetail: ((id: Order, position: Int) -> Unit)? = null
-private var onClickItemOrderAccept : ((id : Order , position : Int) -> Unit)? = null
-private var onClickItemOrderCancel : ((id : Order , position : Int) -> Unit)? = null
+private var onClickItemOrderAccept : ((id : Order, position : Int) -> Unit)? = null
+private var onClickItemOrderCancel : ((id : Order, position : Int) -> Unit)? = null
 class OrderAdapter  : RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
     private var list: List<Order> = listOf()
 

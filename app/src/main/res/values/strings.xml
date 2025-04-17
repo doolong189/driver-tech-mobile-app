@@ -79,4 +79,9 @@
     <string name="order_cancel">Đơn hủy bỏ</string>
     <string name="space">Delivery: 0km</string>
     <string name="order_generated">Đơn phát sinh</string>
+    <!--  id - facebook  -->
+    <string name="facebook_app_id">2148322048972751</string>
+    <string name="fb_login_protocol_scheme">fb1234</string>
+    <string name="facebook_client_token">bc771f99e3d2b07785148220a92a6d44</string>
+
 </resources>

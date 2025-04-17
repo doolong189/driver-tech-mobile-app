@@ -11,9 +11,9 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.hoanglong180903.driver.R
-import com.hoanglong180903.driver.common.BaseFragment
-import com.hoanglong180903.driver.api.enity.GetDetailOrderRequest
-import com.hoanglong180903.driver.api.enity.GetDetailOrderResponse
+import com.hoanglong180903.driver.common.base.BaseFragment
+import com.hoanglong180903.driver.domain.enity.GetDetailOrderRequest
+import com.hoanglong180903.driver.domain.enity.GetDetailOrderResponse
 import com.hoanglong180903.driver.databinding.FragmentDetailOrderBinding
 import com.hoanglong180903.driver.utils.Event
 import com.hoanglong180903.driver.utils.Resource

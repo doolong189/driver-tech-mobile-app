@@ -9,10 +9,10 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hoanglong180903.driver.R
-import com.hoanglong180903.driver.common.BaseFragment
-import com.hoanglong180903.driver.api.enity.GetOrdersRequest
-import com.hoanglong180903.driver.api.enity.GetOrdersResponse
-import com.hoanglong180903.driver.api.enity.UpdateOrderShipperRequest
+import com.hoanglong180903.driver.common.base.BaseFragment
+import com.hoanglong180903.driver.domain.enity.GetOrdersRequest
+import com.hoanglong180903.driver.domain.enity.GetOrdersResponse
+import com.hoanglong180903.driver.domain.enity.UpdateOrderShipperRequest
 import com.hoanglong180903.driver.utils.Resource
 import com.hoanglong180903.driver.databinding.FragmentOrderBinding
 import com.hoanglong180903.driver.utils.Event
@@ -58,10 +58,12 @@ class OrderFragment : BaseFragment() {
         }
 
         orderAdapter.onClickItemOrderAccept { id, position ->
-            orderViewModel.updateOrderShipper(UpdateOrderShipperRequest(
+            orderViewModel.updateOrderShipper(
+                UpdateOrderShipperRequest(
                 orderId = id._id,
                 idShipper = "66e2faac041c84e872801234"
-            ))
+            )
+            )
         }
 
         orderAdapter.onClickItemOrderCancel { id, position ->

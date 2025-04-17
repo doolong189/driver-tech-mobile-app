@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.hoanglong180903.driver.R
 import com.hoanglong180903.driver.databinding.ItemDetailProductBinding
-import com.hoanglong180903.driver.model.ProductOfOrder
+import com.hoanglong180903.driver.domain.model.ProductOfOrder
 import com.hoanglong180903.driver.utils.Utils
 
 class DetailOrderAdapter : RecyclerView.Adapter<DetailOrderAdapter.DetailOrderViewHolder>() {

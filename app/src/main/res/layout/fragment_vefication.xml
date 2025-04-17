@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.account.verification.VerificationFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="15dp"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="Xác minh mã xác nhận"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_margin="5dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="Mã gửi đến số: 098xxxxxx"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_margin="5dp"/>
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/input_phone"
+            android:scaleType="fitXY"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            >
+            <TextView
+                android:id="@+id/tvCode1"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:text="*"
+                android:background="@drawable/border_shadow"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:layout_margin="5dp"/>
+            <TextView
+                android:id="@+id/tvCode2"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:text="*"
+                android:background="@drawable/border_shadow"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:layout_margin="5dp"/>
+            <TextView
+                android:id="@+id/tvCode3"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:text="*"
+                android:background="@drawable/border_shadow"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:layout_margin="5dp"/>
+            <TextView
+                android:id="@+id/tvCode4"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:text="*"
+                android:background="@drawable/border_shadow"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:layout_margin="5dp"/>
+        </LinearLayout>
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Xác nhận"
+            android:layout_margin="10dp"
+            android:background="@drawable/button_custom_default"/>
+    </LinearLayout>
+
+</FrameLayout>
