@@ -44,7 +44,6 @@ class DetailOrderFragment : BaseFragment() {
         binding.rcv.run { adapter = DetailOrderAdapter().also { detailOrderAdapter = it } }
 
         val orderId = arguments?.getString("orderId") ?: ""
-        viewModel.getDetailOrder(GetDetailOrderRequest(id = orderId))
     }
 
     override fun setView() {

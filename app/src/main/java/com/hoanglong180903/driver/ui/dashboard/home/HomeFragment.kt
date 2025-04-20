@@ -52,7 +52,6 @@ class HomeFragment : BaseFragment() {
     }
 
     override fun initView() {
-        viewModel.getStatistical(GetStatisticalRequest(idShipper = "66e2faac041c84e872801234"))
         binding.orderList.setHasFixedSize(true)
         binding.orderList.layoutManager = LinearLayoutManager(requireContext())
         binding.orderList.run { adapter = HomeAdapter().also { homeAdapter = it } }

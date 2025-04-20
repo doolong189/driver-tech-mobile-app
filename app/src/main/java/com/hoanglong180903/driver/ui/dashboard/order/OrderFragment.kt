@@ -58,12 +58,6 @@ class OrderFragment : BaseFragment() {
         }
 
         orderAdapter.onClickItemOrderAccept { id, position ->
-            orderViewModel.updateOrderShipper(
-                UpdateOrderShipperRequest(
-                orderId = id._id,
-                idShipper = "66e2faac041c84e872801234"
-            )
-            )
         }
 
         orderAdapter.onClickItemOrderCancel { id, position ->

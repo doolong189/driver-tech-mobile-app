@@ -12,18 +12,25 @@
         android:gravity="center_horizontal"
         android:padding="15dp"
         >
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:text="Nhập số điện thoại"
-            android:textSize="18sp"
-            android:textStyle="bold"/>
         <ImageView
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:src="@drawable/input_phone"
             android:scaleType="fitXY"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="Nhập số điện thoại của bạn"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="Chúng tôi sẽ gửi cho bạn 4 kí tự code"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
