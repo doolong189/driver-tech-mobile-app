@@ -17,7 +17,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.hoanglong180903.driver.databinding.ActivityMainBinding
-import com.hoanglong180903.driver.ui.dashboard.home.HomeFragment
+import com.hoanglong180903.driver.ui.account.login.SignInFragment
 
 
 class MainActivity : AppCompatActivity() {
@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
                 )
             ) {
                 showNotification()
-                replaceFragment(HomeFragment())
+                replaceFragment(SignInFragment())
             } else {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     requestPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
@@ -46,12 +46,12 @@ class MainActivity : AppCompatActivity() {
             }
         } else {
             showNotification()
-            replaceFragment(HomeFragment())
+            replaceFragment(SignInFragment())
         }
     }
     private val requestPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
         showNotification()
-        replaceFragment(HomeFragment())
+        replaceFragment(SignInFragment())
     }
 
     fun replaceFragment(fragment: Fragment) {

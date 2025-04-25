@@ -1,11 +1,19 @@
 package com.hoanglong180903.driver.ui.dashboard
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
+import com.hoanglong180903.driver.MainActivity
 import com.hoanglong180903.driver.R
 import com.hoanglong180903.driver.databinding.ActivityDashBoardBinding
 import com.hoanglong180903.driver.ui.dashboard.home.HomeFragment
@@ -15,6 +23,8 @@ import java.lang.ref.WeakReference
 class DashBoardActivity : AppCompatActivity() {
     private lateinit var locationPermissionHelper: LocationPermissionHelper
     private lateinit var binding : ActivityDashBoardBinding
+    private var mGoogleSignInClient : GoogleSignInClient? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDashBoardBinding.inflate(layoutInflater)
@@ -22,6 +32,22 @@ class DashBoardActivity : AppCompatActivity() {
         setView(savedInstanceState != null)
         setAction()
         permissionLocation()
+
+
+        val gso =
+            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build()
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
+
+        val acct = GoogleSignIn.getLastSignedInAccount(this)
+
+        if(acct != null) {
+            val personName = acct.displayName
+            val personEmail = acct.email
+            val personId = acct.id
+            Log.e("zzzz", "$personName - $personEmail - $personId")
+        }
     }
 
     private fun setView(isRestore: Boolean){
@@ -96,5 +122,19 @@ class DashBoardActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        signOut()
+    }
+
+    private fun signOut(){
+        mGoogleSignInClient?.signOut()?.addOnCompleteListener(this
+        ) { Toast.makeText(this@DashBoardActivity, "Signed Out", Toast.LENGTH_LONG).show() }
+
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }
