@@ -10,14 +10,14 @@
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_homeFragment_to_billFragment2"
-            app:destination="@id/billFragment" />
-        <action
             android:id="@+id/action_homeFragment_to_orderFragment"
             app:destination="@id/orderFragment" />
         <action
             android:id="@+id/action_homeFragment_to_userFragment"
             app:destination="@id/userFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_notificationFragment"
+            app:destination="@id/notificationFragment" />
     </fragment>
     <fragment
         android:id="@+id/orderFragment"
@@ -29,11 +29,6 @@
             app:destination="@id/detailOrderFragment" />
     </fragment>
     <fragment
-        android:id="@+id/billFragment"
-        android:name="com.hoanglong180903.driver.ui.dashboard.bill.BillFragment"
-        android:label="fragment_bill"
-        tools:layout="@layout/fragment_bill" />
-    <fragment
         android:id="@+id/detailOrderFragment"
         android:name="com.hoanglong180903.driver.ui.dashboard.order.detail.DetailOrderFragment"
         android:label="fragment_detail_order"
@@ -43,5 +38,10 @@
         android:name="com.hoanglong180903.driver.ui.dashboard.user.UserFragment"
         android:label="fragment_user"
         tools:layout="@layout/fragment_user" />
+    <fragment
+        android:id="@+id/notificationFragment"
+        android:name="com.hoanglong180903.driver.ui.dashboard.notification.NotificationFragment"
+        android:label="fragment_notification"
+        tools:layout="@layout/fragment_notification" />
 
 </navigation>

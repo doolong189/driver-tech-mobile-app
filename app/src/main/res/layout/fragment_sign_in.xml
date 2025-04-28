@@ -23,7 +23,7 @@
                 android:layout_height="35dp"
                 android:src="@drawable/baseline_keyboard_arrow_left_24"
                 android:layout_margin="10dp"
-                android:background="@drawable/border_shadow"/>
+                android:background="@drawable/bg1"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:background="@drawable/border_shadow"
+                android:background="@drawable/bg1"
                 android:hint="Email"
                 android:padding="15dp" />
             <com.google.android.material.textfield.TextInputLayout
@@ -51,7 +51,7 @@
                     android:id="@+id/signIn_edPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/border_shadow"
+                    android:background="@drawable/bg1"
                     android:hint="Password"
                     android:inputType="textPassword"
                     />
@@ -71,14 +71,13 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:backgroundTint="@color/green"
-                android:background="@drawable/button_custom_default"
+                android:background="@drawable/bg"
                 android:textStyle="bold"
                 android:text="Đăng nhập"/>
 
             <com.google.android.gms.common.SignInButton
                 android:id="@+id/google_signIn"
                 android:layout_width="match_parent"
-                android:background="@drawable/thumb_background"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
                 >

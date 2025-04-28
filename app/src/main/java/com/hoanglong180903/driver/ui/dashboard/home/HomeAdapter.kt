@@ -33,11 +33,11 @@ class HomeAdapter : RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
                 Glide.with(binding.root.context)
                     .load(item.products[0].product.idUser.image)
                     .into(circleImageView)
-                cardView.setOnClickListener {
-                    onClickDirectionMap?.let {
-                        it(item, adapterPosition)
-                    }
-                }
+//                cardView.setOnClickListener {
+//                    onClickDirectionMap?.let {
+//                        it(item, adapterPosition)
+//                    }
+//                }
             }
         }
     }

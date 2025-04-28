@@ -83,4 +83,8 @@
     <string name="facebook_app_id">2148322048972751</string>
     <string name="fb_login_protocol_scheme">fb2148322048972751</string>
     <string name="facebook_client_token">56789</string>
+    <string name="name">Họ tên</string>
+    <string name="phone">+84 xx xxx xxx</string>
+    <string name="email">Email</string>
+    <string name="delete_account">Xóa tài khoản</string>
 </resources>

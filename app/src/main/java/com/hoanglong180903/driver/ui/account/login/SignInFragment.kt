@@ -23,7 +23,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.hoanglong180903.driver.common.BaseFragment
+import com.hoanglong180903.driver.common.base.BaseFragment
 import com.hoanglong180903.driver.databinding.FragmentSignInBinding
 import com.hoanglong180903.driver.ui.dashboard.DashBoardActivity
 import java.security.MessageDigest
@@ -106,6 +106,10 @@ class SignInFragment : BaseFragment() {
             })
         val accessToken = AccessToken.getCurrentAccessToken()
         val isLoggedIn = accessToken != null && !accessToken.isExpired
+        if (isLoggedIn){
+            val intent = Intent(requireContext(), DashBoardActivity::class.java)
+            startActivity(intent)
+        }
         LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
 
     }
@@ -120,7 +124,6 @@ class SignInFragment : BaseFragment() {
 
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(getApplicationContext());
-//        logger.logPurchase(BigDecimal.valueOf(4.32), Currency.getInstance("USD"));
 
         printHashKey()
     }

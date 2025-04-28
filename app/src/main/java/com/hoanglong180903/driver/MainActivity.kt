@@ -9,7 +9,6 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -18,6 +17,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.hoanglong180903.driver.databinding.ActivityMainBinding
 import com.hoanglong180903.driver.ui.account.login.SignInFragment
+import com.hoanglong180903.driver.ui.account.register.PhoneInputFragment
 
 
 class MainActivity : AppCompatActivity() {
@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
                 )
             ) {
                 showNotification()
-                replaceFragment(SignInFragment())
+                replaceFragment(PhoneInputFragment())
             } else {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     requestPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
@@ -46,12 +46,12 @@ class MainActivity : AppCompatActivity() {
             }
         } else {
             showNotification()
-            replaceFragment(SignInFragment())
+            replaceFragment(PhoneInputFragment())
         }
     }
     private val requestPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
         showNotification()
-        replaceFragment(SignInFragment())
+        replaceFragment(PhoneInputFragment())
     }
 
     fun replaceFragment(fragment: Fragment) {
@@ -61,31 +61,25 @@ class MainActivity : AppCompatActivity() {
         transaction.commit()
     }
 
-
     private fun showNotification() {
-
         val channelId = "12345"
         val description = "Test Notification"
-
         val notificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val notificationChannel =
                 NotificationChannel(channelId, description, NotificationManager.IMPORTANCE_HIGH)
             notificationChannel.lightColor = Color.BLUE
-
             notificationChannel.enableVibration(true)
             notificationManager.createNotificationChannel(notificationChannel)
         }
-
         val  builder = NotificationCompat.Builder(this, channelId)
             .setContentTitle("Hello World")
             .setContentText("Test Notification")
             .setSmallIcon(R.drawable.logo_driver_app)
             .setLargeIcon(
                 BitmapFactory.decodeResource(
-                    this.resources, R.drawable.button_custom_default
+                    this.resources, R.drawable.bg
                 )
             )
         notificationManager.notify(12345, builder.build())

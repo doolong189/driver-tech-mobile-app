@@ -11,17 +11,15 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
 import com.hoanglong180903.driver.MainActivity
 import com.hoanglong180903.driver.R
 import com.hoanglong180903.driver.databinding.ActivityDashBoardBinding
 import com.hoanglong180903.driver.ui.dashboard.home.HomeFragment
-import com.hoanglong180903.driver.utils.LocationPermissionHelper
+import com.hoanglong180903.driver.utils.permission.LocationPermission
 import java.lang.ref.WeakReference
 
 class DashBoardActivity : AppCompatActivity() {
-    private lateinit var locationPermissionHelper: LocationPermissionHelper
+    private lateinit var locationPermissionHelper: LocationPermission
     private lateinit var binding : ActivityDashBoardBinding
     private var mGoogleSignInClient : GoogleSignInClient? = null
 
@@ -73,9 +71,9 @@ class DashBoardActivity : AppCompatActivity() {
                     val navController = findNavController(R.id.nav_host_fragment)
                     navController.navigate(R.id.orderFragment)
                 }
-                R.id.navBill -> {
+                R.id.navNotification -> {
                     val navController = findNavController(R.id.nav_host_fragment)
-                    navController.navigate(R.id.billFragment)
+                    navController.navigate(R.id.notificationFragment)
                 }
                 R.id.navUser -> {
                     val navController = findNavController(R.id.nav_host_fragment)
@@ -89,12 +87,11 @@ class DashBoardActivity : AppCompatActivity() {
     }
 
     private fun permissionLocation(){
-        locationPermissionHelper = LocationPermissionHelper(WeakReference(this))
+        locationPermissionHelper = LocationPermission(WeakReference(this))
         if (!locationPermissionHelper.hasAccessFinePermission(this)) {
             locationPermissionHelper.requestFineLocationPermission(this)
         } else {
             Toast.makeText(this, "Location Permission Granted", Toast.LENGTH_SHORT).show()
-            // PERMISSION is Already granted ((navigate to Next Screen...))
         }
     }
 
@@ -113,8 +110,8 @@ class DashBoardActivity : AppCompatActivity() {
                         Toast.LENGTH_LONG
                     ).show();
 
-                    if (!locationPermissionHelper.shouldShowRequestPermissionRationale(this)) {  // checking if don't show Again box checked and denied
-                        locationPermissionHelper.launchPermissionSettings(this)   // redirect user to Setting screen
+                    if (!locationPermissionHelper.shouldShowRequestPermissionRationale(this)) {
+                        locationPermissionHelper.launchPermissionSettings(this)
                         finish()
                     }
                 }else {

@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:backgroundTint="@color/green"
-                android:background="@drawable/button_custom_default"
+                android:background="@drawable/bg"
                 android:textStyle="bold"
                 android:text="Đăng nhập"/>
             <androidx.appcompat.widget.AppCompatButton
@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:backgroundTint="@color/gray"
-                android:background="@drawable/border_shadow"
+                android:background="@drawable/bg1"
                 android:textStyle="bold"
                 android:text="Đăng ký"
                 android:textColor="#606060"/>

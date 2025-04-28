@@ -38,7 +38,7 @@
                         android:layout_height="68dp"
                         android:layout_marginStart="10dp"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/food_delivery_man_riding_motorcycles_cartoon_art_illustration" />
+                        android:src="@drawable/delivery" />
 
                     <TextView
                         android:id="@+id/total_orders_count"

@@ -7,11 +7,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.hoanglong180903.driver.R
-import com.hoanglong180903.driver.application.MyApplication
-import com.hoanglong180903.driver.api.enity.ErrorResponse
-import com.hoanglong180903.driver.api.enity.GetDetailOrderRequest
-import com.hoanglong180903.driver.api.enity.GetDetailOrderResponse
-import com.hoanglong180903.driver.api.usecase.OrderRepository
+import com.hoanglong180903.driver.common.application.DriverApplication
+import com.hoanglong180903.driver.data.enity.ErrorResponse
+import com.hoanglong180903.driver.data.enity.GetDetailOrderRequest
+import com.hoanglong180903.driver.data.enity.GetDetailOrderResponse
+import com.hoanglong180903.driver.data.usecase.OrderRepository
 import com.hoanglong180903.driver.utils.Event
 import com.hoanglong180903.driver.utils.Resource
 import com.hoanglong180903.driver.utils.Utils
@@ -31,7 +31,7 @@ class DetailOrderViewModel(private val application: Application) : AndroidViewMo
     fun getDetailOrder(request: GetDetailOrderRequest): Job = viewModelScope.launch {
         getDetailOrderResult.postValue(Event(Resource.Loading()))
         try {
-            if (Utils.hasInternetConnection(getApplication<MyApplication>())) {
+            if (Utils.hasInternetConnection(getApplication<DriverApplication>())) {
                 val response = repository.getDetailOrder(request)
                 if (response.isSuccessful) {
                     response.body()?.let { resultResponse ->
@@ -47,7 +47,7 @@ class DetailOrderViewModel(private val application: Application) : AndroidViewMo
             } else {
                 getDetailOrderResult.postValue(
                     Event(
-                        Resource.Error(getApplication<MyApplication>().getString(
+                        Resource.Error(getApplication<DriverApplication>().getString(
                             R.string.no_internet_connection)))
                 )
             }
@@ -56,7 +56,7 @@ class DetailOrderViewModel(private val application: Application) : AndroidViewMo
                 is IOException -> {
                     getDetailOrderResult.postValue(
                         Event(
-                            Resource.Error(getApplication<MyApplication>().getString(
+                            Resource.Error(getApplication<DriverApplication>().getString(
                         R.string.network_failure
                     )))
                     )
@@ -64,7 +64,7 @@ class DetailOrderViewModel(private val application: Application) : AndroidViewMo
                 else -> {
                     getDetailOrderResult.postValue(
                         Event(
-                            Resource.Error(getApplication<MyApplication>().getString(
+                            Resource.Error(getApplication<DriverApplication>().getString(
                                 R.string.conversion_error)))
                     )
                 }

@@ -68,48 +68,19 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
             >
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="10dp"
-                android:maxWidth="50dp"
-                android:maxHeight="50dp"
-                app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="50dp"
-                app:layout_constraintStart_toStartOf="parent">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:src="@drawable/baseline_directions_24" />
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="10dp"
-                android:maxWidth="50dp"
-                android:maxHeight="50dp"
-                app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="50dp"
-                android:layout_toEndOf="@id/cardView">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:src="@drawable/baseline_call_24" />
-            </androidx.cardview.widget.CardView>
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="35dp"
+                android:layout_margin="5dp"
+                android:src="@drawable/icon_call" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/client"
                 android:layout_alignParentEnd="true"
-                android:background="@drawable/button_custom_default"
+                android:background="@drawable/bg"
                 android:textStyle="bold"
                 android:padding="5dp"
                 android:textColor="@color/white"

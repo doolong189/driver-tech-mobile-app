@@ -4,14 +4,14 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
-import com.hoanglong180903.driver.application.MyApplication
+import com.hoanglong180903.driver.common.application.DriverApplication
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 object Utils {
-    fun hasInternetConnection(application: MyApplication): Boolean {
+    fun hasInternetConnection(application: DriverApplication): Boolean {
         val connectivityManager = application.getSystemService(
             Context.CONNECTIVITY_SERVICE
         ) as ConnectivityManager
@@ -60,21 +60,13 @@ object Utils {
 
 
     fun getTimeDifference(timestampStr: String): String {
-        // Chuyển chuỗi timestamp thành Long
         val timestamp = timestampStr.toLongOrNull() ?: return "Invalid timestamp"
-
-        // Lấy thời gian hiện tại
         val currentTime = System.currentTimeMillis()
-
-        // Tính sự khác biệt giữa thời gian hiện tại và timestamp
         val diffInMillis = currentTime - timestamp
-
-        // Quy đổi từ mili giây sang giây, phút, giờ, ngày
         val diffInSeconds = diffInMillis / 1000
         val diffInMinutes = diffInSeconds / 60
         val diffInHours = diffInMinutes / 60
         val diffInDays = diffInHours / 24
-
         return when {
             diffInSeconds < 60 -> "Vừa xong"
             diffInMinutes < 60 -> "$diffInMinutes phút trước"

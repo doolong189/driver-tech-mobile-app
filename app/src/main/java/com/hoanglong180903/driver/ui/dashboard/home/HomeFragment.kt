@@ -9,15 +9,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 
-import com.hoanglong180903.driver.api.enity.GetOrdersRequest
-import com.hoanglong180903.driver.api.enity.GetOrdersResponse
-import com.hoanglong180903.driver.common.BaseFragment
-import com.hoanglong180903.driver.api.enity.GetStatisticalRequest
-import com.hoanglong180903.driver.api.enity.GetStatisticalResponse
+import com.hoanglong180903.driver.data.enity.GetOrdersRequest
+import com.hoanglong180903.driver.data.enity.GetOrdersResponse
+import com.hoanglong180903.driver.common.base.BaseFragment
+import com.hoanglong180903.driver.data.enity.GetStatisticalRequest
+import com.hoanglong180903.driver.data.enity.GetStatisticalResponse
 import com.hoanglong180903.driver.databinding.FragmentHomeBinding
 import com.hoanglong180903.driver.ui.dashboard.order.OrderViewModel
 import com.hoanglong180903.driver.ui.map.NavigationMapboxActivity

@@ -5,12 +5,12 @@ import com.google.gson.annotations.SerializedName
 
 @Keep
 data class UserInfo(
-    val name: String,
-    val address: String,
-    val password: String,
-    val email: String,
-    val phone: String,
-    val image: String,
-    val location: List<Double>,
-    val token : String,
+    val name: String? = null,
+    val address: String? = null ,
+    val password: String? = null ,
+    val email: String? = null ,
+    val phone: String? = null ,
+    val image: String? = null ,
+    val location: List<Double>?,
+    val token : String? = null ,
 )

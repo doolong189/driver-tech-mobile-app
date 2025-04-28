@@ -7,11 +7,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.hoanglong180903.driver.R
-import com.hoanglong180903.driver.application.MyApplication
-import com.hoanglong180903.driver.api.enity.ErrorResponse
-import com.hoanglong180903.driver.api.enity.GetStatisticalRequest
-import com.hoanglong180903.driver.api.enity.GetStatisticalResponse
-import com.hoanglong180903.driver.api.usecase.OrderRepository
+import com.hoanglong180903.driver.common.application.DriverApplication
+import com.hoanglong180903.driver.data.enity.ErrorResponse
+import com.hoanglong180903.driver.data.enity.GetStatisticalRequest
+import com.hoanglong180903.driver.data.enity.GetStatisticalResponse
+import com.hoanglong180903.driver.data.usecase.OrderRepository
 import com.hoanglong180903.driver.utils.Event
 import com.hoanglong180903.driver.utils.Resource
 import com.hoanglong180903.driver.utils.Utils
@@ -31,7 +31,7 @@ class HomeViewModel(private  val application: Application) : AndroidViewModel(ap
     fun getStatistical(request : GetStatisticalRequest) : Job = viewModelScope.launch {
         getStatisticalResult.postValue(Event(Resource.Loading()))
         try {
-            if (Utils.hasInternetConnection(getApplication<MyApplication>())) {
+            if (Utils.hasInternetConnection(getApplication<DriverApplication>())) {
                 val response = repository.getStatistical(request)
                 if (response.isSuccessful) {
                     response.body()?.let { resultResponse ->
@@ -48,12 +48,12 @@ class HomeViewModel(private  val application: Application) : AndroidViewModel(ap
         } catch (t: Throwable) {
             when (t) {
                 is IOException -> {
-                    getStatisticalResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
+                    getStatisticalResult.postValue(Event(Resource.Error(getApplication<DriverApplication>().getString(
                         R.string.network_failure
                     ))))
                 }
                 else -> {
-                    getStatisticalResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
+                    getStatisticalResult.postValue(Event(Resource.Error(getApplication<DriverApplication>().getString(
                         R.string.conversion_error
                     ))))
                 }

@@ -95,7 +95,7 @@
                     android:id="@+id/imageStore"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/item_shop"/>
+                    />
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -133,9 +133,9 @@
                     android:gravity="center_vertical"
                     >
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/baseline_call_24"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/icon_call"
                         android:layout_margin="5dp"/>
                     <TextView
                         android:layout_width="wrap_content"
@@ -155,10 +155,11 @@
                     android:gravity="center_vertical"
                     >
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/baseline_directions_24"
-                        android:layout_margin="5dp"/>
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/icon_direction"
+                        android:layout_margin="5dp"
+                        />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -197,7 +198,7 @@
                     android:id="@+id/imageClient"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/item_shop"/>
+                    />
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -235,10 +236,11 @@
                     android:gravity="center_vertical"
                     >
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/baseline_call_24"
-                        android:layout_margin="5dp"/>
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/icon_call"
+                        android:layout_margin="5dp"
+                        />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -257,9 +259,9 @@
                     android:gravity="center_vertical"
                     >
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/baseline_directions_24"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/icon_direction"
                         android:layout_margin="5dp"/>
                     <TextView
                         android:layout_width="wrap_content"

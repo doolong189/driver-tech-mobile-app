@@ -14,7 +14,7 @@
             android:id="@+id/item_order_imgUser"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/item_shop"/>
+            />
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
             android:layout_height="30dp"
             android:text="@string/status_receiver"
             android:backgroundTint="#218a47"
-            android:background="@drawable/border_shadow"
+            android:background="@drawable/bg1"
             android:padding="5dp"
             android:layout_margin="5dp"
             android:textStyle="bold"
@@ -77,7 +77,7 @@
             android:layout_weight="1"
             android:text="@string/cancel"
             android:backgroundTint="#6E7C78"
-            android:background="@drawable/border_shadow"
+            android:background="@drawable/bg1"
             android:layout_margin="5dp"
             android:textStyle="bold"
             android:textColor="#FFFFFF"
@@ -89,7 +89,7 @@
             android:layout_weight="1"
             android:text="@string/accept"
             android:backgroundTint="#218a47"
-            android:background="@drawable/border_shadow"
+            android:background="@drawable/bg1"
             android:padding="5dp"
             android:layout_margin="5dp"
             android:textStyle="bold"
