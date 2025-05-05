@@ -1,5 +1,6 @@
 package com.hoanglong180903.driver.ui.dashboard.user
 
+import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,7 +10,6 @@ import com.google.gson.Gson
 import com.hoanglong180903.driver.R
 import com.hoanglong180903.driver.common.application.DriverApplication
 import com.hoanglong180903.driver.data.enity.ErrorResponse
-import com.hoanglong180903.driver.data.enity.GetOrdersResponse
 import com.hoanglong180903.driver.data.enity.GetShipperInfoRequest
 import com.hoanglong180903.driver.data.enity.GetShipperInfoResponse
 import com.hoanglong180903.driver.data.enity.RegisterAccountRequest
@@ -23,7 +23,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.io.IOException
 
-class UserViewModel(private val app: DriverApplication) : AndroidViewModel(app) {
+class UserViewModel(private val app: Application) : AndroidViewModel(app) {
     private val repository  = UserRepository()
     var getShipperInfo : UserInfo? = null
     private val getShipperInfoResult = MutableLiveData<Event<Resource<GetShipperInfoResponse>>>()
@@ -73,7 +73,7 @@ class UserViewModel(private val app: DriverApplication) : AndroidViewModel(app) 
     fun registerAccount(request : RegisterAccountRequest) : Job = viewModelScope.launch {
         registerAccountResult.postValue(Event(Resource.Loading()))
         try {
-            if (Utils.hasInternetConnection(app)){
+            if (Utils.hasInternetConnection(getApplication<DriverApplication>())){
                 val response = repository.registerAccount(request)
                 if (response.isSuccessful){
                     response.body()?.let { resultResponse ->
@@ -105,6 +105,7 @@ class UserViewModel(private val app: DriverApplication) : AndroidViewModel(app) 
 
     fun getConvertShipperInfo(response : UserInfo){
         getShipperInfo = UserInfo(
+            _id = response._id,
             name = response.name,
             address = response.address,
             password = response.password,

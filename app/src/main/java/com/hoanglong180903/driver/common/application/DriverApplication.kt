@@ -8,6 +8,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import com.hoanglong180903.driver.R
+import com.hoanglong180903.driver.utils.SocketIOManager
 
 class DriverApplication : Application() {
     val CHANNEL_ID = "12345"
@@ -19,9 +20,9 @@ class DriverApplication : Application() {
             "High priority notifications",
             NotificationManager.IMPORTANCE_HIGH
         )
-
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(channel)
+        SocketIOManager()
     }
 
     private fun showNotification() {

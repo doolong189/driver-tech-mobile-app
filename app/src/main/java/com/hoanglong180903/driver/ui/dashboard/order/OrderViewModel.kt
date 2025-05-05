@@ -23,7 +23,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.io.IOException
 
-class OrderViewModel(private val app: DriverApplication) : AndroidViewModel(app) {
+class OrderViewModel(private val app: Application) : AndroidViewModel(app) {
     private val repository : OrderRepository = OrderRepository()
 
     private val getOrderResult = MutableLiveData<Event<Resource<GetOrdersResponse>>>()

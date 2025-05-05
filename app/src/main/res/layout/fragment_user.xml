@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="#D0F6D2"
+            android:background="#32D569"
             android:padding="15dp"
             android:gravity="center_vertical"
             >
@@ -45,8 +45,8 @@
                     android:textStyle="bold"/>
             </LinearLayout>
             <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:src="@drawable/baseline_navigate_next_24"/>
         </LinearLayout>
     </LinearLayout>

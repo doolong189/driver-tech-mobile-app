@@ -1,4 +1,4 @@
-package com.hoanglong180903.driver.ui.account.register
+package com.hoanglong180903.driver.ui.account.verify
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

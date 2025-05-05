@@ -6,21 +6,27 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.hoanglong180903.driver.R
 
 import com.hoanglong180903.driver.data.enity.GetOrdersRequest
 import com.hoanglong180903.driver.data.enity.GetOrdersResponse
 import com.hoanglong180903.driver.common.base.BaseFragment
+import com.hoanglong180903.driver.data.enity.GetShipperInfoResponse
 import com.hoanglong180903.driver.data.enity.GetStatisticalRequest
 import com.hoanglong180903.driver.data.enity.GetStatisticalResponse
 import com.hoanglong180903.driver.databinding.FragmentHomeBinding
+import com.hoanglong180903.driver.ui.account.login.SignInFragment
 import com.hoanglong180903.driver.ui.dashboard.order.OrderViewModel
+import com.hoanglong180903.driver.ui.dashboard.user.UserViewModel
 import com.hoanglong180903.driver.ui.map.NavigationMapboxActivity
 import com.hoanglong180903.driver.utils.Contacts
 import com.hoanglong180903.driver.utils.Event
 import com.hoanglong180903.driver.utils.Resource
+import com.hoanglong180903.driver.utils.SocketIOManager
 import com.hoanglong180903.driver.utils.Utils
 import io.socket.client.IO
 import io.socket.client.Socket
@@ -32,8 +38,10 @@ class HomeFragment : BaseFragment() {
     override var isVisibleActionBar: Boolean = false
     private val viewModel by activityViewModels<HomeViewModel>()
     private val orderViewModel by activityViewModels<OrderViewModel>()
+    private val userViewModel by activityViewModels<UserViewModel>()
     private var socket: Socket? = null
     private var homeAdapter = HomeAdapter()
+    private var socketIO = SocketIOManager()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -52,35 +60,23 @@ class HomeFragment : BaseFragment() {
     }
 
     override fun initView() {
-        viewModel.getStatistical(GetStatisticalRequest(idShipper = "66e2faac041c84e872801234"))
+        Log.e("zzz","${userViewModel.getShipperInfo?._id.toString()}")
+        viewModel.getStatistical(GetStatisticalRequest(idShipper = userViewModel.getShipperInfo?._id.toString()))
         binding.orderList.setHasFixedSize(true)
         binding.orderList.layoutManager = LinearLayoutManager(requireContext())
         binding.orderList.run { adapter = HomeAdapter().also { homeAdapter = it } }
-        try {
-            socket = IO.socket(Contacts.SOCKET_URL)
-            socket?.connect()
-            Log.e("zzzz","socket connect")
-            socket?.emit("join", "66e2faac041c84e872801234")
-        } catch (e : Exception) {
-            e.printStackTrace()
-        }
 
-        socket?.on("userjoinedthechat") { args ->
-            activity?.runOnUiThread {
-                val data = args[0] as String
-                Log.e("zzzz","$data")
-            }
-        }
 
-        socket!!.on("message") { args ->
-            activity?.runOnUiThread {
-                val data = args[0] as JSONObject
-                try {
-                    val nickname = data.getString("senderNickname")
-                    Log.e("zzzz","$nickname")
-                    orderViewModel.getOrders(GetOrdersRequest(receiptStatus =  0))
-                } catch (e: JSONException) {
-                    e.printStackTrace()
+        binding.switchOnOff.setOnCheckedChangeListener { _, checked ->
+            when {
+                checked -> {
+//                    socketIO.connect()
+//                    socketIO.join(userViewModel.getShipperInfo?.id.toString())
+//                    socketIO.userJoinedTheChat()
+//                    val message = socketIO.message()
+//                    orderViewModel.getOrders(GetOrdersRequest(receiptStatus =  0))
+                }
+                else -> {
                 }
             }
         }

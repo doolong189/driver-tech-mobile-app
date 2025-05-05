@@ -1,17 +1,15 @@
-package com.hoanglong180903.driver.ui.account.register
+package com.hoanglong180903.driver.ui.account.verify
 
 import android.Manifest
 import android.os.Build
 import android.os.Bundle
 import android.telephony.SmsManager
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import com.hoanglong180903.driver.R
 import com.hoanglong180903.driver.common.base.BaseFragment
 import com.hoanglong180903.driver.databinding.FragmentPhoneInputBinding
 
@@ -48,7 +46,7 @@ class PhoneInputFragment : BaseFragment() {
                 } else {
                     SmsManager.getDefault()
                 }
-                smsManager.sendTextMessage("0981454803", null, "Send OTP", null, null)
+                smsManager.sendTextMessage("Driver Tech", null, "Send OTP", null, null)
                 Toast.makeText(requireContext(), "Message Sent", Toast.LENGTH_LONG).show()
             } catch (e: Exception) {
                 Toast.makeText(requireContext(), "Please enter all the data.."+e.message.toString(), Toast.LENGTH_LONG)

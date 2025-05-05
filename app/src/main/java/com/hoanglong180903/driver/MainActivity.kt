@@ -17,7 +17,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.hoanglong180903.driver.databinding.ActivityMainBinding
 import com.hoanglong180903.driver.ui.account.login.SignInFragment
-import com.hoanglong180903.driver.ui.account.register.PhoneInputFragment
 
 
 class MainActivity : AppCompatActivity() {
@@ -38,7 +37,7 @@ class MainActivity : AppCompatActivity() {
                 )
             ) {
                 showNotification()
-                replaceFragment(PhoneInputFragment())
+                replaceFragment(SignInFragment())
             } else {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     requestPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
@@ -46,12 +45,12 @@ class MainActivity : AppCompatActivity() {
             }
         } else {
             showNotification()
-            replaceFragment(PhoneInputFragment())
+            replaceFragment(SignInFragment())
         }
     }
     private val requestPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
         showNotification()
-        replaceFragment(PhoneInputFragment())
+        replaceFragment(SignInFragment())
     }
 
     fun replaceFragment(fragment: Fragment) {

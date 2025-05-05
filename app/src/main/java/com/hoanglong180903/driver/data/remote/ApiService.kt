@@ -11,6 +11,8 @@ import com.hoanglong180903.driver.data.enity.GetShipperInfoRequest
 import com.hoanglong180903.driver.data.enity.GetShipperInfoResponse
 import com.hoanglong180903.driver.data.enity.GetStatisticalRequest
 import com.hoanglong180903.driver.data.enity.GetStatisticalResponse
+import com.hoanglong180903.driver.data.enity.LoginAccountRequest
+import com.hoanglong180903.driver.data.enity.LoginAccountResponse
 import com.hoanglong180903.driver.data.enity.RegisterAccountRequest
 import com.hoanglong180903.driver.data.enity.RegisterAccountResponse
 import com.hoanglong180903.driver.data.enity.UpdateOrderShipperRequest
@@ -38,6 +40,9 @@ interface ApiService {
     @POST("")
     suspend fun getOrdersShipID(@Body request : GetOrderShipIDRequest) : Response<GetOrderShipIDResponse>
 
-    @POST("user/register")
+    @POST("shipper/register")
     suspend fun registerAccount(@Body request : RegisterAccountRequest) : Response<RegisterAccountResponse>
+
+    @POST("shipper/login")
+    suspend fun loginAccount(@Body request : LoginAccountRequest) : Response<LoginAccountResponse>
 }
