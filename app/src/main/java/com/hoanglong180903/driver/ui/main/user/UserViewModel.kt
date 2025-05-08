@@ -1,11 +1,10 @@
-package com.hoanglong180903.driver.ui.dashboard.user
+package com.hoanglong180903.driver.ui.main.user
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.bumptech.glide.util.Util
 import com.google.gson.Gson
 import com.hoanglong180903.driver.R
 import com.hoanglong180903.driver.common.application.DriverApplication

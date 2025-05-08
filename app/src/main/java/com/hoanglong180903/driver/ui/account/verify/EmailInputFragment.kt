@@ -1,4 +1,4 @@
-package com.hoanglong180903.driver.ui.dashboard.notification
+package com.hoanglong180903.driver.ui.account.verify
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import com.hoanglong180903.driver.R
 
 
-class NotificationFragment : Fragment() {
+class EmailInputFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +20,7 @@ class NotificationFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_notification, container, false)
+        return inflater.inflate(R.layout.fragment_email_input, container, false)
     }
 
 

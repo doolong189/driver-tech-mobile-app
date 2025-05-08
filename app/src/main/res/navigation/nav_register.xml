@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_register"
+    app:startDestination="@id/phoneInputFragment">
+
+    <fragment
+        android:id="@+id/phoneInputFragment"
+        android:name="com.hoanglong180903.driver.ui.account.verify.PhoneInputFragment"
+        android:label="fragment_phone_input"
+        tools:layout="@layout/fragment_phone_input" >
+        <action
+            android:id="@+id/action_phoneInputFragment_to_verificationFragment"
+            app:destination="@id/verificationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/verificationFragment"
+        android:name="com.hoanglong180903.driver.ui.account.verify.VerificationFragment"
+        android:label="fragment_verification"
+        tools:layout="@layout/fragment_verification" >
+        <action
+            android:id="@+id/action_verificationFragment_to_emailInputFragment"
+            app:destination="@id/emailInputFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/emailInputFragment"
+        android:name="com.hoanglong180903.driver.ui.account.verify.EmailInputFragment"
+        android:label="fragment_email_input"
+        tools:layout="@layout/fragment_email_input" >
+        <action
+            android:id="@+id/action_emailInputFragment_to_passwordInputFragment"
+            app:destination="@id/passwordInputFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/passwordInputFragment"
+        android:name="com.hoanglong180903.driver.ui.account.verify.PasswordInputFragment"
+        android:label="fragment_password_input"
+        tools:layout="@layout/fragment_password_input" />
+</navigation>

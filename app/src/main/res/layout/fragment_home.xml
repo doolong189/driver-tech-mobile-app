@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.dashboard.home.HomeFragment">
+    tools:context=".ui.main.home.HomeFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,7 +33,10 @@
             <Switch
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/switchOnOff"/>
+                android:id="@+id/switchOnOff"
+                android:text="@string/ready"
+                android:textStyle="bold"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
         </LinearLayout>
         <GridLayout
             android:layout_width="match_parent"
@@ -310,7 +313,9 @@
             android:layout_height="wrap_content"
             android:text="@string/order_generated"
             android:textStyle="bold"
-            android:textSize="16sp"/>
+            android:textSize="16sp"
+            android:layout_marginStart="@dimen/_10dp"
+            android:layout_marginEnd="@dimen/_10dp"/>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/order_list"
             android:layout_width="match_parent"

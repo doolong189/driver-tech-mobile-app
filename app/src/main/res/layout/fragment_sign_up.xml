@@ -23,21 +23,27 @@
                 android:src="@drawable/baseline_keyboard_arrow_left_24"
                 android:layout_margin="10dp"
                 android:background="@drawable/bg1"/>
+            <ImageView
+                android:layout_width="@dimen/_100dp"
+                android:layout_height="@dimen/_100dp"
+                android:src="@drawable/delivery"
+                android:layout_margin="10dp"
+                />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:text="@string/title_layout_login"
+                android:text="@string/title_layout_register"
                 android:textSize="25sp"
                 android:textStyle="bold"
-                android:textColor="@color/black"/>
+                />
             <EditText
                 android:id="@+id/edFullName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:background="@drawable/bg1"
-                android:hint="Họ tên"
+                android:hint="@string/fullname"
                 android:padding="15dp" />
             <EditText
                 android:id="@+id/edEmail"
@@ -45,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:background="@drawable/bg1"
-                android:hint="Email"
+                android:hint="@string/email"
                 android:padding="15dp" />
             <EditText
                 android:id="@+id/edPhone"
@@ -53,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:background="@drawable/bg1"
-                android:hint="Số điện thoại"
+                android:hint="@string/phone"
                 android:padding="15dp" />
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -67,7 +73,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg1"
-                    android:hint="Mật khẩu"
+                    android:hint="@string/password"
                     android:inputType="textPassword"
                     />
             </com.google.android.material.textfield.TextInputLayout>
@@ -88,33 +94,6 @@
                 android:background="@drawable/bg"
                 android:textStyle="bold"
                 android:text="Đăng ký"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_alignParentBottom="true"
-            android:gravity="center"
-            >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:text="Bạn chưa có tài khoản?"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textAlignment="textEnd"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:text="Đăng ký ngay"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textAlignment="textEnd"
-                android:textColor="@color/blue"
-                />
         </LinearLayout>
     </RelativeLayout>
 </FrameLayout>

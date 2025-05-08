@@ -1,4 +1,4 @@
-package com.hoanglong180903.driver.ui.dashboard.user
+package com.hoanglong180903.driver.ui.main.user
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

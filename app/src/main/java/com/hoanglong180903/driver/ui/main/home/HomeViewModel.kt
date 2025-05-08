@@ -1,4 +1,4 @@
-package com.hoanglong180903.driver.ui.dashboard.home
+package com.hoanglong180903.driver.ui.main.home
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

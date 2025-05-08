@@ -1,4 +1,4 @@
-package com.hoanglong180903.driver.ui.dashboard.order.detail
+package com.hoanglong180903.driver.ui.main.order.detail
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

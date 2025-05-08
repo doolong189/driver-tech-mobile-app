@@ -10,6 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:paddingStart="@dimen/_10dp"
+        android:paddingEnd="@dimen/_10dp"
         >
         <RelativeLayout
             android:layout_width="match_parent"
@@ -23,7 +25,8 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 tools:text="@string/order_id"
-                android:textColor="@color/black"/>
+                android:textColor="@color/green"
+                />
 
             <TextView
                 android:id="@+id/time"
@@ -32,14 +35,17 @@
                 android:textSize="13sp"
                 android:textStyle="bold"
                 tools:text="@string/time"
-                android:layout_below="@id/orderId"/>
+                android:layout_below="@id/orderId"
+                android:textColor="@color/black"/>
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/circleImageView"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:maxWidth="100dp"
-                android:src="@mipmap/ic_launcher"
+            <TextView
+                android:id="@+id/totalOrders"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/_0"
+                android:textStyle="bold"
+                android:textColor="@color/blue"
+                android:textSize="@dimen/_18sp"
                 android:layout_alignParentEnd="true"/>
         </RelativeLayout>
         <RelativeLayout
@@ -52,16 +58,14 @@
                 android:layout_height="wrap_content"
                 android:textSize="13sp"
                 android:textStyle="bold"
-                tools:text="@string/client"
+                tools:text="@string/space"
                 android:layout_alignParentStart="true"/>
-
             <TextView
-                android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="13sp"
                 android:textStyle="bold"
-                tools:text="@string/space"
+                tools:text="0 phút"
                 android:layout_alignParentEnd="true"/>
         </RelativeLayout>
 
@@ -70,21 +74,17 @@
             android:layout_height="wrap_content"
             >
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="35dp"
+                android:layout_width="@dimen/_25dp"
+                android:layout_height="@dimen/_25dp"
                 android:layout_margin="5dp"
                 android:src="@drawable/icon_call" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/client"
-                android:layout_alignParentEnd="true"
-                android:background="@drawable/bg"
-                android:textStyle="bold"
-                android:padding="5dp"
-                android:textColor="@color/white"
-                android:layout_centerVertical="true"/>
+            <ImageView
+                android:layout_width="@dimen/_25dp"
+                android:layout_height="@dimen/_25dp"
+                android:layout_margin="5dp"
+                android:src="@drawable/baseline_navigate_next_24"
+                android:layout_alignParentEnd="true"/>
         </RelativeLayout>
 
     </LinearLayout>

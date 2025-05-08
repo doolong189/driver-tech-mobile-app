@@ -1,4 +1,4 @@
-package com.hoanglong180903.driver.ui.dashboard.home
+package com.hoanglong180903.driver.ui.main.home
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,32 +6,23 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.hoanglong180903.driver.R
 
-import com.hoanglong180903.driver.data.enity.GetOrdersRequest
 import com.hoanglong180903.driver.data.enity.GetOrdersResponse
 import com.hoanglong180903.driver.common.base.BaseFragment
-import com.hoanglong180903.driver.data.enity.GetShipperInfoResponse
 import com.hoanglong180903.driver.data.enity.GetStatisticalRequest
 import com.hoanglong180903.driver.data.enity.GetStatisticalResponse
 import com.hoanglong180903.driver.databinding.FragmentHomeBinding
-import com.hoanglong180903.driver.ui.account.login.SignInFragment
-import com.hoanglong180903.driver.ui.dashboard.order.OrderViewModel
-import com.hoanglong180903.driver.ui.dashboard.user.UserViewModel
+import com.hoanglong180903.driver.ui.main.order.OrderViewModel
+import com.hoanglong180903.driver.ui.main.user.UserViewModel
 import com.hoanglong180903.driver.ui.map.NavigationMapboxActivity
-import com.hoanglong180903.driver.utils.Contacts
 import com.hoanglong180903.driver.utils.Event
 import com.hoanglong180903.driver.utils.Resource
 import com.hoanglong180903.driver.utils.SocketIOManager
 import com.hoanglong180903.driver.utils.Utils
-import io.socket.client.IO
 import io.socket.client.Socket
-import org.json.JSONException
-import org.json.JSONObject
 
 class HomeFragment : BaseFragment() {
     private lateinit var binding : FragmentHomeBinding
@@ -70,13 +61,15 @@ class HomeFragment : BaseFragment() {
         binding.switchOnOff.setOnCheckedChangeListener { _, checked ->
             when {
                 checked -> {
-//                    socketIO.connect()
+                    socketIO.connect()
 //                    socketIO.join(userViewModel.getShipperInfo?.id.toString())
 //                    socketIO.userJoinedTheChat()
 //                    val message = socketIO.message()
 //                    orderViewModel.getOrders(GetOrdersRequest(receiptStatus =  0))
+                    binding.switchOnOff.text = "Sẵn sàng"
                 }
                 else -> {
+                    binding.switchOnOff.text = ""
                 }
             }
         }

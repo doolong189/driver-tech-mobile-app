@@ -2,8 +2,8 @@
     <string name="app_name">Driver Tech</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_layout_login">Chào mừng trở lại ! \nThật vui khi gặp lại bạn!</string>
-    <string name="title_layout_register">Chào mừng! \nĐăng ký để bắt đầu</string>
+    <string name="title_layout_login">Đăng nhập</string>
+    <string name="title_layout_register">Đăng ký</string>
     <string name="forgot_password">Quên mật khẩu?</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
@@ -87,4 +87,19 @@
     <string name="phone">+84 xx xxx xxx</string>
     <string name="email">Email</string>
     <string name="delete_account">Xóa tài khoản</string>
+    <string name="password">Mật khẩu</string>
+    <string name="fullname">Họ tên</string>
+    <string name="tv_bottom_login1">Bạn đã có tài khoản?</string>
+    <string name="tv_bottom_login2">Đăng ký ngay</string>
+    <string name="login">Đăng nhập</string>
+    <string name="account">Tài khoản</string>
+    <string name="edit_account">Thay đổi thông tin</string>
+    <string name="darkmode">Chế độ tối</string>
+    <string name="languages">Ngôn ngữ</string>
+    <string name="setting">Cài đặt</string>
+    <string name="vietnamese">Việt Nam</string>
+    <string name="ready">Sẵn sàng</string>
+    <string name="send">Gửi</string>
+    <string name="resend_otp">Gửi lại mã xác thực</string>
+    <string name="content_forgot_password">Mã xác thưc sẽ được gửi đến email\nVui lòng kiểm tra tin nhắn trong hôp thư</string>
 </resources>

@@ -1,18 +1,15 @@
-package com.hoanglong180903.driver.ui.dashboard.user
+package com.hoanglong180903.driver.ui.main.user
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import com.hoanglong180903.driver.R
 import com.hoanglong180903.driver.common.base.BaseFragment
 import com.hoanglong180903.driver.data.enity.GetShipperInfoRequest
 import com.hoanglong180903.driver.data.enity.GetShipperInfoResponse
 import com.hoanglong180903.driver.databinding.FragmentUserBinding
-import com.hoanglong180903.driver.ui.dashboard.order.OrderViewModel
 import com.hoanglong180903.driver.utils.Event
 import com.hoanglong180903.driver.utils.Resource
 

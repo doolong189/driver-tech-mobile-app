@@ -51,7 +51,6 @@ class NavigationMapboxActivity : ComponentActivity() {
     private val navigationLocationProvider = NavigationLocationProvider()
     private val replayRouteMapper = ReplayRouteMapper()
 
-    // Activity result launcher for location permissions
     private val locationPermissionRequest =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
                 permissions ->
@@ -71,22 +70,17 @@ class NavigationMapboxActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // check/request location permissions
         if (
             ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) ==
             PackageManager.PERMISSION_GRANTED
         ) {
-            // Permissions are already granted
             initializeMapComponents()
         } else {
-            // Request location permissions
             locationPermissionRequest.launch(arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION))
         }
     }
 
     private fun initializeMapComponents() {
-        // create a new Mapbox map
         mapView = MapView(this)
         mapView.mapboxMap.setCamera(
             CameraOptions.Builder()
@@ -94,8 +88,6 @@ class NavigationMapboxActivity : ComponentActivity() {
                 .zoom(14.0)
                 .build()
         )
-
-        // Initialize location puck using navigationLocationProvider as its data source
         mapView.location.apply {
             setLocationProvider(navigationLocationProvider)
             locationPuck = LocationPuck2D()
@@ -103,11 +95,7 @@ class NavigationMapboxActivity : ComponentActivity() {
         }
 
         setContentView(mapView)
-
-        // set viewportDataSource, which tells the navigationCamera where to look
         viewportDataSource = MapboxNavigationViewportDataSource(mapView.mapboxMap)
-
-        // set padding for the navigation camera
         val pixelDensity = this.resources.displayMetrics.density
         viewportDataSource.followingPadding =
             EdgeInsets(
@@ -117,10 +105,7 @@ class NavigationMapboxActivity : ComponentActivity() {
                 40.0 * pixelDensity
             )
 
-        // initialize a NavigationCamera
         navigationCamera = NavigationCamera(mapView.mapboxMap, mapView.camera, viewportDataSource)
-
-        // Initialize route line api and view for drawing the route on the map
         routeLineApi = MapboxRouteLineApi(MapboxRouteLineApiOptions.Builder().build())
         routeLineView = MapboxRouteLineView(MapboxRouteLineViewOptions.Builder(this).build())
     }

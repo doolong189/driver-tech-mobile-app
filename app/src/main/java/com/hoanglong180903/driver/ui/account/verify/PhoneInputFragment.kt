@@ -40,13 +40,12 @@ class PhoneInputFragment : BaseFragment() {
         ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.SEND_SMS), 1)
         binding.btnContinue.setOnClickListener {
             try {
-                val smsManager : SmsManager
-                smsManager = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                val smsManager : SmsManager = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                     requireActivity().getSystemService(SmsManager::class.java)
                 } else {
                     SmsManager.getDefault()
                 }
-                smsManager.sendTextMessage("Driver Tech", null, "Send OTP", null, null)
+                smsManager.sendTextMessage("0981454803", "Driver Tech", "Send OTP", null, null)
                 Toast.makeText(requireContext(), "Message Sent", Toast.LENGTH_LONG).show()
             } catch (e: Exception) {
                 Toast.makeText(requireContext(), "Please enter all the data.."+e.message.toString(), Toast.LENGTH_LONG)

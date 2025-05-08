@@ -5,10 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.hoanglong180903.driver.MainActivity
+import androidx.navigation.fragment.findNavController
+import com.hoanglong180903.driver.R
 import com.hoanglong180903.driver.databinding.FragmentSplashBinding
-import com.hoanglong180903.driver.ui.account.login.SignInFragment
-import com.hoanglong180903.driver.ui.account.register.SignUpFragment
 
 class SplashFragment : Fragment() {
     private lateinit var binding:  FragmentSplashBinding
@@ -33,11 +32,11 @@ class SplashFragment : Fragment() {
 
     private fun action(){
         binding.splashBtLogin.setOnClickListener {
-            (activity as MainActivity).replaceFragment(SignInFragment())
+            findNavController().navigate(R.id.action_splashFragment_to_signInFragment)
         }
 
         binding.splashBtRegister.setOnClickListener {
-            (activity as MainActivity).replaceFragment(SignUpFragment())
+            findNavController().navigate(R.id.action_splashFragment_to_signUpFragment)
         }
     }
 }

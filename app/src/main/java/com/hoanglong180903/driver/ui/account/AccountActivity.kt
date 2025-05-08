@@ -1,4 +1,4 @@
-package com.hoanglong180903.driver
+package com.hoanglong180903.driver.ui.account
 
 import android.Manifest
 import android.app.NotificationChannel
@@ -9,35 +9,37 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
-import com.hoanglong180903.driver.databinding.ActivityMainBinding
-import com.hoanglong180903.driver.ui.account.login.SignInFragment
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupActionBarWithNavController
+import com.hoanglong180903.driver.R
 
-
-class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
+class AccountActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        //
+        setContentView(R.layout.activity_account)
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        setupActionBarWithNavController(navHostFragment.navController)
+
         if (ContextCompat.checkSelfPermission(
-                this@MainActivity,
+                this@AccountActivity,
                 Manifest.permission.POST_NOTIFICATIONS
             ) != PackageManager.PERMISSION_GRANTED
         ) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(
-                    this@MainActivity,
+                    this@AccountActivity,
                     Manifest.permission.POST_NOTIFICATIONS
                 )
             ) {
                 showNotification()
-                replaceFragment(SignInFragment())
             } else {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     requestPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
@@ -45,19 +47,10 @@ class MainActivity : AppCompatActivity() {
             }
         } else {
             showNotification()
-            replaceFragment(SignInFragment())
         }
     }
     private val requestPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
         showNotification()
-        replaceFragment(SignInFragment())
-    }
-
-    fun replaceFragment(fragment: Fragment) {
-        val manager = supportFragmentManager
-        val transaction = manager.beginTransaction()
-        transaction.replace(R.id.main_frame, fragment)
-        transaction.commit()
     }
 
     private fun showNotification() {

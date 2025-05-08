@@ -1,9 +1,8 @@
-package com.hoanglong180903.driver.ui.dashboard.home
+package com.hoanglong180903.driver.ui.main.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.hoanglong180903.driver.databinding.ItemDeliveryBinding
 import com.hoanglong180903.driver.model.Order
 
@@ -20,7 +19,8 @@ class HomeAdapter : RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
         parent: ViewGroup,
         viewType: Int
     ): HomeViewHolder {
-        val binding = ItemDeliveryBinding.inflate(LayoutInflater.from(parent.context) , parent , false)
+        val binding =
+            ItemDeliveryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return HomeViewHolder(binding)
     }
 
@@ -30,14 +30,6 @@ class HomeAdapter : RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
             binding.run {
                 orderId.text = item._id
                 time.text = item.date
-                Glide.with(binding.root.context)
-                    .load(item.products[0].product.idUser.image)
-                    .into(circleImageView)
-//                cardView.setOnClickListener {
-//                    onClickDirectionMap?.let {
-//                        it(item, adapterPosition)
-//                    }
-//                }
             }
         }
     }
