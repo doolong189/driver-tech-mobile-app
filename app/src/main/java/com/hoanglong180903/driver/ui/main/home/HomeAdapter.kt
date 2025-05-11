@@ -3,17 +3,26 @@ package com.hoanglong180903.driver.ui.main.home
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.hoanglong180903.driver.R
 import com.hoanglong180903.driver.databinding.ItemDeliveryBinding
 import com.hoanglong180903.driver.model.Order
+import com.hoanglong180903.driver.utils.Utils
 
 private var onClickDirectionMap: ((id: Order, position: Int) -> Unit)? = null
+private var onClickCall: ((id: Order, position: Int) -> Unit)? = null
+private var onClickDetailOrder: ((id: Order, position: Int) -> Unit)? = null
 class HomeAdapter : RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
     private var orders : List<Order> = listOf()
 
     fun directionMap(id: ((id: Order, position: Int) -> Unit)) {
         onClickDirectionMap = id
     }
-
+    fun call(id: ((id: Order, position: Int) -> Unit)) {
+        onClickCall = id
+    }
+    fun detailOrder(id: ((id: Order, position: Int) -> Unit)) {
+        onClickDetailOrder = id
+    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -28,9 +37,17 @@ class HomeAdapter : RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(item: Order) {
             binding.run {
-                orderId.text = item._id
-                time.text = item.date
+                orderId.text = itemView.context.getString(R.string.order_id) + "1"
+                time.text = Utils.convertTimestampToDate(item.date)
+                totalOrders.text = Utils.formatPrice(item.totalPrice) + "đ"
+
+                icDirection.setOnClickListener {
+                    onClickDirectionMap?.let {
+                        it(item, adapterPosition)
+                    }
+                }
             }
+
         }
     }
 

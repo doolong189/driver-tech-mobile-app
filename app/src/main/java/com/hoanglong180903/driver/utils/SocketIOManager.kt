@@ -1,14 +1,11 @@
 package com.hoanglong180903.driver.utils
 
-import android.content.Context
 import android.util.Log
-import com.hoanglong180903.driver.data.enity.GetOrdersRequest
 import io.socket.client.IO
 import io.socket.client.Socket
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -59,6 +56,12 @@ class SocketIOManager() {
             }
         }
         return nickname
+    }
+
+    fun disconnect(message : String){
+        CoroutineScope(Dispatchers.IO).launch {
+            socket?.emit("disconnect", message)
+        }
     }
 
     fun close() {

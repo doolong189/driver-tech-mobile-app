@@ -2,6 +2,7 @@ package com.hoanglong180903.driver.ui.account.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ import com.hoanglong180903.driver.data.enity.LoginAccountResponse
 import com.hoanglong180903.driver.databinding.FragmentSignInBinding
 import com.hoanglong180903.driver.ui.main.MainActivity
 import com.hoanglong180903.driver.ui.main.user.UserViewModel
+import com.hoanglong180903.driver.utils.Contacts
 import com.hoanglong180903.driver.utils.Event
 import com.hoanglong180903.driver.utils.Resource
 import com.hoanglong180903.driver.utils.SnackBar
@@ -106,6 +108,7 @@ class SignInFragment : BaseFragment() {
                     binding.progressBar.visibility = View.GONE
                     response.data?.shipper?.let {
                         userViewModel.getConvertShipperInfo(it)
+                        Log.e(Contacts.TAG,"${userViewModel.getShipperInfo?._id} - ${userViewModel.getShipperInfo?.name}")
                         startActivity(Intent(requireContext(),MainActivity::class.java))
                         requireActivity().finish()
                     }

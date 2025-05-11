@@ -5,17 +5,24 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.main.order.OrderFragment">
-        <ProgressBar
-            android:id="@+id/order_pgLoading"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"/>
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/order_rcView"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/item_oder"
-            tools:itemCount="2"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            />
+            android:orientation="vertical"
+            >
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/order_tabLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:tabIndicatorHeight="0dp"
+                    app:tabMode="fixed"
+                    app:tabTextAppearance="@color/item_navigation"
+                    app:tabTextColor="@color/item_navigation"
+                    />
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/order_viewPager2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    />
+        </LinearLayout>
 </FrameLayout>

@@ -9,28 +9,27 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-
-import com.hoanglong180903.driver.data.enity.GetOrdersResponse
 import com.hoanglong180903.driver.common.base.BaseFragment
+import com.hoanglong180903.driver.data.enity.GetNewOrderRequest
+import com.hoanglong180903.driver.data.enity.GetNewOrderResponse
 import com.hoanglong180903.driver.data.enity.GetStatisticalRequest
 import com.hoanglong180903.driver.data.enity.GetStatisticalResponse
 import com.hoanglong180903.driver.databinding.FragmentHomeBinding
 import com.hoanglong180903.driver.ui.main.order.OrderViewModel
 import com.hoanglong180903.driver.ui.main.user.UserViewModel
 import com.hoanglong180903.driver.ui.map.NavigationMapboxActivity
+import com.hoanglong180903.driver.utils.Contacts
 import com.hoanglong180903.driver.utils.Event
 import com.hoanglong180903.driver.utils.Resource
 import com.hoanglong180903.driver.utils.SocketIOManager
 import com.hoanglong180903.driver.utils.Utils
-import io.socket.client.Socket
+
 
 class HomeFragment : BaseFragment() {
     private lateinit var binding : FragmentHomeBinding
     override var isVisibleActionBar: Boolean = false
     private val viewModel by activityViewModels<HomeViewModel>()
-    private val orderViewModel by activityViewModels<OrderViewModel>()
     private val userViewModel by activityViewModels<UserViewModel>()
-    private var socket: Socket? = null
     private var homeAdapter = HomeAdapter()
     private var socketIO = SocketIOManager()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,8 +50,8 @@ class HomeFragment : BaseFragment() {
     }
 
     override fun initView() {
-        Log.e("zzz","${userViewModel.getShipperInfo?._id.toString()}")
-        viewModel.getStatistical(GetStatisticalRequest(idShipper = userViewModel.getShipperInfo?._id.toString()))
+        Log.e("zzz","${userViewModel.getShipperInfo?._id}")
+        viewModel.getStatistical(GetStatisticalRequest(idShipper = userViewModel.getShipperInfo?._id))
         binding.orderList.setHasFixedSize(true)
         binding.orderList.layoutManager = LinearLayoutManager(requireContext())
         binding.orderList.run { adapter = HomeAdapter().also { homeAdapter = it } }
@@ -62,17 +61,18 @@ class HomeFragment : BaseFragment() {
             when {
                 checked -> {
                     socketIO.connect()
-//                    socketIO.join(userViewModel.getShipperInfo?.id.toString())
-//                    socketIO.userJoinedTheChat()
-//                    val message = socketIO.message()
-//                    orderViewModel.getOrders(GetOrdersRequest(receiptStatus =  0))
+                    socketIO.join(userViewModel.getShipperInfo?._id.toString())
+                    socketIO.userJoinedTheChat()
+                    val message = socketIO.message()
                     binding.switchOnOff.text = "Sẵn sàng"
                 }
                 else -> {
+                    socketIO.disconnect(userViewModel.getShipperInfo?._id.toString())
                     binding.switchOnOff.text = ""
                 }
             }
         }
+        viewModel.getNewOrder(GetNewOrderRequest(receiptStatus =  0))
 
     }
 
@@ -81,15 +81,29 @@ class HomeFragment : BaseFragment() {
 
     override fun setAction() {
         homeAdapter.directionMap { id, position ->
-            startActivity(Intent(requireActivity(), NavigationMapboxActivity::class.java))
+
+            val fromLocation = ArrayList<Double>()
+            fromLocation.add(id.fromLocation?.get(1) ?: 0.0)
+            fromLocation.add(id.fromLocation?.get(0) ?: 0.0)
+
+            val toLocation = ArrayList<Double>()
+            toLocation.add(id.toLocation?.get(1) ?: 0.0)
+            toLocation.add(id.toLocation?.get(0) ?: 0.0)
+            val mIntent = Intent(requireActivity(), NavigationMapboxActivity::class.java)
+            mIntent.putExtra("fromLocation", fromLocation)
+            mIntent.putExtra("toLocation", toLocation)
+            Log.e(Contacts.TAG,"${fromLocation} - ${toLocation}")
+            startActivity(mIntent)
+
         }
+
     }
 
     override fun setObserve() {
         viewModel.getStatisticalResult().observe(viewLifecycleOwner, Observer {
             getStatisticalResult(it)
         })
-        orderViewModel.getOrderResult().observe(viewLifecycleOwner, Observer{
+        viewModel.getNewOrderResult().observe(viewLifecycleOwner, Observer{
             getOrderResult(it)
         })
     }
@@ -116,7 +130,7 @@ class HomeFragment : BaseFragment() {
         }
     }
 
-    private fun getOrderResult(event : Event<Resource<GetOrdersResponse>>){
+    private fun getOrderResult(event : Event<Resource<GetNewOrderResponse>>){
         event.getContentIfNotHandled()?.let { response ->
             when ( response ){
                 is Resource.Error -> {

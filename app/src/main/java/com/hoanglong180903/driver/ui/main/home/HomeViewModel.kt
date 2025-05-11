@@ -9,6 +9,8 @@ import com.google.gson.Gson
 import com.hoanglong180903.driver.R
 import com.hoanglong180903.driver.common.application.DriverApplication
 import com.hoanglong180903.driver.data.enity.ErrorResponse
+import com.hoanglong180903.driver.data.enity.GetNewOrderRequest
+import com.hoanglong180903.driver.data.enity.GetNewOrderResponse
 import com.hoanglong180903.driver.data.enity.GetStatisticalRequest
 import com.hoanglong180903.driver.data.enity.GetStatisticalResponse
 import com.hoanglong180903.driver.data.usecase.OrderRepository
@@ -27,6 +29,44 @@ class HomeViewModel(private  val application: Application) : AndroidViewModel(ap
     fun getStatisticalResult() : LiveData<Event<Resource<GetStatisticalResponse>>>{
         return getStatisticalResult
     }
+
+    private val getNewOrderResult = MutableLiveData<Event<Resource<GetNewOrderResponse>>>()
+    fun getNewOrderResult(): LiveData<Event<Resource<GetNewOrderResponse>>> {
+        return getNewOrderResult
+    }
+    fun getNewOrder(request : GetNewOrderRequest) : Job = viewModelScope.launch {
+        getNewOrderResult.postValue(Event(Resource.Loading()))
+        try {
+            if (Utils.hasInternetConnection(getApplication<DriverApplication>())) {
+                val response = repository.getNewOrder(request)
+                if (response.isSuccessful) {
+                    response.body()?.let { resultResponse ->
+                        getNewOrderResult.postValue(Event(Resource.Success(resultResponse)))
+                    }
+                } else {
+                    val errorResponse = response.errorBody()?.let {
+                        val gson = Gson()
+                        gson.fromJson(it.string(), ErrorResponse::class.java)
+                    }
+                    getNewOrderResult.postValue(Event(Resource.Error(errorResponse?.message ?: "")))
+                }
+            }
+        } catch (t: Throwable) {
+            when (t) {
+                is IOException -> {
+                    getNewOrderResult.postValue(Event(Resource.Error(getApplication<DriverApplication>().getString(
+                        R.string.network_failure
+                    ))))
+                }
+                else -> {
+                    getNewOrderResult.postValue(Event(Resource.Error(getApplication<DriverApplication>().getString(
+                        R.string.conversion_error
+                    ))))
+                }
+            }
+        }
+    }
+
 
     fun getStatistical(request : GetStatisticalRequest) : Job = viewModelScope.launch {
         getStatisticalResult.postValue(Event(Resource.Loading()))

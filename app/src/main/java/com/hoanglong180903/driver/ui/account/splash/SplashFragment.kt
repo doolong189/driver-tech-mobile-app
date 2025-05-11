@@ -7,10 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.hoanglong180903.driver.R
+import com.hoanglong180903.driver.common.base.BaseFragment
 import com.hoanglong180903.driver.databinding.FragmentSplashBinding
 
-class SplashFragment : Fragment() {
+class SplashFragment : BaseFragment() {
     private lateinit var binding:  FragmentSplashBinding
+    override var isVisibleActionBar: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -38,5 +41,17 @@ class SplashFragment : Fragment() {
         binding.splashBtRegister.setOnClickListener {
             findNavController().navigate(R.id.action_splashFragment_to_signUpFragment)
         }
+    }
+
+    override fun initView() {
+    }
+
+    override fun setView() {
+    }
+
+    override fun setAction() {
+    }
+
+    override fun setObserve() {
     }
 }

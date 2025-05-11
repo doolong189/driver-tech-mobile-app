@@ -8,5 +8,7 @@ data class Order(
     val receiptStatus : Int,
     val idClient : UserInfo,
     val idShipper : UserInfo,
-    val products : List<ProductOfOrder>
+    val products : List<ProductOfOrder>,
+    val fromLocation : List<Double>?,
+    val toLocation : List<Double>?
 )

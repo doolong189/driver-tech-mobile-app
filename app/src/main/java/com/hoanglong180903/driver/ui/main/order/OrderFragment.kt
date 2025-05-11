@@ -1,28 +1,28 @@
 package com.hoanglong180903.driver.ui.main.order
 
+import android.graphics.Typeface
 import android.os.Bundle
+import android.util.TypedValue
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.tabs.TabLayoutMediator
 import com.hoanglong180903.driver.R
 import com.hoanglong180903.driver.common.base.BaseFragment
-import com.hoanglong180903.driver.data.enity.GetOrdersRequest
-import com.hoanglong180903.driver.data.enity.GetOrdersResponse
 import com.hoanglong180903.driver.data.enity.UpdateOrderShipperRequest
-import com.hoanglong180903.driver.utils.Resource
 import com.hoanglong180903.driver.databinding.FragmentOrderBinding
-import com.hoanglong180903.driver.utils.Event
 
 class OrderFragment : BaseFragment() {
     private lateinit var binding : FragmentOrderBinding
     private val orderViewModel by activityViewModels<OrderViewModel>()
     private var orderAdapter = OrderAdapter()
     override var isVisibleActionBar: Boolean = false
-
+    private lateinit var tabLayoutMediator: TabLayoutMediator
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -41,14 +41,29 @@ class OrderFragment : BaseFragment() {
     }
 
     override fun initView() {
-        binding.orderRcView.setHasFixedSize(true)
-        binding.orderRcView.layoutManager = LinearLayoutManager(requireContext())
-        binding.orderRcView.run { adapter = OrderAdapter().also { orderAdapter = it } }
-        orderViewModel.getOrders(GetOrdersRequest(receiptStatus =  0))
     }
 
     override fun setView() {
-        binding.orderPgLoading.visibility = View.VISIBLE
+        binding.orderViewPager2.isUserInputEnabled = false
+        binding.orderViewPager2.adapter = ViewPager2Adapter(requireActivity())
+
+        tabLayoutMediator = TabLayoutMediator(binding.orderTabLayout, binding.orderViewPager2) { tab, position ->
+            // Tạo một TextView tùy chỉnh cho mỗi tab
+            val tabTextView = TextView(requireContext()).apply {
+                text = when (position) {
+                    0 -> getString(R.string.on_going_order)
+                    1 -> getString(R.string.completed_order)
+                    2 -> getString(R.string.cancel_order)
+                    else -> ""
+                }
+                setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
+                setTypeface(typeface, Typeface.BOLD)
+                setTextColor(ContextCompat.getColor(requireContext(), R.color.green))
+                gravity = Gravity.CENTER
+            }
+            tab.customView = tabTextView
+        }
+        tabLayoutMediator.attach()
     }
 
     override fun setAction() {
@@ -65,32 +80,11 @@ class OrderFragment : BaseFragment() {
         }
 
         orderAdapter.onClickItemOrderCancel { id, position ->
-
         }
     }
 
     override fun setObserve() {
-        orderViewModel.getOrderResult().observe(viewLifecycleOwner , Observer {
-            getOrderResult(it)
-        })
+
     }
 
-    private fun getOrderResult(event : Event<Resource<GetOrdersResponse>>){
-        event.getContentIfNotHandled()?.let { response ->
-            when (response){
-                is Resource.Error -> {
-                    binding.orderPgLoading.visibility = View.GONE
-                }
-                is Resource.Loading -> {
-                    binding.orderPgLoading.visibility = View.VISIBLE
-                }
-                is Resource.Success -> {
-                    binding.orderPgLoading.visibility = View.GONE
-                    response.data?.let { picsResponse ->
-                        orderAdapter.setOrderList(picsResponse.data!!)
-                    }
-                }
-            }
-        }
-    }
 }

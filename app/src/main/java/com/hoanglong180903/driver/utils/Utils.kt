@@ -45,7 +45,7 @@ object Utils {
     fun convertTimestampToDate(timestampStr: String): String {
         val timestamp = timestampStr.toLongOrNull() ?: return "Invalid timestamp"
         val date = Date(timestamp)
-        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
         val dateStr = dateFormat.format(date)
         return dateStr
     }

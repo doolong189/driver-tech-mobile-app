@@ -13,9 +13,7 @@ import com.hoanglong180903.driver.common.application.DriverApplication
 import com.hoanglong180903.driver.data.enity.ErrorResponse
 import com.hoanglong180903.driver.data.enity.GetOrderShipIDRequest
 import com.hoanglong180903.driver.data.enity.GetOrderShipIDResponse
-import com.hoanglong180903.driver.data.enity.GetOrdersRequest
 import com.hoanglong180903.driver.data.usecase.OrderRepository
-import com.hoanglong180903.driver.data.enity.GetOrdersResponse
 import com.hoanglong180903.driver.data.enity.UpdateOrderShipperRequest
 import com.hoanglong180903.driver.data.enity.UpdateOrderShipperResponse
 import com.hoanglong180903.driver.utils.Event
@@ -25,53 +23,23 @@ import java.io.IOException
 
 class OrderViewModel(private val app: Application) : AndroidViewModel(app) {
     private val repository : OrderRepository = OrderRepository()
-
-    private val getOrderResult = MutableLiveData<Event<Resource<GetOrdersResponse>>>()
-    fun getOrderResult(): LiveData<Event<Resource<GetOrdersResponse>>> {
-        return getOrderResult
-    }
     private val updateOrderShipperResult = MutableLiveData<Event<Resource<UpdateOrderShipperResponse>>>()
+    private val getOnGoingOrderResult = MutableLiveData<Event<Resource<GetOrderShipIDResponse>>>()
+    private val getCompletedOrderResult = MutableLiveData<Event<Resource<GetOrderShipIDResponse>>>()
+    private val getCancelOrderResult = MutableLiveData<Event<Resource<GetOrderShipIDResponse>>>()
 
     fun updateOrderShipperResult() : LiveData<Event<Resource<UpdateOrderShipperResponse>>>{
         return updateOrderShipperResult
     }
-    private val getOrdersShipIDResult = MutableLiveData<Event<Resource<GetOrderShipIDResponse>>>()
 
-    fun getOrdersShipIDResult() : LiveData<Event<Resource<GetOrderShipIDResponse>>>{
-        return getOrdersShipIDResult
+    fun getOnGoingOrderResult(): LiveData<Event<Resource<GetOrderShipIDResponse>>> {
+        return getOnGoingOrderResult
     }
-
-    fun getOrders(request : GetOrdersRequest) : Job = viewModelScope.launch {
-        getOrderResult.postValue(Event(Resource.Loading()))
-        try {
-            if (Utils.hasInternetConnection(getApplication<DriverApplication>())) {
-                val response = repository.getOrder(request)
-                if (response.isSuccessful) {
-                    response.body()?.let { resultResponse ->
-                        getOrderResult.postValue(Event(Resource.Success(resultResponse)))
-                    }
-                } else {
-                    val errorResponse = response.errorBody()?.let {
-                        val gson = Gson()
-                        gson.fromJson(it.string(), ErrorResponse::class.java)
-                    }
-                    getOrderResult.postValue(Event(Resource.Error(errorResponse?.message ?: "")))
-                }
-            }
-        } catch (t: Throwable) {
-            when (t) {
-                is IOException -> {
-                    getOrderResult.postValue(Event(Resource.Error(getApplication<DriverApplication>().getString(
-                        R.string.network_failure
-                    ))))
-                }
-                else -> {
-                    getOrderResult.postValue(Event(Resource.Error(getApplication<DriverApplication>().getString(
-                        R.string.conversion_error
-                    ))))
-                }
-            }
-        }
+    fun getCompletedOrderResult() : LiveData<Event<Resource<GetOrderShipIDResponse>>>{
+        return getCompletedOrderResult
+    }
+    fun getCancelOrderResult() : LiveData<Event<Resource<GetOrderShipIDResponse>>>{
+        return getCancelOrderResult
     }
 
     fun updateOrderShipper(request : UpdateOrderShipperRequest) : Job = viewModelScope.launch {
@@ -108,33 +76,108 @@ class OrderViewModel(private val app: Application) : AndroidViewModel(app) {
     }
 
     fun getOrdersShipID(request : GetOrderShipIDRequest) : Job = viewModelScope.launch {
-        getOrdersShipIDResult.postValue(Event(Resource.Loading()))
-        try {
-            if (Utils.hasInternetConnection(getApplication<DriverApplication>())) {
-                val response = repository.getOrdersShipID(request)
-                if (response.isSuccessful) {
-                    response.body()?.let { resultResponse ->
-                        getOrdersShipIDResult.postValue(Event(Resource.Success(resultResponse)))
+        if (request.receiptStatus == 1) {
+            getOnGoingOrderResult.postValue(Event(Resource.Loading()))
+            try {
+                if (Utils.hasInternetConnection(getApplication<DriverApplication>())) {
+                    val response = repository.getOrdersShipID(request)
+                    if (response.isSuccessful) {
+                        response.body()?.let { resultResponse ->
+                            getOnGoingOrderResult.postValue(Event(Resource.Success(resultResponse)))
+                        }
+                    } else {
+                        val errorResponse = response.errorBody()?.let {
+                            val gson = Gson()
+                            gson.fromJson(it.string(), ErrorResponse::class.java)
+                        }
+                        getOnGoingOrderResult.postValue(Event(Resource.Error(errorResponse?.message ?: "")))
                     }
                 } else {
-                    val errorResponse = response.errorBody()?.let {
-                        val gson = Gson()
-                        gson.fromJson(it.string(), ErrorResponse::class.java)
+                    getOnGoingOrderResult.postValue(Event(Resource.Error(getApplication<DriverApplication>().getString(
+                        R.string.no_internet_connection
+                    ))))
+                }
+            } catch (t: Throwable) {
+                when (t) {
+                    is IOException -> {
+                        getOnGoingOrderResult.postValue(Event(Resource.Error(getApplication<DriverApplication>().getString(
+                            R.string.network_failure
+                        ))))
                     }
-                    getOrdersShipIDResult.postValue(Event(Resource.Error(errorResponse?.message ?: "")))
+
+                    else -> {
+                        getOnGoingOrderResult.postValue(Event(Resource.Error(getApplication<DriverApplication>().getString(
+                            R.string.conversion_error
+                        ))))
+                    }
                 }
             }
-        } catch (t: Throwable) {
-            when (t) {
-                is IOException -> {
-                    getOrdersShipIDResult.postValue(Event(Resource.Error(getApplication<DriverApplication>().getString(
-                        R.string.network_failure
+        }else if (request.receiptStatus == 2){
+            getCompletedOrderResult.postValue(Event(Resource.Loading()))
+            try {
+                if (Utils.hasInternetConnection(getApplication<DriverApplication>())) {
+                    val response = repository.getOrdersShipID(request)
+                    if (response.isSuccessful) {
+                        response.body()?.let { resultResponse ->
+                            getCompletedOrderResult.postValue(Event(Resource.Success(resultResponse)))
+                        }
+                    } else {
+                        val errorResponse = response.errorBody()?.let {
+                            val gson = Gson()
+                            gson.fromJson(it.string(), ErrorResponse::class.java)
+                        }
+                        getCompletedOrderResult.postValue(Event(Resource.Error(errorResponse?.message ?: "")))
+                    }
+                } else {
+                    getCompletedOrderResult.postValue(Event(Resource.Error(getApplication<DriverApplication>().getString(
+                        R.string.no_internet_connection
                     ))))
                 }
-                else -> {
-                    getOrdersShipIDResult.postValue(Event(Resource.Error(getApplication<DriverApplication>().getString(
-                        R.string.conversion_error
-                    ))))
+            } catch (t: Throwable) {
+                when (t) {
+                    is IOException -> {
+                        getCompletedOrderResult.postValue(Event(Resource.Error(getApplication<DriverApplication>().getString(
+                            R.string.network_failure
+                        ))))
+                    }
+
+                    else -> {
+                        getCompletedOrderResult.postValue(Event(Resource.Error(getApplication<DriverApplication>().getString(
+                            R.string.conversion_error
+                        ))))
+                    }
+                }
+            }
+        }else{
+            getCancelOrderResult.postValue(Event(Resource.Loading()))
+            try {
+                if (Utils.hasInternetConnection(getApplication<DriverApplication>())) {
+                    val response = repository.getOrdersShipID(request)
+                    if (response.isSuccessful) {
+                        response.body()?.let { resultResponse ->
+                            getCancelOrderResult.postValue(Event(Resource.Success(resultResponse)))
+                        }
+                    } else {
+                        val errorResponse = response.errorBody()?.let {
+                            val gson = Gson()
+                            gson.fromJson(it.string(), ErrorResponse::class.java)
+                        }
+                        getCancelOrderResult.postValue(Event(Resource.Error(errorResponse?.message ?: "")))
+                    }
+                } else {
+                    getCancelOrderResult.postValue(Event(Resource.Error(getApplication<DriverApplication>().getString(R.string.no_internet_connection))))
+                }
+            } catch (t: Throwable) {
+                when (t) {
+                    is IOException -> {
+                        getCancelOrderResult.postValue(Event(Resource.Error(getApplication<DriverApplication>().getString(
+                            R.string.network_failure
+                        ))))
+                    }
+
+                    else -> {
+                        getCancelOrderResult.postValue(Event(Resource.Error(getApplication<DriverApplication>().getString(R.string.conversion_error))))
+                    }
                 }
             }
         }

@@ -59,7 +59,7 @@
     <string name="accept">Chấp nhận</string>
     <string name="status_receiver">Giao hàng thu tiền</string>
     <string name="detail_order">Chi tiết các đơn hàng</string>
-    <string name="order_id">Mã đơn</string>
+    <string name="order_id">Mã đơn: </string>
     <string name="status_order">Đang giao</string>
     <string name="detail_store">Chi tiết cửa hàng</string>
     <string name="call">Gọi</string>
@@ -77,9 +77,11 @@
     <string name="amount_receiver">Số tiền nhận được</string>
     <string name="order_complete">Đơn hoàn thành</string>
     <string name="order_cancel">Đơn hủy bỏ</string>
-    <string name="space">Delivery: 0km</string>
+    <string name="space">Khoảng cách</string>
     <string name="order_generated">Đơn phát sinh</string>
-
+    <string name="on_going_order">Đang giao</string>
+    <string name="completed_order">Đã giao</string>
+    <string name="cancel_order">Đã hủy</string>
     <string name="facebook_app_id">2148322048972751</string>
     <string name="fb_login_protocol_scheme">fb2148322048972751</string>
     <string name="facebook_client_token">56789</string>

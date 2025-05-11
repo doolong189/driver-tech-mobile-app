@@ -39,18 +39,18 @@ class AccountActivity : AppCompatActivity() {
                     Manifest.permission.POST_NOTIFICATIONS
                 )
             ) {
-                showNotification()
+//                showNotification()
             } else {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     requestPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
                 }
             }
         } else {
-            showNotification()
+//            showNotification()
         }
     }
     private val requestPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-        showNotification()
+//        showNotification()
     }
 
     private fun showNotification() {

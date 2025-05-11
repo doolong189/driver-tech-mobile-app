@@ -4,10 +4,12 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
+import com.hoanglong180903.driver.utils.Contacts
 import com.mapbox.api.directions.v5.models.RouteOptions
 import com.mapbox.common.location.Location
 import com.mapbox.geojson.Point
@@ -183,9 +185,13 @@ class NavigationMapboxActivity : ComponentActivity() {
             this.locationPuck = createDefault2DPuck()
             enabled = true
         }
+        val fromLocation = intent.getSerializableExtra("fromLocation") as? ArrayList<Double>
+        val toLocation = intent.getSerializableExtra("toLocation") as? ArrayList<Double>
 
-        val origin = Point.fromLngLat(105.802682, 21.024955)
-        val destination = Point.fromLngLat(105.812639 , 21.025943)
+//        val origin = Point.fromLngLat(105.802682, 21.024955)
+//        val destination = Point.fromLngLat(105.812639 , 21.025943)
+        val origin = Point.fromLngLat(fromLocation!![1], fromLocation[0])
+        val destination = Point.fromLngLat(toLocation!![1], toLocation[0])
 
         mapboxNavigation.requestRoutes(
             RouteOptions.builder()
