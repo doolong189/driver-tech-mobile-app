@@ -19,6 +19,7 @@ import com.hoanglong180903.driver.ui.main.user.UserViewModel
 import com.hoanglong180903.driver.utils.Contacts
 import com.hoanglong180903.driver.utils.Event
 import com.hoanglong180903.driver.utils.Resource
+import com.hoanglong180903.driver.utils.SharedPreferences
 import com.hoanglong180903.driver.utils.SnackBar
 
 
@@ -27,6 +28,8 @@ class SignInFragment : BaseFragment() {
     override var isVisibleActionBar: Boolean = false
     private val viewModel by activityViewModels<SignInViewModel>()
     private val userViewModel by activityViewModels<UserViewModel>()
+    private lateinit var preferces : SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -62,6 +65,8 @@ class SignInFragment : BaseFragment() {
     }
 
     override fun initView() {
+        preferces = SharedPreferences(requireContext())
+
     }
 
     override fun setView() {
@@ -84,7 +89,10 @@ class SignInFragment : BaseFragment() {
             when (response) {
                 is Resource.Success -> {
                     binding.progressBar.visibility = View.GONE
-                    response.data?.let{ userViewModel.getShipperInfo(GetShipperInfoRequest(id = it.shipper?._id)) }
+                    response.data?.let{
+                        userViewModel.getShipperInfo(GetShipperInfoRequest(id = it.shipper?._id))
+                        preferces.saveUserData(it.shipper,it.shipper?.token)
+                    }
                 }
 
                 is Resource.Error -> {

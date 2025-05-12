@@ -20,14 +20,15 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.hoanglong180903.driver.R
+import com.hoanglong180903.driver.common.base.BaseActivity
 
-class AccountActivity : AppCompatActivity() {
+class AccountActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account)
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        setupActionBarWithNavController(navHostFragment.navController)
+//        setupActionBarWithNavController(navHostFragment.navController)
 
         if (ContextCompat.checkSelfPermission(
                 this@AccountActivity,

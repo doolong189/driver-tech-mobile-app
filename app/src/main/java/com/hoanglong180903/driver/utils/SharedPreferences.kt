@@ -5,7 +5,7 @@ import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.hoanglong180903.driver.model.UserInfo
 
-class SharePreferencesUtils(context: Context) {
+class SharedPreferences(context: Context) {
     // Initialize SharedPreferences
     private val sharedPreferences: SharedPreferences =
         context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)

@@ -7,18 +7,20 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.hoanglong180903.driver.R
+import com.hoanglong180903.driver.common.base.BaseActivity
 import com.hoanglong180903.driver.databinding.ActivityMainBinding
 import com.hoanglong180903.driver.ui.main.home.HomeFragment
 import com.hoanglong180903.driver.utils.permission.LocationPermission
 import java.lang.ref.WeakReference
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var locationPermissionHelper: LocationPermission
     private var mGoogleSignInClient : GoogleSignInClient? = null
@@ -52,7 +54,7 @@ class MainActivity : AppCompatActivity() {
     private fun setView(isRestore: Boolean){
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        setupActionBarWithNavController(navHostFragment.navController)
+//        setupActionBarWithNavController(navHostFragment.navController)
         if (isRestore) {
             ((supportFragmentManager.fragments[0] as NavHostFragment).childFragmentManager.fragments[0] as? HomeFragment)?.let {
                 binding.mainBottomNav.selectedItemId = R.id.navHome

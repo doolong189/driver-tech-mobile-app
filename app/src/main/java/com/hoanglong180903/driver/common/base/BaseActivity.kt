@@ -1,4 +1,7 @@
 package com.hoanglong180903.driver.common.base
 
-class BaseActivity {
+import androidx.appcompat.app.AppCompatActivity
+
+abstract class BaseActivity : AppCompatActivity(){
+
 }

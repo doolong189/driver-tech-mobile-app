@@ -16,7 +16,7 @@ import com.hoanglong180903.driver.ui.main.order.OrderAdapter
 import com.hoanglong180903.driver.ui.main.order.OrderViewModel
 import com.hoanglong180903.driver.utils.Event
 import com.hoanglong180903.driver.utils.Resource
-import com.hoanglong180903.driver.utils.SharePreferencesUtils
+import com.hoanglong180903.driver.utils.SharedPreferences
 
 
 class OnGoingOrderFragment : BaseFragment() {
@@ -24,7 +24,7 @@ class OnGoingOrderFragment : BaseFragment() {
     private lateinit var binding : FragmentOngoingOrderBinding
     private val viewModel by activityViewModels<OrderViewModel>()
     private var orderAdapter = OrderAdapter()
-    private lateinit var preferences : SharePreferencesUtils
+    private lateinit var preferences : SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +40,7 @@ class OnGoingOrderFragment : BaseFragment() {
     }
 
     override fun initView() {
-        preferences = SharePreferencesUtils(requireContext())
+        preferences = SharedPreferences(requireContext())
         binding.ongoingOrderRcView.layoutManager = LinearLayoutManager(requireContext())
         binding.ongoingOrderRcView.run { adapter = OrderAdapter().also { orderAdapter = it } }
     }

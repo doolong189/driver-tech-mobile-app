@@ -16,7 +16,7 @@ import com.hoanglong180903.driver.ui.main.order.OrderAdapter
 import com.hoanglong180903.driver.ui.main.order.OrderViewModel
 import com.hoanglong180903.driver.utils.Event
 import com.hoanglong180903.driver.utils.Resource
-import com.hoanglong180903.driver.utils.SharePreferencesUtils
+import com.hoanglong180903.driver.utils.SharedPreferences
 
 
 class CompletedOrderFragment : BaseFragment() {
@@ -24,7 +24,7 @@ class CompletedOrderFragment : BaseFragment() {
     private lateinit var binding : FragmentCompletedOrderBinding
     private val viewModel by activityViewModels<OrderViewModel>()
     private var orderAdapter = OrderAdapter()
-    private lateinit var preferences : SharePreferencesUtils
+    private lateinit var preferences : SharedPreferences
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,14 +40,14 @@ class CompletedOrderFragment : BaseFragment() {
         return binding.root
     }
     override fun initView() {
-        preferences = SharePreferencesUtils(requireContext())
+        preferences = SharedPreferences(requireContext())
         binding.completedOrderRcView.layoutManager = LinearLayoutManager(requireContext())
         binding.completedOrderRcView.run { adapter = OrderAdapter().also { orderAdapter = it } }
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel.getOrdersShipID(GetOrderShipIDRequest(idShipper = preferences.userId , receiptStatus = 1))
+        viewModel.getOrdersShipID(GetOrderShipIDRequest(idShipper = preferences.userId , receiptStatus = 2))
     }
 
     override fun setView() {

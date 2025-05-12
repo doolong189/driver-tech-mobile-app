@@ -4,22 +4,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import com.facebook.share.Share
 import com.hoanglong180903.driver.common.base.BaseFragment
 import com.hoanglong180903.driver.data.enity.GetShipperInfoRequest
 import com.hoanglong180903.driver.data.enity.GetShipperInfoResponse
 import com.hoanglong180903.driver.databinding.FragmentUserBinding
+import com.hoanglong180903.driver.model.UserInfo
 import com.hoanglong180903.driver.utils.Event
 import com.hoanglong180903.driver.utils.Resource
+import com.hoanglong180903.driver.utils.SharedPreferences
 
 
 class UserFragment : BaseFragment() {
     private lateinit var binding : FragmentUserBinding
     override var isVisibleActionBar: Boolean = false
-
     private val userViewModel by activityViewModels<UserViewModel>()
-
+    private lateinit var preferces : SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -34,14 +37,24 @@ class UserFragment : BaseFragment() {
         return binding.root
     }
     override fun initView() {
-        userViewModel.getShipperInfo(GetShipperInfoRequest(id = "123"))
+        preferces = SharedPreferences(requireContext())
+        userViewModel.getShipperInfo(GetShipperInfoRequest(id = preferces.userId))
     }
 
     override fun setView() {
-
     }
 
     override fun setAction() {
+        binding.switchDarkMode.setOnCheckedChangeListener { _, checked ->
+            when {
+                checked -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                }
+                else -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                }
+            }
+        }
     }
 
     override fun setObserve() {
@@ -60,10 +73,16 @@ class UserFragment : BaseFragment() {
                 is Resource.Success -> {
                     response.data?.shipper?.let {
                         userViewModel.getConvertShipperInfo(it)
+                        setViewShipperInfo(it)
                     }
                 }
             }
         }
+    }
+
+    private fun setViewShipperInfo(shipperInfo : UserInfo){
+        binding.tvFullName.text = shipperInfo.name
+        binding.tvEmail.text = shipperInfo.email
     }
 
 }

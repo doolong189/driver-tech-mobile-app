@@ -16,35 +16,36 @@
             android:layout_height="100dp"
             android:src="@drawable/icon_user"
             android:background="@drawable/bg4"
-            android:padding="5dp"
+            android:padding="@dimen/_16dp"
+            android:layout_marginTop="@dimen/_10dp"
             />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/name"
-            android:layout_margin="5dp"/>
+            android:layout_margin="@dimen/_5dp"/>
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg1"
             android:hint="@string/name"
-            android:padding="10dp"
-            android:layout_margin="5dp"
+            android:padding="@dimen/_10dp"
+            android:layout_margin="@dimen/_5dp"
             />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/email"
-            android:layout_margin="5dp"/>
+            android:layout_margin="@dimen/_5dp"/>
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg1"
             android:hint="@string/email"
-            android:padding="10dp"
-            android:layout_margin="5dp"
+            android:padding="@dimen/_10dp"
+            android:layout_margin="@dimen/_5dp"
             />
         <LinearLayout
             android:layout_width="match_parent"
@@ -52,27 +53,29 @@
             android:orientation="horizontal"
             android:layout_weight="1"
             android:gravity="center_vertical|top"
+            android:layout_marginTop="@dimen/_10dp"
             >
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:background="@drawable/bg1"
-                android:layout_margin="5dp"
-                android:padding="5dp"
+                android:layout_margin="@dimen/_5dp"
+                android:padding="@dimen/_5dp"
                 android:gravity="center"
                 >
                 <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="@dimen/_25dp"
+                    android:layout_height="@dimen/_25dp"
                     android:src="@drawable/icon_vietnam"
-                    android:layout_margin="5dp"
+                    android:layout_margin="@dimen/_5dp"
                     />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="+84"
-                    android:layout_margin="5dp"
+                    android:text="@string/_84"
+                    android:layout_margin="@dimen/_5dp"
+                    android:textStyle="bold"
                     />
             </LinearLayout>
 
@@ -80,21 +83,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg1"
-                android:hint="Nhập số điện thoại"
-                android:padding="10dp"
-                android:layout_margin="5dp"
+                android:hint="@string/phone_input"
+                android:padding="@dimen/_10dp"
+                android:layout_margin="@dimen/_5dp"
                 />
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Cập nhật thông tin"/>
+            android:text="@string/edit_info"
+            android:background="@drawable/bg"
+            android:textStyle="bold"
+            android:layout_margin="@dimen/_5dp"
+            />
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/splash_btRegister"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_margin="@dimen/_5dp"
             android:backgroundTint="@color/gray"
             android:background="@drawable/bg1"
             android:textStyle="bold"

@@ -104,4 +104,7 @@
     <string name="send">Gửi</string>
     <string name="resend_otp">Gửi lại mã xác thực</string>
     <string name="content_forgot_password">Mã xác thưc sẽ được gửi đến email\nVui lòng kiểm tra tin nhắn trong hôp thư</string>
+    <string name="edit_info">Cập nhật thông tin</string>
+    <string name="phone_input">Nhập số điện thoại</string>
+    <string name="_84">+84</string>
 </resources>
