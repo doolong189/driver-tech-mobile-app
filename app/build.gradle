@@ -49,6 +49,9 @@ dependencies {
     implementation libs.androidx.constraintlayout
     implementation libs.androidx.navigation.fragment.ktx
     implementation libs.androidx.navigation.ui.ktx
+    implementation libs.firebase.messaging.ktx
+    implementation libs.androidx.espresso.core
+    implementation libs.androidx.espresso.core
     testImplementation libs.junit
     androidTestImplementation libs.androidx.junit
     androidTestImplementation libs.androidx.espresso.core
@@ -91,7 +94,6 @@ dependencies {
     implementation "com.mapbox.navigationcore:navigation:3.9.0-beta.1"
     implementation "com.mapbox.navigationcore:copilot:3.9.0-beta.1"
     implementation "com.mapbox.navigationcore:ui-maps:3.9.0-beta.1"
-    implementation "com.mapbox.navigationcore:voice:3.9.0-beta.1"
     implementation "com.mapbox.navigationcore:tripdata:3.9.0-beta.1"
     implementation "com.mapbox.navigationcore:android:3.9.0-beta.1"
     implementation "com.mapbox.navigationcore:ui-components:3.9.0-beta.1"
@@ -99,6 +101,6 @@ dependencies {
     implementation("com.msg91.lib:sendotp:1.0.0")
     implementation("com.google.android.gms:play-services-auth:18.0.0")
     implementation("com.facebook.android:facebook-android-sdk:[4,5)")
-
+    implementation("androidx.lifecycle:lifecycle-service:2.4.1")
 
 }

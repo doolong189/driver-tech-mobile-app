@@ -4,12 +4,11 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
-import com.hoanglong180903.driver.utils.Contacts
+import com.hoanglong180903.driver.utils.PopupUtils
 import com.mapbox.api.directions.v5.models.RouteOptions
 import com.mapbox.common.location.Location
 import com.mapbox.geojson.Point
@@ -52,7 +51,6 @@ class NavigationMapboxActivity : ComponentActivity() {
     private lateinit var replayProgressObserver: ReplayProgressObserver
     private val navigationLocationProvider = NavigationLocationProvider()
     private val replayRouteMapper = ReplayRouteMapper()
-
     private val locationPermissionRequest =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
                 permissions ->
@@ -61,11 +59,7 @@ class NavigationMapboxActivity : ComponentActivity() {
                     initializeMapComponents()
                 }
                 else -> {
-                    Toast.makeText(
-                        this,
-                        "Location permissions denied. Please enable permissions in settings.",
-                        Toast.LENGTH_LONG
-                    ).show()
+                    PopupUtils.showToast(this,"Quyền vị trí chưa được cấp. Vui lòng cấp quyền trong cài đặt.")
                 }
             }
         }
@@ -112,46 +106,33 @@ class NavigationMapboxActivity : ComponentActivity() {
         routeLineView = MapboxRouteLineView(MapboxRouteLineViewOptions.Builder(this).build())
     }
 
-    // routes observer draws a route line and origin/destination circles on the map
     private val routesObserver = RoutesObserver { routeUpdateResult ->
         if (routeUpdateResult.navigationRoutes.isNotEmpty()) {
-            // generate route geometries asynchronously and render them
             routeLineApi.setNavigationRoutes(routeUpdateResult.navigationRoutes) { value ->
                 mapView.mapboxMap.style?.apply { routeLineView.renderRouteDrawData(this, value) }
             }
-
-            // update viewportSourceData to include the new route
             viewportDataSource.onRouteChanged(routeUpdateResult.navigationRoutes.first())
             viewportDataSource.evaluate()
-
-            // set the navigationCamera to OVERVIEW
             navigationCamera.requestNavigationCameraToOverview()
         }
     }
 
-    // locationObserver updates the location puck and camera to follow the user's location
     private val locationObserver =
         object : LocationObserver {
             override fun onNewRawLocation(rawLocation: Location) {}
 
             override fun onNewLocationMatcherResult(locationMatcherResult: LocationMatcherResult) {
                 val enhancedLocation = locationMatcherResult.enhancedLocation
-                // update location puck's position on the map
                 navigationLocationProvider.changePosition(
                     location = enhancedLocation,
                     keyPoints = locationMatcherResult.keyPoints,
                 )
-
-                // update viewportDataSource to trigger camera to follow the location
                 viewportDataSource.onLocationChanged(enhancedLocation)
                 viewportDataSource.evaluate()
-
-                // set the navigationCamera to FOLLOWING
                 navigationCamera.requestNavigationCameraToFollowing()
             }
         }
 
-    // define MapboxNavigation
     @OptIn(ExperimentalPreviewMapboxNavigationAPI::class)
     private val mapboxNavigation: MapboxNavigation by
     requireMapboxNavigation(
@@ -159,27 +140,21 @@ class NavigationMapboxActivity : ComponentActivity() {
         object : MapboxNavigationObserver {
             @SuppressLint("MissingPermission")
             override fun onAttached(mapboxNavigation: MapboxNavigation) {
-                // register observers
                 mapboxNavigation.registerRoutesObserver(routesObserver)
                 mapboxNavigation.registerLocationObserver(locationObserver)
-
                 replayProgressObserver =
                     ReplayProgressObserver(mapboxNavigation.mapboxReplayer)
                 mapboxNavigation.registerRouteProgressObserver(replayProgressObserver)
                 mapboxNavigation.startReplayTripSession()
             }
-
             override fun onDetached(mapboxNavigation: MapboxNavigation) {}
         },
         onInitialize = this::initNavigation
     )
 
-    // on initialization of MapboxNavigation, request a route between two fixed points
     @OptIn(ExperimentalPreviewMapboxNavigationAPI::class)
     private fun initNavigation() {
         MapboxNavigationApp.setup(NavigationOptions.Builder(this).build())
-
-        // initialize location puck
         mapView.location.apply {
             setLocationProvider(navigationLocationProvider)
             this.locationPuck = createDefault2DPuck()
@@ -206,8 +181,6 @@ class NavigationMapboxActivity : ComponentActivity() {
 
                 override fun onRoutesReady(routes: List<NavigationRoute>, routerOrigin: String) {
                     mapboxNavigation.setNavigationRoutes(routes)
-
-                    // start simulated user movement
                     val replayData =
                         replayRouteMapper.mapDirectionsRouteGeometry(routes.first().directionsRoute)
                     mapboxNavigation.mapboxReplayer.pushEvents(replayData)

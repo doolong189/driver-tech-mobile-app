@@ -7,34 +7,26 @@ import android.view.View
 import android.view.ViewGroup
 import com.hoanglong180903.driver.R
 import com.hoanglong180903.driver.common.base.BaseFragment
+import com.hoanglong180903.driver.databinding.FragmentUserInfoBinding
 
 
-class UserInfoFragment : BaseFragment() {
+class UserInfoFragment : BaseFragment<FragmentUserInfoBinding>() {
 
-    override var isVisibleActionBar: Boolean = false
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user_info, container, false)
-    }
+    override var isShowHideActionBar: Boolean = false
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentUserInfoBinding
+        get() = FragmentUserInfoBinding::inflate
 
     override fun initView() {
     }
 
-    override fun setView() {
+    override fun initData() {
     }
 
-    override fun setAction() {
+    override fun initEvents() {
     }
 
-    override fun setObserve() {
+    override fun initObserve() {
     }
+
+
 }

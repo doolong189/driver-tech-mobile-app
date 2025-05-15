@@ -17,10 +17,9 @@ class DetailOrderAdapter : RecyclerView.Adapter<DetailOrderAdapter.DetailOrderVi
         fun onBind(item: ProductOfOrder) {
             binding.run {
                 Glide.with(binding.root.context)
-                    .load(item.product.image)
+                    .load(item.product.image[0])
                     .into(imageProduct)
                 tvProduct.text = "${binding.root.context.getString(R.string.product)}: ${item.product.name}"
-                tvDescription.text = "${item.product.description}"
                 tvAmount.text = "${binding.root.context.getString(R.string.amount)}: ${item.quantity}"
                 tvPrice.text = "${binding.root.context.getString(R.string.price)}: ${Utils.formatPrice(item.product.price!!)} đ"
             }

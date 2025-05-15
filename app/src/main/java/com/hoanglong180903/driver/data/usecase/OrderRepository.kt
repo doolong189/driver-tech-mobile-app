@@ -1,10 +1,10 @@
 package com.hoanglong180903.driver.data.usecase
 
-import com.hoanglong180903.driver.data.enity.GetDetailOrderRequest
-import com.hoanglong180903.driver.data.enity.GetOrderShipIDRequest
-import com.hoanglong180903.driver.data.enity.GetNewOrderRequest
-import com.hoanglong180903.driver.data.enity.GetStatisticalRequest
-import com.hoanglong180903.driver.data.enity.UpdateOrderShipperRequest
+import com.hoanglong180903.driver.data.requestmodel.GetDetailOrderRequest
+import com.hoanglong180903.driver.data.requestmodel.GetOrderShipIDRequest
+import com.hoanglong180903.driver.data.requestmodel.GetNewOrderRequest
+import com.hoanglong180903.driver.data.requestmodel.GetStatisticalRequest
+import com.hoanglong180903.driver.data.requestmodel.UpdateOrderShipperRequest
 import com.hoanglong180903.driver.data.remote.RetrofitInstance
 
 class OrderRepository {

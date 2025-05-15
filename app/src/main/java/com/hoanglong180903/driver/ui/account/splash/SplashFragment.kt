@@ -10,48 +10,28 @@ import com.hoanglong180903.driver.R
 import com.hoanglong180903.driver.common.base.BaseFragment
 import com.hoanglong180903.driver.databinding.FragmentSplashBinding
 
-class SplashFragment : BaseFragment() {
-    private lateinit var binding:  FragmentSplashBinding
-    override var isVisibleActionBar: Boolean = false
+class SplashFragment : BaseFragment<FragmentSplashBinding>() {
+    override var isShowHideActionBar: Boolean = false
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentSplashBinding
+        get() = FragmentSplashBinding::inflate
 
+    override fun initView() {
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        binding = FragmentSplashBinding.inflate(layoutInflater, container, false)
-        return binding.root
+    override fun initData() {
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        action()
-    }
-
-    private fun action(){
+    override fun initEvents() {
         binding.splashBtLogin.setOnClickListener {
             findNavController().navigate(R.id.action_splashFragment_to_signInFragment)
         }
 
         binding.splashBtRegister.setOnClickListener {
             findNavController().navigate(R.id.action_splashFragment_to_signUpFragment)
-        }
+        }    }
+
+    override fun initObserve() {
     }
 
-    override fun initView() {
-    }
-
-    override fun setView() {
-    }
-
-    override fun setAction() {
-    }
-
-    override fun setObserve() {
-    }
 }

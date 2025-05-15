@@ -8,11 +8,11 @@ import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.hoanglong180903.driver.R
 import com.hoanglong180903.driver.common.application.DriverApplication
-import com.hoanglong180903.driver.data.enity.ErrorResponse
-import com.hoanglong180903.driver.data.enity.GetNewOrderRequest
-import com.hoanglong180903.driver.data.enity.GetNewOrderResponse
-import com.hoanglong180903.driver.data.enity.GetStatisticalRequest
-import com.hoanglong180903.driver.data.enity.GetStatisticalResponse
+import com.hoanglong180903.driver.data.responsemodel.ErrorResponse
+import com.hoanglong180903.driver.data.requestmodel.GetNewOrderRequest
+import com.hoanglong180903.driver.data.responsemodel.GetNewOrderResponse
+import com.hoanglong180903.driver.data.requestmodel.GetStatisticalRequest
+import com.hoanglong180903.driver.data.responsemodel.GetStatisticalResponse
 import com.hoanglong180903.driver.data.usecase.OrderRepository
 import com.hoanglong180903.driver.utils.Event
 import com.hoanglong180903.driver.utils.Resource

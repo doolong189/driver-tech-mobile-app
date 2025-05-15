@@ -36,6 +36,11 @@ class SharedPreferences(context: Context) {
         editor.apply()
     }
 
+    fun setUserLoc(location: List<Double>) {
+        val locJson = Gson().toJson(location)
+        sharedPreferences.edit().putString(KEY_USER_LOC, locJson).apply()
+    }
+
     val userId: String? get() = sharedPreferences.getString(KEY_USER_ID, null)
 
     val userName: String? get() = sharedPreferences.getString(KEY_USER_NAME, null)

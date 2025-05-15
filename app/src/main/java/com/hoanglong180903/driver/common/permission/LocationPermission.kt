@@ -1,4 +1,4 @@
-package com.hoanglong180903.driver.utils.permission
+package com.hoanglong180903.driver.common.permission
 
 import android.Manifest
 import android.app.Activity
@@ -9,6 +9,7 @@ import android.provider.Settings
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.hoanglong180903.driver.utils.PopupUtils
 import com.mapbox.android.core.permissions.PermissionsListener
 import com.mapbox.android.core.permissions.PermissionsManager
 import java.lang.ref.WeakReference
@@ -22,10 +23,9 @@ class LocationPermission(val activity: WeakReference<Activity>) {
         } else {
             permissionsManager = PermissionsManager(object : PermissionsListener {
                 override fun onExplanationNeeded(permissionsToExplain: List<String>) {
-                    Toast.makeText(
-                        activity.get(), "Bạn cần chấp nhận quyền truy cập vị trí.",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    PopupUtils.showToast(
+                        activity.get()!!,
+                        "Bạn cần chấp nhận quyền truy cập vị trí.")
                 }
 
                 override fun onPermissionResult(granted: Boolean) {

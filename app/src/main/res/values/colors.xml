@@ -10,4 +10,7 @@
     <color name="process">#03A9F4</color>
     <color name="cancel">#474747</color>
     <color name="colorAccent">#03A9F4</color>
+    <color name="rgb_4B636E">#4B636E</color>
+    <color name="color_bg_edittext">#1A7B97CE</color>
+
 </resources>

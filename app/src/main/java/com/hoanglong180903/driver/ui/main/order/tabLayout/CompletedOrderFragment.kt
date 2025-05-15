@@ -1,6 +1,5 @@
 package com.hoanglong180903.driver.ui.main.order.tabLayout
 
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,62 +8,46 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hoanglong180903.driver.common.base.BaseFragment
-import com.hoanglong180903.driver.data.enity.GetOrderShipIDRequest
-import com.hoanglong180903.driver.data.enity.GetOrderShipIDResponse
+import com.hoanglong180903.driver.data.requestmodel.GetOrderShipIDRequest
+import com.hoanglong180903.driver.data.responsemodel.GetOrderShipIDResponse
 import com.hoanglong180903.driver.databinding.FragmentCompletedOrderBinding
 import com.hoanglong180903.driver.ui.main.order.OrderAdapter
 import com.hoanglong180903.driver.ui.main.order.OrderViewModel
 import com.hoanglong180903.driver.utils.Event
+import com.hoanglong180903.driver.utils.PopupUtils
 import com.hoanglong180903.driver.utils.Resource
 import com.hoanglong180903.driver.utils.SharedPreferences
 
 
-class CompletedOrderFragment : BaseFragment() {
-    override var isVisibleActionBar: Boolean = false
-    private lateinit var binding : FragmentCompletedOrderBinding
+class CompletedOrderFragment : BaseFragment<FragmentCompletedOrderBinding>() {
+    override var isShowHideActionBar: Boolean = false
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentCompletedOrderBinding
+        get() = FragmentCompletedOrderBinding::inflate
     private val viewModel by activityViewModels<OrderViewModel>()
     private var orderAdapter = OrderAdapter()
     private lateinit var preferences : SharedPreferences
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        binding = FragmentCompletedOrderBinding.inflate(layoutInflater, container, false)
-        return binding.root
-    }
     override fun initView() {
-        preferences = SharedPreferences(requireContext())
         binding.completedOrderRcView.layoutManager = LinearLayoutManager(requireContext())
         binding.completedOrderRcView.run { adapter = OrderAdapter().also { orderAdapter = it } }
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun initData() {
+        preferences = SharedPreferences(requireContext())
         viewModel.getOrdersShipID(GetOrderShipIDRequest(idShipper = preferences.userId , receiptStatus = 2))
     }
 
-    override fun setView() {
+    override fun initEvents() {
     }
 
-    override fun setAction() {
-//        orderAdapter.onClickItemOrder { id, position ->
-//            val bundle = Bundle().apply { putString("orderId", id._id) }
-//            findNavController().navigate(R.id.action_orderFragment_to_detailOrderFragment,bundle)
-//        }
-    }
-
-    override fun setObserve() {
+    override fun initObserve() {
         viewModel.getCompletedOrderResult().observe(viewLifecycleOwner, Observer {
             getOrderShipID(it)
         })
     }
+
 
     private fun getOrderShipID(event : Event<Resource<GetOrderShipIDResponse>>){
         event.getContentIfNotHandled()?.let { response ->
@@ -80,7 +63,7 @@ class CompletedOrderFragment : BaseFragment() {
                 }
                 is Resource.Error -> {
                     binding.completedOrderPbBar.visibility = View.GONE
-                    Toast.makeText(requireContext(),response.message,Toast.LENGTH_SHORT).show()
+                    response.message?.let { PopupUtils.showToast(requireContext(), it) }
                 }
             }
         }

@@ -10,12 +10,12 @@ import com.hoanglong180903.driver.R
 import com.hoanglong180903.driver.utils.Resource
 import com.hoanglong180903.driver.utils.Utils
 import com.hoanglong180903.driver.common.application.DriverApplication
-import com.hoanglong180903.driver.data.enity.ErrorResponse
-import com.hoanglong180903.driver.data.enity.GetOrderShipIDRequest
-import com.hoanglong180903.driver.data.enity.GetOrderShipIDResponse
+import com.hoanglong180903.driver.data.responsemodel.ErrorResponse
+import com.hoanglong180903.driver.data.requestmodel.GetOrderShipIDRequest
+import com.hoanglong180903.driver.data.responsemodel.GetOrderShipIDResponse
 import com.hoanglong180903.driver.data.usecase.OrderRepository
-import com.hoanglong180903.driver.data.enity.UpdateOrderShipperRequest
-import com.hoanglong180903.driver.data.enity.UpdateOrderShipperResponse
+import com.hoanglong180903.driver.data.requestmodel.UpdateOrderShipperRequest
+import com.hoanglong180903.driver.data.responsemodel.UpdateOrderShipperResponse
 import com.hoanglong180903.driver.utils.Event
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch

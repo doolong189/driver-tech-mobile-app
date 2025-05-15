@@ -1,8 +1,8 @@
 package com.hoanglong180903.driver.data.usecase
 
-import com.hoanglong180903.driver.data.enity.GetShipperInfoRequest
-import com.hoanglong180903.driver.data.enity.LoginAccountRequest
-import com.hoanglong180903.driver.data.enity.RegisterAccountRequest
+import com.hoanglong180903.driver.data.requestmodel.GetShipperInfoRequest
+import com.hoanglong180903.driver.data.requestmodel.LoginAccountRequest
+import com.hoanglong180903.driver.data.requestmodel.RegisterAccountRequest
 import com.hoanglong180903.driver.data.remote.RetrofitInstance
 
 class UserRepository {

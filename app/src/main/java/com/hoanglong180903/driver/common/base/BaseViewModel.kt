@@ -1,4 +1,7 @@
 package com.hoanglong180903.driver.common.base
 
-class BaseViewModel {
+import androidx.lifecycle.ViewModel
+
+class BaseViewModel  : ViewModel(){
+    
 }

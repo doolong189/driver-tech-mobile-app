@@ -3,6 +3,8 @@ package com.hoanglong180903.driver.ui.main
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -16,33 +18,38 @@ import com.hoanglong180903.driver.R
 import com.hoanglong180903.driver.common.base.BaseActivity
 import com.hoanglong180903.driver.databinding.ActivityMainBinding
 import com.hoanglong180903.driver.ui.main.home.HomeFragment
-import com.hoanglong180903.driver.utils.permission.LocationPermission
+import com.hoanglong180903.driver.common.permission.LocationPermission
+import com.hoanglong180903.driver.utils.PopupUtils
 import java.lang.ref.WeakReference
 
 
-class MainActivity : BaseActivity() {
-    private lateinit var binding: ActivityMainBinding
+class MainActivity : BaseActivity<ActivityMainBinding>() {
+    override val bindingInflater: (LayoutInflater) -> ActivityMainBinding
+        get() = ActivityMainBinding::inflate
     private lateinit var locationPermissionHelper: LocationPermission
     private var mGoogleSignInClient : GoogleSignInClient? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         //
-        setView(savedInstanceState != null)
-        setAction()
+    }
+
+    override fun initView() {
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+//        setupActionBarWithNavController(navHostFragment.navController)
+        ((supportFragmentManager.fragments[0] as NavHostFragment).childFragmentManager.fragments[0] as? HomeFragment)?.let {
+            binding.mainBottomNav.selectedItemId = R.id.navHome
+        }
         permissionLocation()
+    }
 
-
-        val gso =
-            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build()
+    override fun initData() {
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .build()
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
-
         val acct = GoogleSignIn.getLastSignedInAccount(this)
-
         if(acct != null) {
             val personName = acct.displayName
             val personEmail = acct.email
@@ -51,18 +58,7 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    private fun setView(isRestore: Boolean){
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-//        setupActionBarWithNavController(navHostFragment.navController)
-        if (isRestore) {
-            ((supportFragmentManager.fragments[0] as NavHostFragment).childFragmentManager.fragments[0] as? HomeFragment)?.let {
-                binding.mainBottomNav.selectedItemId = R.id.navHome
-            }
-        }
-    }
-
-    private fun setAction(){
+    override fun initEvents() {
         binding.mainBottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navHome -> {
@@ -85,7 +81,9 @@ class MainActivity : BaseActivity() {
             }
             true
         }
+    }
 
+    override fun initObserve() {
     }
 
     private fun permissionLocation(){
@@ -93,7 +91,7 @@ class MainActivity : BaseActivity() {
         if (!locationPermissionHelper.hasAccessFinePermission(this)) {
             locationPermissionHelper.requestFineLocationPermission(this)
         } else {
-            Toast.makeText(this, "Location Permission Granted", Toast.LENGTH_SHORT).show()
+            PopupUtils.showToast(this, "Location Permission Granted")
         }
     }
 
@@ -106,18 +104,13 @@ class MainActivity : BaseActivity() {
         when (requestCode) {
             locationPermissionHelper.BASIC_PERMISSION_REQUESTCODE -> {
                 if (!locationPermissionHelper.hasAccessFinePermission(this)) {
-                    Toast.makeText(
-                        this,
-                        "Location permission is needed to run this application",
-                        Toast.LENGTH_LONG
-                    ).show();
-
+                    PopupUtils.showToast(this, "Location permission is needed to run this application")
                     if (!locationPermissionHelper.shouldShowRequestPermissionRationale(this)) {
                         locationPermissionHelper.launchPermissionSettings(this)
                         finish()
                     }
                 }else {
-                    Toast.makeText(this, "Woola!!! Location permission is granted", Toast.LENGTH_SHORT).show()
+                    PopupUtils.showToast(this, "Woola!!! Location permission is granted")
                 }
             }
         }
@@ -130,9 +123,19 @@ class MainActivity : BaseActivity() {
 
     private fun signOut(){
         mGoogleSignInClient?.signOut()?.addOnCompleteListener(this
-        ) { Toast.makeText(this@MainActivity, "Signed Out", Toast.LENGTH_LONG).show() }
+        ) {
+            PopupUtils.showToast(this@MainActivity, "Signed Out")
+        }
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()
+    }
+
+    fun isShowHideBottomNav(isVisible : Boolean){
+        if (isVisible){
+            binding.mainBottomNav.visibility = View.VISIBLE
+        }else{
+            binding.mainBottomNav.visibility = View.GONE
+        }
     }
 }

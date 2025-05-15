@@ -2,15 +2,13 @@ package com.hoanglong180903.driver.ui.main.user
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import com.facebook.share.Share
 import com.hoanglong180903.driver.common.base.BaseFragment
-import com.hoanglong180903.driver.data.enity.GetShipperInfoRequest
-import com.hoanglong180903.driver.data.enity.GetShipperInfoResponse
+import com.hoanglong180903.driver.data.requestmodel.GetShipperInfoRequest
+import com.hoanglong180903.driver.data.responsemodel.GetShipperInfoResponse
 import com.hoanglong180903.driver.databinding.FragmentUserBinding
 import com.hoanglong180903.driver.model.UserInfo
 import com.hoanglong180903.driver.utils.Event
@@ -18,9 +16,10 @@ import com.hoanglong180903.driver.utils.Resource
 import com.hoanglong180903.driver.utils.SharedPreferences
 
 
-class UserFragment : BaseFragment() {
-    private lateinit var binding : FragmentUserBinding
-    override var isVisibleActionBar: Boolean = false
+class UserFragment : BaseFragment<FragmentUserBinding>() {
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentUserBinding
+        get() = FragmentUserBinding::inflate
+    override var isShowHideActionBar: Boolean = false
     private val userViewModel by activityViewModels<UserViewModel>()
     private lateinit var preferces : SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,23 +27,16 @@ class UserFragment : BaseFragment() {
 
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        binding = FragmentUserBinding.inflate(layoutInflater, container, false)
-        return binding.root
-    }
+
     override fun initView() {
+    }
+
+    override fun initData() {
         preferces = SharedPreferences(requireContext())
         userViewModel.getShipperInfo(GetShipperInfoRequest(id = preferces.userId))
     }
 
-    override fun setView() {
-    }
-
-    override fun setAction() {
+    override fun initEvents() {
         binding.switchDarkMode.setOnCheckedChangeListener { _, checked ->
             when {
                 checked -> {
@@ -57,7 +49,7 @@ class UserFragment : BaseFragment() {
         }
     }
 
-    override fun setObserve() {
+    override fun initObserve() {
         userViewModel.getShipperInfoResult().observe(viewLifecycleOwner , Observer {
             getShipperInfoResult(it)
         })

@@ -12,52 +12,38 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.hoanglong180903.driver.R
 import com.hoanglong180903.driver.common.base.BaseFragment
-import com.hoanglong180903.driver.data.enity.GetDetailOrderRequest
-import com.hoanglong180903.driver.data.enity.GetDetailOrderResponse
+import com.hoanglong180903.driver.data.requestmodel.GetDetailOrderRequest
+import com.hoanglong180903.driver.data.responsemodel.GetDetailOrderResponse
 import com.hoanglong180903.driver.databinding.FragmentDetailOrderBinding
 import com.hoanglong180903.driver.utils.Event
 import com.hoanglong180903.driver.utils.Resource
 
 
-class DetailOrderFragment : BaseFragment() {
-    private lateinit var binding : FragmentDetailOrderBinding
-    override var isVisibleActionBar: Boolean = false
+class DetailOrderFragment : BaseFragment<FragmentDetailOrderBinding>() {
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentDetailOrderBinding
+        get() = FragmentDetailOrderBinding::inflate
+    override var isShowHideActionBar: Boolean = false
     private val viewModel by viewModels<DetailOrderViewModel>()
     private var detailOrderAdapter = DetailOrderAdapter()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        binding =  FragmentDetailOrderBinding.inflate(layoutInflater, container, false)
-        return binding.root
-    }
 
     override fun initView() {
         binding.rcv.layoutManager = LinearLayoutManager(requireContext())
         binding.rcv.run { adapter = DetailOrderAdapter().also { detailOrderAdapter = it } }
+    }
 
+    override fun initData() {
         val orderId = arguments?.getString("orderId") ?: ""
         viewModel.getDetailOrder(GetDetailOrderRequest(id = orderId))
     }
 
-    override fun setView() {
+    override fun initEvents() {
     }
 
-    override fun setAction() {
-    }
-
-    override fun setObserve() {
+    override fun initObserve() {
         viewModel.getDetailOrderResult().observe(viewLifecycleOwner, Observer {
             getDetailOrderResult(it)
-        })
-    }
+        })    }
+
 
     private fun getDetailOrderResult(event : Event<Resource<GetDetailOrderResponse>>){
         event.getContentIfNotHandled()?.let { response ->

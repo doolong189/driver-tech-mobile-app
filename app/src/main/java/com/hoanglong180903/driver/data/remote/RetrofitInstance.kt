@@ -1,6 +1,6 @@
 package com.hoanglong180903.driver.data.remote
 
-import com.hoanglong180903.driver.utils.Contacts
+import com.hoanglong180903.driver.utils.Constants
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -19,7 +19,7 @@ object RetrofitInstance {
             .addInterceptor(logging)
             .build()
         Retrofit.Builder()
-            .baseUrl(Contacts.API_URL)
+            .baseUrl(Constants.API_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()
@@ -29,8 +29,4 @@ object RetrofitInstance {
         retrofitService.create(ApiService::class.java)
     }
 
-//    fun getUserInfo(): Response<GetUserInfoResponse> {
-//        val service = restClient().create(IApiService::class.java)
-//        return service.getUserInfo().execute()
-//    }
 }

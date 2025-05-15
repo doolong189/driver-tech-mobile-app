@@ -14,9 +14,9 @@ class SocketIOManager() {
     fun connect() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                socket = IO.socket("${Contacts.SOCKET_URL}")
+                socket = IO.socket("${Constants.SOCKET_URL}")
                 socket?.connect()
-                Log.e(Contacts.TAG, "socket connect")
+                Log.e(Constants.TAG, "socket connect")
             } catch (e: Exception) {
                 e.printStackTrace()
             }

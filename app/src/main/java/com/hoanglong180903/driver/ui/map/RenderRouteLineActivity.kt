@@ -1,10 +1,17 @@
 package com.hoanglong180903.driver.ui.map
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
 import androidx.core.view.isVisible
+import androidx.lifecycle.Observer
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.PolylineOptions
+import com.hoanglong180903.driver.common.base.BaseActivity
+import com.hoanglong180903.driver.common.service.GpsTrackerService
+import com.hoanglong180903.driver.common.service.Polyline
 import com.hoanglong180903.driver.databinding.MapboxActivityRouteLineBinding
 import com.mapbox.api.directions.v5.models.RouteOptions
 import com.mapbox.geojson.Point
@@ -55,12 +62,9 @@ import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
 @OptIn(ExperimentalPreviewMapboxNavigationAPI::class)
-class RenderRouteLineActivity : AppCompatActivity() {
-
-    private val routeCoordinates = listOf(
-        Point.fromLngLat(105.802682, 21.024955),
-        Point.fromLngLat(105.812639 , 21.025943),
-    )
+class RenderRouteLineActivity : BaseActivity<MapboxActivityRouteLineBinding>() {
+    private var isTracking = false
+    private var pathPoints = mutableListOf<Polyline>()
 
     private lateinit var locationComponent: LocationComponentPlugin
 
@@ -74,7 +78,6 @@ class RenderRouteLineActivity : AppCompatActivity() {
     private val navigationLocationProvider by lazy {
         NavigationLocationProvider()
     }
-
 
     private val routeLineViewOptions: MapboxRouteLineViewOptions by lazy {
         MapboxRouteLineViewOptions.Builder(this)
@@ -203,6 +206,8 @@ class RenderRouteLineActivity : AppCompatActivity() {
         },
         onInitialize = this::initNavigation
     )
+    override val bindingInflater: (LayoutInflater) -> MapboxActivityRouteLineBinding
+        get() = MapboxActivityRouteLineBinding::inflate
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -232,6 +237,64 @@ class RenderRouteLineActivity : AppCompatActivity() {
         }
     }
 
+    override fun initView() {
+    }
+
+    override fun initData() {
+    }
+
+    override fun initEvents() {
+    }
+
+    override fun initObserve() {
+        GpsTrackerService.isTracking.observe(this, Observer {
+            updateTracking(it)
+
+        })
+
+        GpsTrackerService.pathPoints.observe(this, Observer{
+            pathPoints = it
+            addLatestPolyline()
+            moveCameraToUser()
+        })
+    }
+
+    private fun updateTracking(isTracking: Boolean) {
+        this.isTracking = isTracking
+        if (!isTracking) {
+//            btnToggleRun.text = "Start"
+//            btnFinishRun.visibility = View.VISIBLE
+        } else {
+            //btnToggleRun.text = "Stop"
+            // menu?.getItem(0)?.isVisible = true
+            //btnFinishRun.visibility = View.GONE
+        }
+    }
+
+    private fun addLatestPolyline() {
+        if (pathPoints.isNotEmpty() && pathPoints.last().size > 1) {
+            val preLastLatLng = pathPoints.last()[pathPoints.last().size - 2]
+            val lastLatLng = pathPoints.last().last()
+            val polylineOptions = PolylineOptions()
+                .color(Color.RED)
+                .width(1f)
+                .add(preLastLatLng)
+                .add(lastLatLng)
+//            mapboxNavigation?.addPolyline(polylineOptions)
+        }
+    }
+
+    private fun moveCameraToUser() {
+//        if (pathPoints.isNotEmpty() && pathPoints.last().isNotEmpty()) {
+//            map?.animateCamera(
+//                CameraUpdateFactory.newLatLngZoom(
+//                    pathPoints.last().last(),
+//                    MAP_ZOOM
+//                )
+//            )
+//        }
+    }
+
     private fun updateRouteCalloutType(@RouteCalloutType.Type type: Int) {
         routeCalloutAdapter.updateOptions(
             routeCalloutAdapterOptions.toBuilder()
@@ -250,13 +313,11 @@ class RenderRouteLineActivity : AppCompatActivity() {
                 )
                 .build()
         )
-
         locationComponent = viewBinding.mapView.location.apply {
             setLocationProvider(navigationLocationProvider)
             addOnIndicatorPositionChangedListener(onPositionChangedListener)
             enabled = true
         }
-
         replayOriginLocation()
     }
 
@@ -268,6 +329,12 @@ class RenderRouteLineActivity : AppCompatActivity() {
     }
 
     private fun fetchRoute() {
+        val fromLocation = intent.getSerializableExtra("fromLocation") as? ArrayList<Double>
+        val toLocation = intent.getSerializableExtra("toLocation") as? ArrayList<Double>
+        val routeCoordinates = listOf(
+            Point.fromLngLat(fromLocation!![1], fromLocation[0]),
+            Point.fromLngLat(toLocation!![1], toLocation[0]),
+        )
         mapboxNavigation.requestRoutes(
             RouteOptions.builder()
                 .applyDefaultNavigationOptions()
@@ -304,28 +371,30 @@ class RenderRouteLineActivity : AppCompatActivity() {
     }
 
     private fun replayOriginLocation() {
+        val fromLocation = intent.getSerializableExtra("fromLocation") as? ArrayList<Double>
+        val toLocation = intent.getSerializableExtra("toLocation") as? ArrayList<Double>
+        val routeCoordinates = listOf(
+            Point.fromLngLat(fromLocation!![1], fromLocation[0]),
+            Point.fromLngLat(toLocation!![1], toLocation[0]),
+        )
         with(mapboxNavigation.mapboxReplayer) {
             play()
-            pushEvents(
-                listOf(
-                    ReplayRouteMapper.mapToUpdateLocation(
-                        Date().time.toDouble(),
-                        routeCoordinates.first()
-                    )
-                )
-            )
+            pushEvents(listOf(ReplayRouteMapper.mapToUpdateLocation(Date().time.toDouble(), routeCoordinates.first())))
             playFirstLocation()
             playbackSpeed(2.0)
         }
     }
 
     private fun updateCamera(point: Point, bearing: Double?) {
+        val fromLocation = intent.getSerializableExtra("fromLocation") as? ArrayList<Double>
+        val toLocation = intent.getSerializableExtra("toLocation") as? ArrayList<Double>
+        val routeCoordinates = listOf(
+            Point.fromLngLat(fromLocation!![1], fromLocation[0]),
+            Point.fromLngLat(toLocation!![1], toLocation[0]),
+        )
         val cameraOptions = if (routeCalloutAdapter.options.routeCalloutType == RouteCalloutType.ROUTES_OVERVIEW) {
             viewBinding.mapView.mapboxMap.cameraForCoordinates(
-                listOf(
-                    point,
-                    routeCoordinates.last()
-                ),
+                listOf(point, routeCoordinates.last()),
                 CameraOptions.Builder()
                     .bearing(bearing)
                     .padding(EdgeInsets(100.0, 100.0, 100.0, 100.0))

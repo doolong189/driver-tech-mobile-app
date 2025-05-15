@@ -12,15 +12,15 @@
         >
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/item_order_imgUser"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/_50dp"
+            android:layout_height="@dimen/_50dp"
             />
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:layout_margin="5dp"
+            android:layout_margin="@dimen/_5dp"
             >
             <TextView
                 android:id="@+id/item_order_tvUserName"
@@ -43,11 +43,11 @@
             android:text="@string/status_receiver"
             android:backgroundTint="#218a47"
             android:background="@drawable/bg1"
-            android:padding="5dp"
-            android:layout_margin="5dp"
+            android:padding="@dimen/_5dp"
+            android:layout_margin="@dimen/_5dp"
             android:textStyle="bold"
             android:textColor="#FFFFFF"
-            android:textSize="11sp"/>
+            android:textSize="@dimen/_10sp"/>
     </LinearLayout>
     <TextView
         android:id="@+id/item_order_tvListProductDetail"

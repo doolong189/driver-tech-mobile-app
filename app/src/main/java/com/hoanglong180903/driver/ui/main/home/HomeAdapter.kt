@@ -2,11 +2,18 @@ package com.hoanglong180903.driver.ui.main.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.hoanglong180903.driver.R
 import com.hoanglong180903.driver.databinding.ItemDeliveryBinding
 import com.hoanglong180903.driver.model.Order
 import com.hoanglong180903.driver.utils.Utils
+import com.mapbox.api.directions.v5.models.DirectionsResponse
+import com.mapbox.common.LifecycleService
+import com.mapbox.geojson.Point
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 private var onClickDirectionMap: ((id: Order, position: Int) -> Unit)? = null
 private var onClickCall: ((id: Order, position: Int) -> Unit)? = null
@@ -46,6 +53,13 @@ class HomeAdapter : RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
                         it(item, adapterPosition)
                     }
                 }
+                icDetailOrder.setOnClickListener {
+                    onClickDetailOrder?.let{
+                        it(item, adapterPosition)
+                    }
+                }
+                val origin = Point.fromLngLat(item.fromLocation!![1], item.fromLocation[0])
+                val destination = Point.fromLngLat(item.toLocation!![1], item.toLocation[0])
             }
 
         }

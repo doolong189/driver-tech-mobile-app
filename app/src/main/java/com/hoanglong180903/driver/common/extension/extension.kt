@@ -1,4 +1,4 @@
-package com.hoanglong180903.driver.utils.extension
+package com.hoanglong180903.driver.common.extension
 
 import android.content.Context
 import android.graphics.Bitmap

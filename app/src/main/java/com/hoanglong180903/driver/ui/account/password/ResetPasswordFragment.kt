@@ -6,21 +6,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.hoanglong180903.driver.R
+import com.hoanglong180903.driver.common.base.BaseFragment
+import com.hoanglong180903.driver.databinding.FragmentResetPasswordBinding
 
-class ResetPasswordFragment : Fragment() {
+class ResetPasswordFragment : BaseFragment<FragmentResetPasswordBinding>() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentResetPasswordBinding
+        get() = FragmentResetPasswordBinding::inflate
+
+    override var isShowHideActionBar: Boolean  = false
+
+    override fun initView() {
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_reset_password, container, false)
+    override fun initData() {
     }
+
+    override fun initEvents() {
+    }
+
+    override fun initObserve() {
+    }
+
 
 
 }

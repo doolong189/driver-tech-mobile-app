@@ -6,20 +6,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.hoanglong180903.driver.R
+import com.hoanglong180903.driver.common.base.BaseFragment
+import com.hoanglong180903.driver.databinding.FragmentPasswordInputBinding
 
-class PasswordInputFragment : Fragment() {
+class PasswordInputFragment : BaseFragment<FragmentPasswordInputBinding>() {
+    override var isShowHideActionBar: Boolean = false
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentPasswordInputBinding
+        get() = FragmentPasswordInputBinding::inflate
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
+    override fun initView() {
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_password_input, container, false)
+    override fun initData() {
+    }
+
+    override fun initEvents() {
+    }
+
+    override fun initObserve() {
     }
 
 

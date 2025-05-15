@@ -9,6 +9,8 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -21,15 +23,22 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.hoanglong180903.driver.R
 import com.hoanglong180903.driver.common.base.BaseActivity
+import com.hoanglong180903.driver.databinding.ActivityAccountBinding
+import com.hoanglong180903.driver.databinding.ActivityMainBinding
 
-class AccountActivity : BaseActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_account)
+class AccountActivity  : BaseActivity<ActivityAccountBinding>() {
+    override val bindingInflater: (LayoutInflater) -> ActivityAccountBinding
+        get() = ActivityAccountBinding::inflate
+
+
+    override fun initView() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
 //        setupActionBarWithNavController(navHostFragment.navController)
 
+    }
+
+    override fun initData() {
         if (ContextCompat.checkSelfPermission(
                 this@AccountActivity,
                 Manifest.permission.POST_NOTIFICATIONS
@@ -40,18 +49,25 @@ class AccountActivity : BaseActivity() {
                     Manifest.permission.POST_NOTIFICATIONS
                 )
             ) {
-//                showNotification()
+                // xử lý
             } else {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     requestPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
                 }
             }
         } else {
-//            showNotification()
+            // xử lý
         }
     }
+
+    override fun initEvents() {
+    }
+
+    override fun initObserve() {
+    }
+
     private val requestPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-//        showNotification()
+        // xử lý
     }
 
     private fun showNotification() {

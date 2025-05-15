@@ -1,29 +1,43 @@
 package com.hoanglong180903.driver.common.base
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.viewbinding.ViewBinding
 
-abstract class BaseFragment : Fragment() {
+abstract class BaseFragment<VB : ViewBinding> : Fragment() {
+    private var _binding: ViewBinding? = null
+    abstract val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> VB
+
+    @Suppress("UNCHECKED_CAST")
+    protected val binding: VB
+        get() { return _binding as VB }
     abstract fun initView()
-    abstract fun setView()
-    abstract fun setAction()
-    abstract fun setObserve()
-    abstract var isVisibleActionBar: Boolean
+    abstract fun initData()
+    abstract fun initEvents()
+    abstract fun initObserve()
+    abstract var isShowHideActionBar: Boolean
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = bindingInflater.invoke(inflater, container, false)
+        return requireNotNull(_binding).root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setActionBar(isVisibleActionBar)
+        setActionBar(isShowHideActionBar)
         view.fitsSystemWindows = true
         initView()
-        setView()
-        setAction()
-        setObserve()
+        initData()
+        initEvents()
+        initObserve()
     }
     private fun setActionBar(isVisible: Boolean) {
         (requireActivity() as AppCompatActivity).supportActionBar?.apply {
@@ -34,6 +48,24 @@ abstract class BaseFragment : Fragment() {
             } else {
                 hide()
                 setDisplayHomeAsUpEnabled(false)
+            }
+        }
+    }
+
+    fun getBaseActivity(): BaseActivity<*>? {
+        return activity as? BaseActivity<*>
+    }
+
+    fun onBackFragment() {
+        if (activity != null) {
+            val count = getBaseActivity()?.supportFragmentManager?.backStackEntryCount ?: 0
+            if (count > 0) {
+                val manager = getBaseActivity()?.supportFragmentManager
+                if (manager?.isStateSaved == false) {
+                    manager.popBackStack()
+                }
+            } else {
+                getBaseActivity()?.finish()
             }
         }
     }

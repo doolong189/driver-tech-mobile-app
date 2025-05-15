@@ -76,7 +76,6 @@ object Utils {
         }
     }
 
-
 //    private fun drawRouteOnMap(lat1: Double, lng1: Double, lat2: Double, lng2: Double) {
 //        // Sử dụng Directions API để lấy chỉ dẫn đường đi
 //        GlobalScope.launch(Dispatchers.IO) {

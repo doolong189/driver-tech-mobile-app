@@ -8,11 +8,11 @@ import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.hoanglong180903.driver.R
 import com.hoanglong180903.driver.common.application.DriverApplication
-import com.hoanglong180903.driver.data.enity.ErrorResponse
-import com.hoanglong180903.driver.data.enity.GetShipperInfoRequest
-import com.hoanglong180903.driver.data.enity.GetShipperInfoResponse
-import com.hoanglong180903.driver.data.enity.RegisterAccountRequest
-import com.hoanglong180903.driver.data.enity.RegisterAccountResponse
+import com.hoanglong180903.driver.data.responsemodel.ErrorResponse
+import com.hoanglong180903.driver.data.requestmodel.GetShipperInfoRequest
+import com.hoanglong180903.driver.data.responsemodel.GetShipperInfoResponse
+import com.hoanglong180903.driver.data.requestmodel.RegisterAccountRequest
+import com.hoanglong180903.driver.data.responsemodel.RegisterAccountResponse
 import com.hoanglong180903.driver.data.usecase.UserRepository
 import com.hoanglong180903.driver.model.UserInfo
 import com.hoanglong180903.driver.utils.Event

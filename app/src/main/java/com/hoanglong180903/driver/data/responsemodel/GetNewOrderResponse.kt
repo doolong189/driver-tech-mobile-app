@@ -1,4 +1,4 @@
-package com.hoanglong180903.driver.data.enity
+package com.hoanglong180903.driver.data.responsemodel
 
 import androidx.annotation.Keep
 import com.hoanglong180903.driver.model.Order
