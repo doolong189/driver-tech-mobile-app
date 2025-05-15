@@ -66,8 +66,8 @@
     <string name="direction">Điều hướng</string>
     <string name="detail_client">Chi tiết khách hàng</string>
     <string name="client">Khách hàng</string>
-    <string name="product">Product</string>
-    <string name="description">Description</string>
+    <string name="product">Sản phẩm</string>
+    <string name="description">Mô tả</string>
     <string name="amount">Số lượng</string>
     <string name="price">Giá tiền</string>
     <string name="_0">0</string>
@@ -107,4 +107,9 @@
     <string name="edit_info">Cập nhật thông tin</string>
     <string name="phone_input">Nhập số điện thoại</string>
     <string name="_84">+84</string>
+    <string name="nav_home">Trang chủ</string>
+    <string name="nav_order">Đơn đặt</string>
+    <string name="nav_mailbox">Hộp thư</string>
+    <string name="nav_user">Người dùng</string>
+    <string name="message">Tin nhắn</string>
 </resources>

@@ -31,6 +31,7 @@ import com.hoanglong180903.driver.utils.SharedPreferences
 
 typealias Polyline = MutableList<LatLng>
 typealias PolylineList = MutableList<Polyline>
+@SuppressLint("RestrictedApi")
 class GpsTrackerService  : LifecycleService() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var sharedPreferences: SharedPreferences

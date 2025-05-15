@@ -69,9 +69,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     val navController = findNavController(R.id.nav_host_fragment)
                     navController.navigate(R.id.orderFragment)
                 }
-                R.id.navNotification -> {
+                R.id.navMailBox -> {
                     val navController = findNavController(R.id.nav_host_fragment)
-                    navController.navigate(R.id.notificationFragment)
+                    navController.navigate(R.id.mailboxFragment)
                 }
                 R.id.navUser -> {
                     val navController = findNavController(R.id.nav_host_fragment)

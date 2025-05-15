@@ -4,27 +4,27 @@
         android:id="@+id/navHome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:title="Trang chủ"
+        android:title="@string/nav_home"
         android:icon="@drawable/icon_home"
         />
     <item
         android:id="@+id/navOrder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:title="Đơn đặt"
+        android:title="@string/nav_order"
         android:icon="@drawable/icon_order"
         />
     <item
-        android:id="@+id/navNotification"
+        android:id="@+id/navMailBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:title="Thông báo"
-        android:icon="@drawable/icon_notification"/>
+        android:title="@string/nav_mailbox"
+        android:icon="@drawable/mailbox"/>
     <item
         android:id="@+id/navUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:title="Người dùng"
+        android:title="@string/nav_user"
         android:icon="@drawable/icon_user"
         />
 </menu>

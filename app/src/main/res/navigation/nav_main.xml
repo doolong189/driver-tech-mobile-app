@@ -16,8 +16,8 @@
             android:id="@+id/action_homeFragment_to_userFragment"
             app:destination="@id/userFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_notificationFragment"
-            app:destination="@id/notificationFragment" />
+            android:id="@+id/action_homeFragment_to_mailboxFragment"
+            app:destination="@id/mailboxFragment" />
         <action
             android:id="@+id/action_homeFragment_to_detailOrderFragment"
             app:destination="@id/detailOrderFragment" />
@@ -42,9 +42,9 @@
         android:label="fragment_user"
         tools:layout="@layout/fragment_user" />
     <fragment
-        android:id="@+id/notificationFragment"
-        android:name="com.hoanglong180903.driver.ui.main.notification.NotificationFragment"
-        android:label="fragment_notification"
-        tools:layout="@layout/fragment_notification" />
+        android:id="@+id/mailboxFragment"
+        android:name="com.hoanglong180903.driver.ui.main.mailbox.MailboxFragment"
+        android:label="fragment_mailbox"
+        tools:layout="@layout/fragment_mailbox" />
 
 </navigation>

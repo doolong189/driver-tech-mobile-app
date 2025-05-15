@@ -2,10 +2,13 @@ package com.hoanglong180903.driver.ui.main.user
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import com.bumptech.glide.Glide
+import com.facebook.share.Share
 import com.hoanglong180903.driver.common.base.BaseFragment
 import com.hoanglong180903.driver.data.requestmodel.GetShipperInfoRequest
 import com.hoanglong180903.driver.data.responsemodel.GetShipperInfoResponse
@@ -75,6 +78,9 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
     private fun setViewShipperInfo(shipperInfo : UserInfo){
         binding.tvFullName.text = shipperInfo.name
         binding.tvEmail.text = shipperInfo.email
+        Glide.with(requireContext())
+            .load(shipperInfo.image)
+            .into(binding.imgUserProfile)
     }
 
 }

@@ -44,12 +44,12 @@ class CompletedOrderFragment : BaseFragment<FragmentCompletedOrderBinding>() {
 
     override fun initObserve() {
         viewModel.getCompletedOrderResult().observe(viewLifecycleOwner, Observer {
-            getOrderShipID(it)
+            getOrderShipIDResult(it)
         })
     }
 
 
-    private fun getOrderShipID(event : Event<Resource<GetOrderShipIDResponse>>){
+    private fun getOrderShipIDResult(event : Event<Resource<GetOrderShipIDResponse>>){
         event.getContentIfNotHandled()?.let { response ->
             when (response) {
                 is Resource.Success -> {

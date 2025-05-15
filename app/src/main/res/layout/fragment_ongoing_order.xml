@@ -9,7 +9,8 @@
         android:id="@+id/ongoing_order_pbBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:visibility="gone"/>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/ongoing_order_rcView"
         android:layout_width="match_parent"
