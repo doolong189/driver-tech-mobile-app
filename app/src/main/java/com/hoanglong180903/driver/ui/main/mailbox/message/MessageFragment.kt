@@ -1,4 +1,4 @@
-package com.hoanglong180903.driver.ui.main.mailbox
+package com.hoanglong180903.driver.ui.main.mailbox.message
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

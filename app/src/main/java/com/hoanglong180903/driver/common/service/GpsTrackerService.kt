@@ -2,21 +2,13 @@ package com.hoanglong180903.driver.common.service
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.app.Service
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
-import android.os.IBinder
 import android.os.Looper
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
-import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -26,38 +18,54 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
-import com.hoanglong180903.driver.ui.map.NavigationMapboxActivity
-import com.hoanglong180903.driver.utils.SharedPreferences
+import com.hoanglong180903.driver.utils.Constants.ACTION_PAUSE_SERVICE
+import com.hoanglong180903.driver.utils.Constants.ACTION_START_OR_RESUME_SERVICE
+import com.hoanglong180903.driver.utils.Constants.ACTION_STOP_SERVICE
+import com.hoanglong180903.driver.utils.Constants.TAG
+import com.hoanglong180903.driver.utils.Utils
 
 typealias Polyline = MutableList<LatLng>
-typealias PolylineList = MutableList<Polyline>
 @SuppressLint("RestrictedApi")
 class GpsTrackerService  : LifecycleService() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private lateinit var sharedPreferences: SharedPreferences
     override fun onCreate() {
         super.onCreate()
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         initData()
     }
 
-
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("ForegroundServiceType")
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        intent?.let {
+            when (it.action) {
+                ACTION_START_OR_RESUME_SERVICE -> {
+                    isTracking.postValue(true)
+                    Log.d(TAG, "Start service...")
+                }
+                ACTION_PAUSE_SERVICE -> {
+                    Log.d(TAG, "Paused service")
+                    isTracking.postValue(false)
+                }
+                ACTION_STOP_SERVICE -> {
+                    Log.d(TAG, "Stopped service")
+                    isTracking.postValue(false)
+                }
+                else -> {}
+            }
+        }
         return super.onStartCommand(intent, flags, startId)
     }
 
     private fun initData(){
         isTracking.postValue(false)
         pathPoints.postValue(mutableListOf())
-        sharedPreferences = SharedPreferences(this)
         isTracking.observe(this,  Observer {
-            fetchLocation(it)
+            requestLocationUpdates(it)
         })
     }
 
-    private fun requestLocationUpdates() {
+    private fun requestLocationUpdates(isTracking: Boolean) {
         val locationRequest = LocationRequest.create()
             .setInterval(10000)
             .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
@@ -76,7 +84,12 @@ class GpsTrackerService  : LifecycleService() {
             override fun onLocationResult(p0: LocationResult) {
                 p0.locations.let { locations ->
                     locations.forEach { location ->
-                        Log.e("zzzzz","$location")
+                        Log.e("GPS-SERVICE","$location")
+                        val latLng = LatLng(location.longitude, location.latitude)
+                        Log.e("GPS-SERVICE1","${location.longitude} \n ${location.latitude} \n ${Utils.convertTimestampToTime(location.time.toString())}")
+                        if (isTracking) {
+                            addPathPoint(latLng)
+                        }
                     }
                 }
             }
@@ -84,23 +97,16 @@ class GpsTrackerService  : LifecycleService() {
 
     }
 
-    private fun fetchLocation(isTracking: Boolean){
-        if (isTracking) {
-            val latLng = LatLng(sharedPreferences.getUserLoc()!![1], sharedPreferences.getUserLoc()!![0])
-            addPathPoint(latLng)
-        }
-    }
-
     private fun addPathPoint(latLng: LatLng) {
-        val pos = latLng
-        pathPoints.value?.apply {
-            last().add(pos)
-            pathPoints.postValue(this)
+        val updatedPathPoints = pathPoints.value ?: mutableListOf()
+        if (updatedPathPoints.isEmpty()) {
+            updatedPathPoints.add(latLng)
         }
+        pathPoints.postValue(updatedPathPoints)
     }
 
     companion object{
         val isTracking = MutableLiveData<Boolean>()
-        val pathPoints = MutableLiveData<PolylineList>()
+        val pathPoints = MutableLiveData<Polyline>()
     }
 }

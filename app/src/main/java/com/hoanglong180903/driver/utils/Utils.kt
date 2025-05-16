@@ -38,7 +38,7 @@ object Utils {
     }
 
     fun formatPrice(price: Double): String {
-        val decimalFormat = DecimalFormat("#,###")
+        val decimalFormat = DecimalFormat("#,###,###")
         return decimalFormat.format(price)
     }
 

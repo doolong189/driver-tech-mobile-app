@@ -37,7 +37,7 @@
             android:name=".ui.main.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.map.NavigationMapboxActivity"
+            android:name=".ui.map.NavigationMapActivity"
             android:exported="false" />
         <activity
             android:name=".ui.account.AccountActivity"
@@ -74,7 +74,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.map.RenderRouteLineActivity"
+        <activity android:name=".ui.map.MapActivity"
             android:exported="false"/>
 
         <service android:name=".common.service.FcmService"
@@ -84,6 +84,10 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <service android:name=".common.service.GpsTrackerService"
+            android:exported="true"
+            />
     </application>
 
 </manifest>

@@ -36,7 +36,7 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
 
     override fun initData() {
         preferces = SharedPreferences(requireContext())
-        userViewModel.getShipperInfo(GetShipperInfoRequest(id = preferces.userId))
+        userViewModel.getShipperInfo(GetShipperInfoRequest(id = preferces.userId.toString()))
     }
 
     override fun initEvents() {

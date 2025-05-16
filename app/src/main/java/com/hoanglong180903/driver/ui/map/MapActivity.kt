@@ -1,18 +1,21 @@
 package com.hoanglong180903.driver.ui.map
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
-import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.PolylineOptions
 import com.hoanglong180903.driver.common.base.BaseActivity
 import com.hoanglong180903.driver.common.service.GpsTrackerService
 import com.hoanglong180903.driver.common.service.Polyline
-import com.hoanglong180903.driver.databinding.MapboxActivityRouteLineBinding
+import com.hoanglong180903.driver.databinding.MapActivityBinding
+import com.hoanglong180903.driver.utils.Constants
+import com.hoanglong180903.driver.utils.SharedPreferences
 import com.mapbox.api.directions.v5.models.RouteOptions
 import com.mapbox.geojson.Point
 import com.mapbox.maps.CameraOptions
@@ -62,18 +65,14 @@ import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
 @OptIn(ExperimentalPreviewMapboxNavigationAPI::class)
-class RenderRouteLineActivity : BaseActivity<MapboxActivityRouteLineBinding>() {
+class MapActivity : BaseActivity<MapActivityBinding>() {
     private var isTracking = false
     private var pathPoints = mutableListOf<Polyline>()
-
+    private lateinit var preferences: SharedPreferences
     private lateinit var locationComponent: LocationComponentPlugin
 
 
     private lateinit var replayProgressObserver: ReplayProgressObserver
-
-    private val viewBinding: MapboxActivityRouteLineBinding by lazy {
-        MapboxActivityRouteLineBinding.inflate(layoutInflater)
-    }
 
     private val navigationLocationProvider by lazy {
         NavigationLocationProvider()
@@ -95,7 +94,7 @@ class RenderRouteLineActivity : BaseActivity<MapboxActivityRouteLineBinding>() {
 
     private val routeLineView by lazy {
         MapboxRouteLineView(routeLineViewOptions).also {
-            it.setCalloutAdapter(viewBinding.mapView.viewAnnotationManager, routeCalloutAdapter)
+            it.setCalloutAdapter(binding.mapView.viewAnnotationManager, routeCalloutAdapter)
         }
     }
     private val routeLineApi: MapboxRouteLineApi by lazy {
@@ -137,26 +136,26 @@ class RenderRouteLineActivity : BaseActivity<MapboxActivityRouteLineBinding>() {
 
     private fun updateRoutes(routesList: List<NavigationRoute>, alternativesMetadata: List<AlternativeRouteMetadata>) {
         routeLineApi.setNavigationRoutes(routesList, alternativesMetadata) { value ->
-            viewBinding.mapView.mapboxMap.style?.apply {
+            binding.mapView.mapboxMap.style?.apply {
                 routeLineView.renderRouteDrawData(this, value)
             }
         }
     }
     private val onPositionChangedListener = OnIndicatorPositionChangedListener { point ->
         val result = routeLineApi.updateTraveledRouteLine(point)
-        viewBinding.mapView.mapboxMap.style?.apply {
+        binding.mapView.mapboxMap.style?.apply {
             routeLineView.renderRouteLineUpdate(this, result)
         }
     }
 
     private val routeProgressObserver = RouteProgressObserver { routeProgress ->
         routeLineApi.updateWithRouteProgress(routeProgress) { result ->
-            viewBinding.mapView.mapboxMap.style?.apply {
+            binding.mapView.mapboxMap.style?.apply {
                 routeLineView.renderRouteLineUpdate(this, result)
             }
         }
         val arrowUpdate = routeArrowApi.addUpcomingManeuverArrow(routeProgress)
-        viewBinding.mapView.mapboxMap.style?.apply {
+        binding.mapView.mapboxMap.style?.apply {
             routeArrowView.renderManeuverUpdate(this, arrowUpdate)
         }
     }
@@ -186,12 +185,9 @@ class RenderRouteLineActivity : BaseActivity<MapboxActivityRouteLineBinding>() {
                 mapboxNavigation.registerRoutesPreviewObserver(routesPreviewObserver)
                 mapboxNavigation.registerLocationObserver(locationObserver)
                 mapboxNavigation.registerRouteProgressObserver(routeProgressObserver)
-
                 replayProgressObserver = ReplayProgressObserver(mapboxNavigation.mapboxReplayer)
                 mapboxNavigation.registerRouteProgressObserver(replayProgressObserver)
-
                 mapboxNavigation.startReplayTripSession()
-
                 fetchRoute()
             }
 
@@ -206,64 +202,65 @@ class RenderRouteLineActivity : BaseActivity<MapboxActivityRouteLineBinding>() {
         },
         onInitialize = this::initNavigation
     )
-    override val bindingInflater: (LayoutInflater) -> MapboxActivityRouteLineBinding
-        get() = MapboxActivityRouteLineBinding::inflate
-
-    @SuppressLint("SetTextI18n")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(viewBinding.root)
-
-        viewBinding.mapView.mapboxMap.loadStyle(NavigationStyles.NAVIGATION_DAY_STYLE) {
-            routeLineView.initializeLayers(it)
-        }
-
-        viewBinding.startNavigation.setOnClickListener {
-            mapboxNavigation.moveRoutesFromPreviewToNavigator()
-            updateRouteCalloutType(RouteCalloutType.NAVIGATION)
-
-            viewBinding.startNavigation.isVisible = false
-            viewBinding.routeOverview.isVisible = true
-        }
-
-        viewBinding.routeOverview.setOnClickListener {
-            if (routeCalloutAdapter.options.routeCalloutType == RouteCalloutType.ROUTES_OVERVIEW) {
-                updateRouteCalloutType(RouteCalloutType.NAVIGATION)
-                viewBinding.routeOverview.text = "Route overview"
-            } else {
-                updateRouteCalloutType(RouteCalloutType.ROUTES_OVERVIEW)
-                viewBinding.routeOverview.text = "Following mode"
-            }
-        }
-    }
+    override val bindingInflater: (LayoutInflater) -> MapActivityBinding
+        get() = MapActivityBinding::inflate
 
     override fun initView() {
+        binding.mapView.mapboxMap.loadStyle(NavigationStyles.NAVIGATION_DAY_STYLE) {
+            routeLineView.initializeLayers(it)
+        }
     }
 
     override fun initData() {
+        preferences = SharedPreferences(this)
     }
 
     override fun initEvents() {
+        binding.startNavigation.setOnClickListener {
+//            mapboxNavigation.moveRoutesFromPreviewToNavigator()
+//            updateRouteCalloutType(RouteCalloutType.NAVIGATION)
+            sendCommandToService(Constants.ACTION_START_OR_RESUME_SERVICE)
+            binding.startNavigation.isVisible = false
+            binding.routeOverview.isVisible = true
+            isTracking = true
+        }
+
+        binding.routeOverview.setOnClickListener {
+            if (routeCalloutAdapter.options.routeCalloutType == RouteCalloutType.ROUTES_OVERVIEW) {
+                updateRouteCalloutType(RouteCalloutType.NAVIGATION)
+                binding.routeOverview.text = "Route overview"
+            } else {
+                updateRouteCalloutType(RouteCalloutType.ROUTES_OVERVIEW)
+                binding.routeOverview.text = "Following mode"
+            }
+        }
     }
 
     override fun initObserve() {
         GpsTrackerService.isTracking.observe(this, Observer {
             updateTracking(it)
-
         })
 
         GpsTrackerService.pathPoints.observe(this, Observer{
-            pathPoints = it
-            addLatestPolyline()
+            if (pathPoints.isEmpty()) {
+                val latLng = LatLng(preferences.getUserLoc()!![1], preferences.getUserLoc()!![0])
+                val
+                pathPoints.add(latLng)
+            }
+            pathPoints.add(it)
             moveCameraToUser()
+//            fetchRoute()
+            Log.e("zzzzzz","${pathPoints}")
         })
     }
 
     private fun updateTracking(isTracking: Boolean) {
         this.isTracking = isTracking
         if (!isTracking) {
+            sendCommandToService(Constants.ACTION_START_OR_RESUME_SERVICE)
 //            btnToggleRun.text = "Start"
 //            btnFinishRun.visibility = View.VISIBLE
+
         } else {
             //btnToggleRun.text = "Stop"
             // menu?.getItem(0)?.isVisible = true
@@ -271,18 +268,11 @@ class RenderRouteLineActivity : BaseActivity<MapboxActivityRouteLineBinding>() {
         }
     }
 
-    private fun addLatestPolyline() {
-        if (pathPoints.isNotEmpty() && pathPoints.last().size > 1) {
-            val preLastLatLng = pathPoints.last()[pathPoints.last().size - 2]
-            val lastLatLng = pathPoints.last().last()
-            val polylineOptions = PolylineOptions()
-                .color(Color.RED)
-                .width(1f)
-                .add(preLastLatLng)
-                .add(lastLatLng)
-//            mapboxNavigation?.addPolyline(polylineOptions)
-        }
+    private fun sendCommandToService(action: String) = Intent(this@MapActivity, GpsTrackerService::class.java).also {
+        it.action = action
+        startService(it)
     }
+
 
     private fun moveCameraToUser() {
 //        if (pathPoints.isNotEmpty() && pathPoints.last().isNotEmpty()) {
@@ -313,7 +303,7 @@ class RenderRouteLineActivity : BaseActivity<MapboxActivityRouteLineBinding>() {
                 )
                 .build()
         )
-        locationComponent = viewBinding.mapView.location.apply {
+        locationComponent = binding.mapView.location.apply {
             setLocationProvider(navigationLocationProvider)
             addOnIndicatorPositionChangedListener(onPositionChangedListener)
             enabled = true
@@ -340,7 +330,7 @@ class RenderRouteLineActivity : BaseActivity<MapboxActivityRouteLineBinding>() {
                 .applyDefaultNavigationOptions()
                 .applyLanguageAndVoiceUnitOptions(this)
                 .coordinatesList(routeCoordinates)
-                .alternatives(true) // make sure you set the `alternatives` flag to true in route options
+                .alternatives(true)
                 .layersList(listOf(mapboxNavigation.getZLevel(), null))
                 .build(),
 
@@ -349,7 +339,7 @@ class RenderRouteLineActivity : BaseActivity<MapboxActivityRouteLineBinding>() {
                     routes: List<NavigationRoute>,
                     @RouterOrigin routerOrigin: String
                 ) {
-                    viewBinding.startNavigation.isVisible = true
+                    binding.startNavigation.isVisible = true
                     mapboxNavigation.setRoutesPreview(routes)
                 }
 
@@ -393,7 +383,7 @@ class RenderRouteLineActivity : BaseActivity<MapboxActivityRouteLineBinding>() {
             Point.fromLngLat(toLocation!![1], toLocation[0]),
         )
         val cameraOptions = if (routeCalloutAdapter.options.routeCalloutType == RouteCalloutType.ROUTES_OVERVIEW) {
-            viewBinding.mapView.mapboxMap.cameraForCoordinates(
+            binding.mapView.mapboxMap.cameraForCoordinates(
                 listOf(point, routeCoordinates.last()),
                 CameraOptions.Builder()
                     .bearing(bearing)
@@ -413,7 +403,7 @@ class RenderRouteLineActivity : BaseActivity<MapboxActivityRouteLineBinding>() {
                 .build()
         }
         val mapAnimationOptionsBuilder = MapAnimationOptions.Builder()
-        viewBinding.mapView.camera.easeTo(
+        binding.mapView.camera.easeTo(
             cameraOptions,
             mapAnimationOptionsBuilder.build(),
         )
@@ -436,6 +426,6 @@ class RenderRouteLineActivity : BaseActivity<MapboxActivityRouteLineBinding>() {
     }
 
     private companion object {
-        val LOG_TAG: String = RenderRouteLineActivity::class.java.simpleName
+        val LOG_TAG: String = MapActivity::class.java.simpleName
     }
 }

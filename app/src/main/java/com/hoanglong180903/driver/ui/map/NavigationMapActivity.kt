@@ -4,7 +4,6 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
@@ -42,7 +41,7 @@ import com.mapbox.navigation.ui.maps.route.line.api.MapboxRouteLineView
 import com.mapbox.navigation.ui.maps.route.line.model.MapboxRouteLineApiOptions
 import com.mapbox.navigation.ui.maps.route.line.model.MapboxRouteLineViewOptions
 
-class NavigationMapboxActivity : ComponentActivity() {
+class NavigationMapActivity : ComponentActivity() {
     private lateinit var mapView: MapView
     private lateinit var viewportDataSource: MapboxNavigationViewportDataSource
     private lateinit var navigationCamera: NavigationCamera
@@ -163,10 +162,11 @@ class NavigationMapboxActivity : ComponentActivity() {
         val fromLocation = intent.getSerializableExtra("fromLocation") as? ArrayList<Double>
         val toLocation = intent.getSerializableExtra("toLocation") as? ArrayList<Double>
 
-//        val origin = Point.fromLngLat(105.802682, 21.024955)
-//        val destination = Point.fromLngLat(105.812639 , 21.025943)
         val origin = Point.fromLngLat(fromLocation!![1], fromLocation[0])
         val destination = Point.fromLngLat(toLocation!![1], toLocation[0])
+
+        //        val origin = Point.fromLngLat(105.802682, 21.024955)
+        //        val destination = Point.fromLngLat(105.812639 , 21.025943)
 
         mapboxNavigation.requestRoutes(
             RouteOptions.builder()
