@@ -20,6 +20,7 @@ import com.hoanglong180903.driver.databinding.FragmentHomeBinding
 import com.hoanglong180903.driver.ui.main.MainActivity
 import com.hoanglong180903.driver.ui.main.user.UserViewModel
 import com.hoanglong180903.driver.ui.map.MapActivity
+import com.hoanglong180903.driver.ui.map.NavigationMapActivity
 import com.hoanglong180903.driver.utils.Constants
 import com.hoanglong180903.driver.utils.Event
 import com.hoanglong180903.driver.utils.Resource
@@ -77,7 +78,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             val toLocation = ArrayList<Double>()
             toLocation.add(id.toLocation?.get(1) ?: 0.0)
             toLocation.add(id.toLocation?.get(0) ?: 0.0)
-            val mIntent = Intent(requireActivity(), MapActivity::class.java)
+            val mIntent = Intent(requireActivity(), NavigationMapActivity::class.java)
             mIntent.putExtra(FROM_LOCATION, fromLocation)
             mIntent.putExtra(TO_LOCATION, toLocation)
             Log.e(Constants.TAG,"${fromLocation} - ${toLocation}")

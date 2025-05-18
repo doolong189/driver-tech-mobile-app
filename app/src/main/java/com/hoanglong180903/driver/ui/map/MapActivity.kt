@@ -243,9 +243,9 @@ class MapActivity : BaseActivity<MapActivityBinding>() {
 
         GpsTrackerService.pathPoints.observe(this, Observer{
             if (pathPoints.isEmpty()) {
-                val latLng = LatLng(preferences.getUserLoc()!![1], preferences.getUserLoc()!![0])
-                val
-                pathPoints.add(latLng)
+//                val latLng = LatLng(preferences.getUserLoc()!![1], preferences.getUserLoc()!![0])
+//                val
+//                pathPoints.add(latLng)
             }
             pathPoints.add(it)
             moveCameraToUser()

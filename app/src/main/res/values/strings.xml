@@ -112,4 +112,5 @@
     <string name="nav_mailbox">Hộp thư</string>
     <string name="nav_user">Người dùng</string>
     <string name="message">Tin nhắn</string>
+    <string name="title">Tiêu đề</string>
 </resources>

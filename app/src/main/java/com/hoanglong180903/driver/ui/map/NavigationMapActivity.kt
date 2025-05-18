@@ -4,9 +4,12 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.view.LayoutInflater
 import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
+import com.hoanglong180903.driver.common.base.BaseActivity
+import com.hoanglong180903.driver.databinding.MapActivityBinding
 import com.hoanglong180903.driver.utils.PopupUtils
 import com.mapbox.api.directions.v5.models.RouteOptions
 import com.mapbox.common.location.Location
@@ -41,8 +44,7 @@ import com.mapbox.navigation.ui.maps.route.line.api.MapboxRouteLineView
 import com.mapbox.navigation.ui.maps.route.line.model.MapboxRouteLineApiOptions
 import com.mapbox.navigation.ui.maps.route.line.model.MapboxRouteLineViewOptions
 
-class NavigationMapActivity : ComponentActivity() {
-    private lateinit var mapView: MapView
+class NavigationMapActivity : BaseActivity<MapActivityBinding>() {
     private lateinit var viewportDataSource: MapboxNavigationViewportDataSource
     private lateinit var navigationCamera: NavigationCamera
     private lateinit var routeLineApi: MapboxRouteLineApi
@@ -50,6 +52,8 @@ class NavigationMapActivity : ComponentActivity() {
     private lateinit var replayProgressObserver: ReplayProgressObserver
     private val navigationLocationProvider = NavigationLocationProvider()
     private val replayRouteMapper = ReplayRouteMapper()
+    override val bindingInflater: (LayoutInflater) -> MapActivityBinding get() = MapActivityBinding::inflate
+
     private val locationPermissionRequest =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
                 permissions ->
@@ -62,9 +66,10 @@ class NavigationMapActivity : ComponentActivity() {
                 }
             }
         }
+    override fun initView() {
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun initData() {
         if (
             ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) ==
             PackageManager.PERMISSION_GRANTED
@@ -75,22 +80,29 @@ class NavigationMapActivity : ComponentActivity() {
         }
     }
 
+    override fun initEvents() {
+        binding.startNavigation.setOnClickListener {
+            startNavigation()
+        }
+    }
+
+    override fun initObserve() {
+    }
+
     private fun initializeMapComponents() {
-        mapView = MapView(this)
-        mapView.mapboxMap.setCamera(
+        binding.mapView.mapboxMap.setCamera(
             CameraOptions.Builder()
                 .center(Point.fromLngLat(-122.43539772352648, 37.77440680146262))
                 .zoom(14.0)
                 .build()
         )
-        mapView.location.apply {
+        binding.mapView.location.apply {
             setLocationProvider(navigationLocationProvider)
             locationPuck = LocationPuck2D()
             enabled = true
         }
 
-        setContentView(mapView)
-        viewportDataSource = MapboxNavigationViewportDataSource(mapView.mapboxMap)
+        viewportDataSource = MapboxNavigationViewportDataSource(binding.mapView.mapboxMap)
         val pixelDensity = this.resources.displayMetrics.density
         viewportDataSource.followingPadding =
             EdgeInsets(
@@ -100,15 +112,15 @@ class NavigationMapActivity : ComponentActivity() {
                 40.0 * pixelDensity
             )
 
-        navigationCamera = NavigationCamera(mapView.mapboxMap, mapView.camera, viewportDataSource)
+        navigationCamera = NavigationCamera(binding.mapView.mapboxMap, binding.mapView.camera, viewportDataSource)
         routeLineApi = MapboxRouteLineApi(MapboxRouteLineApiOptions.Builder().build())
         routeLineView = MapboxRouteLineView(MapboxRouteLineViewOptions.Builder(this).build())
     }
 
     private val routesObserver = RoutesObserver { routeUpdateResult ->
-        if (routeUpdateResult.navigationRoutes.isNotEmpty()) {
+        if (::routeLineApi.isInitialized && ::routeLineView.isInitialized && ::viewportDataSource.isInitialized) {
             routeLineApi.setNavigationRoutes(routeUpdateResult.navigationRoutes) { value ->
-                mapView.mapboxMap.style?.apply { routeLineView.renderRouteDrawData(this, value) }
+                binding.mapView.mapboxMap.style?.apply { routeLineView.renderRouteDrawData(this, value) }
             }
             viewportDataSource.onRouteChanged(routeUpdateResult.navigationRoutes.first())
             viewportDataSource.evaluate()
@@ -116,19 +128,22 @@ class NavigationMapActivity : ComponentActivity() {
         }
     }
 
+
     private val locationObserver =
         object : LocationObserver {
             override fun onNewRawLocation(rawLocation: Location) {}
 
             override fun onNewLocationMatcherResult(locationMatcherResult: LocationMatcherResult) {
                 val enhancedLocation = locationMatcherResult.enhancedLocation
-                navigationLocationProvider.changePosition(
-                    location = enhancedLocation,
-                    keyPoints = locationMatcherResult.keyPoints,
-                )
-                viewportDataSource.onLocationChanged(enhancedLocation)
-                viewportDataSource.evaluate()
-                navigationCamera.requestNavigationCameraToFollowing()
+                if (::navigationCamera.isInitialized && ::viewportDataSource.isInitialized) {
+                    navigationLocationProvider.changePosition(
+                        location = enhancedLocation,
+                        keyPoints = locationMatcherResult.keyPoints,
+                    )
+                    viewportDataSource.onLocationChanged(enhancedLocation)
+                    viewportDataSource.evaluate()
+                    navigationCamera.requestNavigationCameraToFollowing()
+                }
             }
         }
 
@@ -143,10 +158,11 @@ class NavigationMapActivity : ComponentActivity() {
                 mapboxNavigation.registerLocationObserver(locationObserver)
                 replayProgressObserver =
                     ReplayProgressObserver(mapboxNavigation.mapboxReplayer)
-                mapboxNavigation.registerRouteProgressObserver(replayProgressObserver)
-                mapboxNavigation.startReplayTripSession()
             }
-            override fun onDetached(mapboxNavigation: MapboxNavigation) {}
+            override fun onDetached(mapboxNavigation: MapboxNavigation) {
+                mapboxNavigation.registerRoutesObserver(routesObserver)
+                mapboxNavigation.registerLocationObserver(locationObserver)
+            }
         },
         onInitialize = this::initNavigation
     )
@@ -154,20 +170,15 @@ class NavigationMapActivity : ComponentActivity() {
     @OptIn(ExperimentalPreviewMapboxNavigationAPI::class)
     private fun initNavigation() {
         MapboxNavigationApp.setup(NavigationOptions.Builder(this).build())
-        mapView.location.apply {
+        binding.mapView.location.apply {
             setLocationProvider(navigationLocationProvider)
             this.locationPuck = createDefault2DPuck()
             enabled = true
         }
-        val fromLocation = intent.getSerializableExtra("fromLocation") as? ArrayList<Double>
+        val origin = Point.fromLngLat(105.802682, 21.024955)
+//        val destination = Point.fromLngLat(105.812639 , 21.025943)
         val toLocation = intent.getSerializableExtra("toLocation") as? ArrayList<Double>
-
-        val origin = Point.fromLngLat(fromLocation!![1], fromLocation[0])
-        val destination = Point.fromLngLat(toLocation!![1], toLocation[0])
-
-        //        val origin = Point.fromLngLat(105.802682, 21.024955)
-        //        val destination = Point.fromLngLat(105.812639 , 21.025943)
-
+        val destination = Point.fromLngLat(toLocation?.get(1) ?: 0.0,toLocation?.get(0) ?: 0.0)
         mapboxNavigation.requestRoutes(
             RouteOptions.builder()
                 .applyDefaultNavigationOptions()
@@ -190,4 +201,36 @@ class NavigationMapActivity : ComponentActivity() {
             }
         )
     }
+
+    @OptIn(ExperimentalPreviewMapboxNavigationAPI::class)
+    private fun startNavigation() {
+        val origin = Point.fromLngLat(105.802682, 21.024955)
+//        val destination = Point.fromLngLat(105.812639 , 21.025943)
+        val toLocation = intent.getSerializableExtra("toLocation") as? ArrayList<Double>
+        val destination = Point.fromLngLat(toLocation?.get(1) ?: 0.0,toLocation?.get(0) ?: 0.0)
+        mapboxNavigation.requestRoutes(
+            RouteOptions.builder()
+                .applyDefaultNavigationOptions()
+                .coordinatesList(listOf(origin, destination))
+                .layersList(listOf(mapboxNavigation.getZLevel(), null))
+                .build(),
+            object : NavigationRouterCallback {
+                override fun onCanceled(routeOptions: RouteOptions, routerOrigin: String) {}
+
+                override fun onFailure(reasons: List<RouterFailure>, routeOptions: RouteOptions) {}
+
+                override fun onRoutesReady(routes: List<NavigationRoute>, routerOrigin: String) {
+                    mapboxNavigation.setNavigationRoutes(routes)
+
+                    val replayData =
+                        replayRouteMapper.mapDirectionsRouteGeometry(routes.first().directionsRoute)
+                    mapboxNavigation.mapboxReplayer.pushEvents(replayData)
+                    mapboxNavigation.mapboxReplayer.seekTo(replayData[0])
+                    mapboxNavigation.mapboxReplayer.play()
+                    mapboxNavigation.startReplayTripSession()
+                }
+            }
+        )
+    }
+
 }
