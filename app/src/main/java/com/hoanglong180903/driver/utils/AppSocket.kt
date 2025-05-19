@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 import org.json.JSONException
 import org.json.JSONObject
 
-class SocketIOManager() {
+class AppSocket() {
     private var socket: Socket? = null
     fun connect() {
         CoroutineScope(Dispatchers.IO).launch {

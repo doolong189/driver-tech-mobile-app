@@ -40,7 +40,7 @@ class CancelOrderFragment : BaseFragment<FragmentCancelOrderBinding>() {
 
     override fun initData() {
         preferences = SharedPreferences(requireContext())
-        viewModel.getOrdersShipID(GetOrderShipIDRequest(idShipper = preferences.userId , receiptStatus = 3))
+        viewModel.getOrdersShipID(GetOrderShipIDRequest(id = preferences.userId , receiptStatus = 3))
     }
 
     override fun initEvents() {

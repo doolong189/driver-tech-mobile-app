@@ -34,7 +34,7 @@ class OnGoingOrderFragment : BaseFragment<FragmentOngoingOrderBinding>() {
 
     override fun initData() {
         preferences = SharedPreferences(requireContext())
-        viewModel.getOrdersShipID(GetOrderShipIDRequest(idShipper = preferences.userId , receiptStatus = 1))
+        viewModel.getOrdersShipID(GetOrderShipIDRequest(id = preferences.userId , receiptStatus = 1))
     }
 
     override fun initEvents() {

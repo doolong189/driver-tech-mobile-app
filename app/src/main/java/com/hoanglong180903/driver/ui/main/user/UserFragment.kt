@@ -52,11 +52,11 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
 
     override fun initObserve() {
         userViewModel.getUserInfoResult().observe(viewLifecycleOwner , Observer {
-            getShipperInfoResult(it)
+            getUserInfoResult(it)
         })
     }
 
-    private fun getShipperInfoResult(event: Event<Resource<GetUserInfoResponse>>){
+    private fun getUserInfoResult(event: Event<Resource<GetUserInfoResponse>>){
         event.getContentIfNotHandled()?.let { response ->
             when (response){
                 is Resource.Error -> {
@@ -64,8 +64,8 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
                 is Resource.Loading -> {
                 }
                 is Resource.Success -> {
-                    response.data?.data?.let {
-                        userViewModel.getConvertShipperInfo(it)
+                    response.data?.users?.let {
+                        userViewModel.getConvertUserInfo(it)
                         setViewShipperInfo(it)
                     }
                 }

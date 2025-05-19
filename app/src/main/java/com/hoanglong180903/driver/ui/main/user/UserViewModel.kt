@@ -102,7 +102,7 @@ class UserViewModel(private val app: Application) : AndroidViewModel(app) {
         }
     }
 
-    fun getConvertShipperInfo(response : UserInfo){
+    fun getConvertUserInfo(response : UserInfo){
         getShipperInfo = UserInfo(
             _id = response._id,
             name = response.name,

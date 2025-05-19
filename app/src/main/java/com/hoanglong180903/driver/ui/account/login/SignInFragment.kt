@@ -67,7 +67,7 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>() {
                 is Resource.Success -> {
                     binding.progressBar.visibility = View.GONE
                     response.data?.let{
-                        preferces.saveUserData(it.shipper,it.shipper?.token)
+                        preferces.saveUserData(it.user,it.user?.token)
                         startActivity(Intent(requireContext(),MainActivity::class.java))
                         requireActivity().finish()
                     }
