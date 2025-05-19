@@ -1,8 +1,6 @@
 package com.hoanglong180903.driver.data.responsemodel
 
-import androidx.annotation.Keep
 
-@Keep
 data class GetStatisticalResponse (
     val message : String? = null,
     val totalOrdersCount : Int? = null,

@@ -46,7 +46,7 @@ class HomeAdapter : RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
             binding.run {
                 orderId.text = itemView.context.getString(R.string.order_id) + "1"
                 time.text = Utils.convertTimestampToDate(item.date)
-                totalOrders.text = Utils.formatPrice(item.totalPrice) + "đ"
+                totalOrders.text = Utils.formatPrice(item.feeDelivery) + "đ"
 
                 icDirection.setOnClickListener {
                     onClickDirectionMap?.let {
@@ -60,6 +60,9 @@ class HomeAdapter : RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
                 }
                 val origin = Point.fromLngLat(item.fromLocation!![1], item.fromLocation[0])
                 val destination = Point.fromLngLat(item.toLocation!![1], item.toLocation[0])
+
+                distance.text = "${item.distance} km"
+                time.text = item.timer
             }
 
         }

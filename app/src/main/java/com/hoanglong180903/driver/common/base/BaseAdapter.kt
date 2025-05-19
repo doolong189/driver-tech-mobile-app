@@ -22,5 +22,4 @@ abstract class BaseAdapter<VH : RecyclerView.ViewHolder> : RecyclerView.Adapter<
 
     abstract class BaseViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder(binding.root)
 
-
 }

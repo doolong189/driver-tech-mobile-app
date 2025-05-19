@@ -2,16 +2,14 @@ package com.hoanglong180903.driver.ui.main.user
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
-import com.facebook.share.Share
 import com.hoanglong180903.driver.common.base.BaseFragment
-import com.hoanglong180903.driver.data.requestmodel.GetShipperInfoRequest
-import com.hoanglong180903.driver.data.responsemodel.GetShipperInfoResponse
+import com.hoanglong180903.driver.data.requestmodel.GetUserInfoRequest
+import com.hoanglong180903.driver.data.responsemodel.GetUserInfoResponse
 import com.hoanglong180903.driver.databinding.FragmentUserBinding
 import com.hoanglong180903.driver.model.UserInfo
 import com.hoanglong180903.driver.utils.Event
@@ -36,7 +34,7 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
 
     override fun initData() {
         preferces = SharedPreferences(requireContext())
-        userViewModel.getShipperInfo(GetShipperInfoRequest(id = preferces.userId.toString()))
+        userViewModel.getUserInfo(GetUserInfoRequest(id = preferces.userId.toString()))
     }
 
     override fun initEvents() {
@@ -53,12 +51,12 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
     }
 
     override fun initObserve() {
-        userViewModel.getShipperInfoResult().observe(viewLifecycleOwner , Observer {
+        userViewModel.getUserInfoResult().observe(viewLifecycleOwner , Observer {
             getShipperInfoResult(it)
         })
     }
 
-    private fun getShipperInfoResult(event: Event<Resource<GetShipperInfoResponse>>){
+    private fun getShipperInfoResult(event: Event<Resource<GetUserInfoResponse>>){
         event.getContentIfNotHandled()?.let { response ->
             when (response){
                 is Resource.Error -> {
@@ -66,7 +64,7 @@ class UserFragment : BaseFragment<FragmentUserBinding>() {
                 is Resource.Loading -> {
                 }
                 is Resource.Success -> {
-                    response.data?.shipper?.let {
+                    response.data?.data?.let {
                         userViewModel.getConvertShipperInfo(it)
                         setViewShipperInfo(it)
                     }

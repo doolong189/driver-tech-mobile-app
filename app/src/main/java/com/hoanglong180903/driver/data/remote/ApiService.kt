@@ -8,8 +8,8 @@ import com.hoanglong180903.driver.data.requestmodel.GetOrderShipIDRequest
 import com.hoanglong180903.driver.data.responsemodel.GetOrderShipIDResponse
 import com.hoanglong180903.driver.data.requestmodel.GetNewOrderRequest
 import com.hoanglong180903.driver.data.responsemodel.GetNewOrderResponse
-import com.hoanglong180903.driver.data.requestmodel.GetShipperInfoRequest
-import com.hoanglong180903.driver.data.responsemodel.GetShipperInfoResponse
+import com.hoanglong180903.driver.data.requestmodel.GetUserInfoRequest
+import com.hoanglong180903.driver.data.responsemodel.GetUserInfoResponse
 import com.hoanglong180903.driver.data.requestmodel.GetStatisticalRequest
 import com.hoanglong180903.driver.data.responsemodel.GetStatisticalResponse
 import com.hoanglong180903.driver.data.requestmodel.LoginAccountRequest
@@ -36,16 +36,16 @@ interface ApiService {
     @POST("order/updateOrderShipper")
     suspend fun updateOrderShipper(@Body request : UpdateOrderShipperRequest) : Response<UpdateOrderShipperResponse>
 
-    @POST("shipper/getShipperInfo")
-    suspend fun getShipperInfo(@Body request : GetShipperInfoRequest) : Response<GetShipperInfoResponse>
+    @POST("user/getUserInfo")
+    suspend fun getUserInfo(@Body request : GetUserInfoRequest) : Response<GetUserInfoResponse>
 
     @POST("/order/getOrdersForShipper")
     suspend fun getOrdersShipID(@Body request : GetOrderShipIDRequest) : Response<GetOrderShipIDResponse>
 
-    @POST("shipper/register")
+    @POST("user/register")
     suspend fun registerAccount(@Body request : RegisterAccountRequest) : Response<RegisterAccountResponse>
 
-    @POST("shipper/login")
+    @POST("user/login")
     suspend fun loginAccount(@Body request : LoginAccountRequest) : Response<LoginAccountResponse>
 
     @POST("chat-message/getHistoryChatMessages")

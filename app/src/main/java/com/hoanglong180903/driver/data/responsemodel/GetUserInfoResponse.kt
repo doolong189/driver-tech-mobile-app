@@ -1,10 +1,8 @@
 package com.hoanglong180903.driver.data.responsemodel
 
-import androidx.annotation.Keep
 import com.hoanglong180903.driver.model.UserInfo
 
-@Keep
-data class GetShipperInfoResponse (
+data class GetUserInfoResponse (
     val message : String? = null,
-    val shipper : UserInfo?
+    val users : UserInfo?
 )

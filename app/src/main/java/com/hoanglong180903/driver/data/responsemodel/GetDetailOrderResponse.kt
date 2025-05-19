@@ -1,10 +1,8 @@
 package com.hoanglong180903.driver.data.responsemodel
 
-import androidx.annotation.Keep
 import com.hoanglong180903.driver.model.Order
 
-@Keep
-class GetDetailOrderResponse (
+data class GetDetailOrderResponse (
     val message : String? = null,
     val data : Order?
 )

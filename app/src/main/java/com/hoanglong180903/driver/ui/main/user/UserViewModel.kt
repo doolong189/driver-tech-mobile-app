@@ -9,8 +9,8 @@ import com.google.gson.Gson
 import com.hoanglong180903.driver.R
 import com.hoanglong180903.driver.common.application.DriverApplication
 import com.hoanglong180903.driver.data.responsemodel.ErrorResponse
-import com.hoanglong180903.driver.data.requestmodel.GetShipperInfoRequest
-import com.hoanglong180903.driver.data.responsemodel.GetShipperInfoResponse
+import com.hoanglong180903.driver.data.requestmodel.GetUserInfoRequest
+import com.hoanglong180903.driver.data.responsemodel.GetUserInfoResponse
 import com.hoanglong180903.driver.data.requestmodel.RegisterAccountRequest
 import com.hoanglong180903.driver.data.responsemodel.RegisterAccountResponse
 import com.hoanglong180903.driver.data.usecase.UserRepository
@@ -25,9 +25,9 @@ import java.io.IOException
 class UserViewModel(private val app: Application) : AndroidViewModel(app) {
     private val repository  = UserRepository()
     var getShipperInfo : UserInfo? = null
-    private val getShipperInfoResult = MutableLiveData<Event<Resource<GetShipperInfoResponse>>>()
-    fun getShipperInfoResult(): LiveData<Event<Resource<GetShipperInfoResponse>>> {
-        return getShipperInfoResult
+    private val getUserInfoResult = MutableLiveData<Event<Resource<GetUserInfoResponse>>>()
+    fun getUserInfoResult(): LiveData<Event<Resource<GetUserInfoResponse>>> {
+        return getUserInfoResult
     }
 
     private val registerAccountResult = MutableLiveData<Event<Resource<RegisterAccountResponse>>>()
@@ -35,32 +35,32 @@ class UserViewModel(private val app: Application) : AndroidViewModel(app) {
         return registerAccountResult
     }
 
-    fun getShipperInfo(request : GetShipperInfoRequest) : Job = viewModelScope.launch {
-        getShipperInfoResult.postValue(Event(Resource.Loading()))
+    fun getUserInfo(request : GetUserInfoRequest) : Job = viewModelScope.launch {
+        getUserInfoResult.postValue(Event(Resource.Loading()))
         try {
             if (Utils.hasInternetConnection(getApplication<DriverApplication>())) {
-                val response = repository.getShipperInfo(request)
+                val response = repository.getUserInfo(request)
                 if (response.isSuccessful) {
                     response.body()?.let { resultResponse ->
-                        getShipperInfoResult.postValue(Event(Resource.Success(resultResponse)))
+                        getUserInfoResult.postValue(Event(Resource.Success(resultResponse)))
                     }
                 } else {
                     val errorResponse = response.errorBody()?.let {
                         val gson = Gson()
                         gson.fromJson(it.string(), ErrorResponse::class.java)
                     }
-                    getShipperInfoResult.postValue(Event(Resource.Error(errorResponse?.message ?: "")))
+                    getUserInfoResult.postValue(Event(Resource.Error(errorResponse?.message ?: "")))
                 }
             }
         } catch (t: Throwable) {
             when (t) {
                 is IOException -> {
-                    getShipperInfoResult.postValue(Event(Resource.Error(getApplication<DriverApplication>().getString(
+                    getUserInfoResult.postValue(Event(Resource.Error(getApplication<DriverApplication>().getString(
                         R.string.network_failure
                     ))))
                 }
                 else -> {
-                    getShipperInfoResult.postValue(Event(Resource.Error(getApplication<DriverApplication>().getString(
+                    getUserInfoResult.postValue(Event(Resource.Error(getApplication<DriverApplication>().getString(
                         R.string.conversion_error
                     ))))
                 }

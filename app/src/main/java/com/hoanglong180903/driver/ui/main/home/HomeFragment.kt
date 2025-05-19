@@ -19,12 +19,11 @@ import com.hoanglong180903.driver.data.responsemodel.GetStatisticalResponse
 import com.hoanglong180903.driver.databinding.FragmentHomeBinding
 import com.hoanglong180903.driver.ui.main.MainActivity
 import com.hoanglong180903.driver.ui.main.user.UserViewModel
-import com.hoanglong180903.driver.ui.map.MapActivity
 import com.hoanglong180903.driver.ui.map.NavigationMapActivity
 import com.hoanglong180903.driver.utils.Constants
 import com.hoanglong180903.driver.utils.Event
 import com.hoanglong180903.driver.utils.Resource
-import com.hoanglong180903.driver.utils.SocketIOManager
+import com.hoanglong180903.driver.utils.AppSocket
 import com.hoanglong180903.driver.utils.Utils
 
 
@@ -32,7 +31,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private val viewModel by activityViewModels<HomeViewModel>()
     private val userViewModel by activityViewModels<UserViewModel>()
     private var homeAdapter = HomeAdapter()
-    private var socketIO = SocketIOManager()
+    private var appSocket = AppSocket()
     override var isShowHideActionBar: Boolean = false
 
 
@@ -56,14 +55,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         binding.switchOnOff.setOnCheckedChangeListener { _, checked ->
             when {
                 checked -> {
-                    socketIO.connect()
-                    socketIO.join(userViewModel.getShipperInfo?._id.toString())
-                    socketIO.userJoinedTheChat()
-                    val message = socketIO.message()
+                    appSocket.connect()
+                    appSocket.join(userViewModel.getShipperInfo?._id.toString())
+                    appSocket.userJoinedTheChat()
+                    val message = appSocket.message()
                     binding.switchOnOff.text = "Sẵn sàng"
                 }
                 else -> {
-                    socketIO.disconnect(userViewModel.getShipperInfo?._id.toString())
+                    appSocket.disconnect(userViewModel.getShipperInfo?._id.toString())
                     binding.switchOnOff.text = ""
                 }
             }

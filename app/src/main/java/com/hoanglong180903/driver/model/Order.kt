@@ -10,5 +10,8 @@ data class Order(
     val idShipper : UserInfo,
     val products : List<ProductOfOrder>,
     val fromLocation : List<Double>?,
-    val toLocation : List<Double>?
+    val toLocation : List<Double>?,
+    val distance : Float,
+    val timer : String,
+    val feeDelivery : Double
 )
