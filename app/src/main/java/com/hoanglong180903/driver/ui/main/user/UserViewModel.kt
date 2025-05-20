@@ -24,7 +24,7 @@ import java.io.IOException
 
 class UserViewModel(private val app: Application) : AndroidViewModel(app) {
     private val repository  = UserRepository()
-    var getShipperInfo : UserInfo? = null
+    var getUserInfo : UserInfo? = null
     private val getUserInfoResult = MutableLiveData<Event<Resource<GetUserInfoResponse>>>()
     fun getUserInfoResult(): LiveData<Event<Resource<GetUserInfoResponse>>> {
         return getUserInfoResult
@@ -103,7 +103,7 @@ class UserViewModel(private val app: Application) : AndroidViewModel(app) {
     }
 
     fun getConvertUserInfo(response : UserInfo){
-        getShipperInfo = UserInfo(
+        getUserInfo = UserInfo(
             _id = response._id,
             name = response.name,
             address = response.address,

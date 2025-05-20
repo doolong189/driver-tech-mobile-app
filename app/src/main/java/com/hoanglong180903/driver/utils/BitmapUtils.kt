@@ -1,15 +1,13 @@
-package com.hoanglong180903.driver.common.base
-
+package com.hoanglong180903.driver.utils
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import androidx.annotation.DrawableRes
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 
-abstract class BaseLocationActivity : AppCompatActivity(){
+object BitmapUtils {
     fun bitmapFromDrawableRes(context: Context, @DrawableRes resourceId: Int) =
         convertDrawableToBitmap(AppCompatResources.getDrawable(context, resourceId))
 
@@ -20,7 +18,6 @@ abstract class BaseLocationActivity : AppCompatActivity(){
         return if (sourceDrawable is BitmapDrawable) {
             sourceDrawable.bitmap
         } else {
-            // copying drawable object to not manipulate on the same reference
             val constantState = sourceDrawable.constantState ?: return null
             val drawable = constantState.newDrawable().mutate()
             val bitmap: Bitmap = Bitmap.createBitmap(
@@ -33,4 +30,5 @@ abstract class BaseLocationActivity : AppCompatActivity(){
             bitmap
         }
     }
+
 }

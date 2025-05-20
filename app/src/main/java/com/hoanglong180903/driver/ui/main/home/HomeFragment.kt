@@ -46,7 +46,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     override fun initData() {
-        viewModel.getStatistical(GetStatisticalRequest(idShipper = userViewModel.getShipperInfo?._id))
+        viewModel.getStatistical(GetStatisticalRequest(idShipper = userViewModel.getUserInfo?._id))
         viewModel.getNewOrder(GetNewOrderRequest(receiptStatus =  0))
 
     }
@@ -56,13 +56,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             when {
                 checked -> {
                     appSocket.connect()
-                    appSocket.join(userViewModel.getShipperInfo?._id.toString())
+                    appSocket.join(userViewModel.getUserInfo?._id.toString())
                     appSocket.userJoinedTheChat()
                     val message = appSocket.message()
                     binding.switchOnOff.text = "Sẵn sàng"
                 }
                 else -> {
-                    appSocket.disconnect(userViewModel.getShipperInfo?._id.toString())
+                    appSocket.disconnect(userViewModel.getUserInfo?._id.toString())
                     binding.switchOnOff.text = ""
                 }
             }

@@ -2,7 +2,6 @@ package com.hoanglong180903.driver.ui.account.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +16,6 @@ import com.hoanglong180903.driver.utils.Event
 import com.hoanglong180903.driver.utils.Resource
 import com.hoanglong180903.driver.utils.SharedPreferences
 import com.hoanglong180903.driver.utils.PopupUtils
-import com.hoanglong180903.driver.utils.Utils
 
 
 class SignInFragment : BaseFragment<FragmentSignInBinding>() {

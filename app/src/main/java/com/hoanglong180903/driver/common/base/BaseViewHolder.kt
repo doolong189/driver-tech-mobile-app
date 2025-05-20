@@ -3,11 +3,9 @@ package com.hoanglong180903.driver.common.base
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 
-abstract class BaseViewHolder<T>(
-    binding: ViewBinding
-): RecyclerView.ViewHolder(binding.root) {
+abstract class BaseViewHolder<T>(binding: ViewBinding): RecyclerView.ViewHolder(binding.root) {
     private var item: T? = null
-    open fun bindView(item: T, isItemSelected: Boolean){
+    open fun bindView(item: T){
         this.item = item
     }
 }

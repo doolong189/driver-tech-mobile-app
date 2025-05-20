@@ -13,13 +13,14 @@ private typealias ViewHolderViewBindingInflater<VB> = (
     attachToParent: Boolean
 ) -> VB
 abstract class BaseAdapter<VH : RecyclerView.ViewHolder> : RecyclerView.Adapter<VH>() {
-
+    private var recyclerView: RecyclerView? = null
     fun <VB : ViewBinding> ViewGroup.inflateBinding(
         bindingInflater: ViewHolderViewBindingInflater<VB>
     ): VB {
         return bindingInflater.invoke(LayoutInflater.from(context), this, false)
     }
-
-    abstract class BaseViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder(binding.root)
-
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        this.recyclerView = recyclerView
+    }
 }

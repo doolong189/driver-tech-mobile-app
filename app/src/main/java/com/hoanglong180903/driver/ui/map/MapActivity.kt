@@ -217,8 +217,8 @@ class MapActivity : BaseActivity<MapActivityBinding>() {
 
     override fun initEvents() {
         binding.startNavigation.setOnClickListener {
-//            mapboxNavigation.moveRoutesFromPreviewToNavigator()
-//            updateRouteCalloutType(RouteCalloutType.NAVIGATION)
+            mapboxNavigation.moveRoutesFromPreviewToNavigator()
+            updateRouteCalloutType(RouteCalloutType.NAVIGATION)
             sendCommandToService(Constants.ACTION_START_OR_RESUME_SERVICE)
             binding.startNavigation.isVisible = false
             binding.routeOverview.isVisible = true
@@ -319,11 +319,11 @@ class MapActivity : BaseActivity<MapActivityBinding>() {
     }
 
     private fun fetchRoute() {
-        val fromLocation = intent.getSerializableExtra("fromLocation") as? ArrayList<Double>
-        val toLocation = intent.getSerializableExtra("toLocation") as? ArrayList<Double>
+        val origin = Point.fromLngLat(105.802682, 21.024955)
+        val destination = Point.fromLngLat(105.812639 , 21.025943)
         val routeCoordinates = listOf(
-            Point.fromLngLat(fromLocation!![1], fromLocation[0]),
-            Point.fromLngLat(toLocation!![1], toLocation[0]),
+            origin,
+            destination,
         )
         mapboxNavigation.requestRoutes(
             RouteOptions.builder()
@@ -361,26 +361,26 @@ class MapActivity : BaseActivity<MapActivityBinding>() {
     }
 
     private fun replayOriginLocation() {
-        val fromLocation = intent.getSerializableExtra("fromLocation") as? ArrayList<Double>
-        val toLocation = intent.getSerializableExtra("toLocation") as? ArrayList<Double>
+        val origin = Point.fromLngLat(105.802682, 21.024955)
+        val destination = Point.fromLngLat(105.812639 , 21.025943)
         val routeCoordinates = listOf(
-            Point.fromLngLat(fromLocation!![1], fromLocation[0]),
-            Point.fromLngLat(toLocation!![1], toLocation[0]),
+            origin,
+            destination,
         )
         with(mapboxNavigation.mapboxReplayer) {
             play()
             pushEvents(listOf(ReplayRouteMapper.mapToUpdateLocation(Date().time.toDouble(), routeCoordinates.first())))
             playFirstLocation()
-            playbackSpeed(2.0)
+            playbackSpeed(0.5)
         }
     }
 
     private fun updateCamera(point: Point, bearing: Double?) {
-        val fromLocation = intent.getSerializableExtra("fromLocation") as? ArrayList<Double>
-        val toLocation = intent.getSerializableExtra("toLocation") as? ArrayList<Double>
+        val origin = Point.fromLngLat(105.802682, 21.024955)
+        val destination = Point.fromLngLat(105.812639 , 21.025943)
         val routeCoordinates = listOf(
-            Point.fromLngLat(fromLocation!![1], fromLocation[0]),
-            Point.fromLngLat(toLocation!![1], toLocation[0]),
+            origin,
+            destination,
         )
         val cameraOptions = if (routeCalloutAdapter.options.routeCalloutType == RouteCalloutType.ROUTES_OVERVIEW) {
             binding.mapView.mapboxMap.cameraForCoordinates(
@@ -398,7 +398,7 @@ class MapActivity : BaseActivity<MapActivityBinding>() {
                 .center(point)
                 .bearing(bearing)
                 .pitch(45.0)
-                .zoom(17.0)
+                .zoom(20.0)
                 .padding(EdgeInsets(1000.0, 0.0, 0.0, 0.0))
                 .build()
         }

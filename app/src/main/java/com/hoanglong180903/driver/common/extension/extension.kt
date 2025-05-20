@@ -11,6 +11,11 @@ import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import kotlin.math.asin
+import kotlin.math.cos
+import kotlin.math.pow
+import kotlin.math.sin
+import kotlin.math.sqrt
 
 fun getTimeDifference(timestampStr: String): String {
     val timestamp = timestampStr.toLongOrNull() ?: return "Ngày/giờ không đúng"
@@ -71,4 +76,18 @@ fun convertDrawableToBitmap(sourceDrawable: Drawable?): Bitmap? {
         drawable.draw(canvas)
         bitmap
     }
+}
+
+fun distance(fromLat: Double, fromLon: Double, toLat: Double, toLon: Double): Double {
+    val radius = 6378137.0 // approximate Earth radius, *in meters*
+    val deltaLat = toLat - fromLat
+    val deltaLon = toLon - fromLon
+    val angle = 2 * asin(
+        sqrt(
+            sin(deltaLat / 2).pow(2.0) +
+                    cos(fromLat) * cos(toLat) *
+                    sin(deltaLon / 2).pow(2.0)
+        )
+    )
+    return radius * angle
 }
