@@ -1,25 +1,16 @@
 package com.hoanglong180903.driver.ui.map
 
 import android.annotation.SuppressLint
-import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.lifecycle.Observer
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.PolylineOptions
-import com.hoanglong180903.driver.common.base.BaseActivity
-import com.hoanglong180903.driver.common.service.GpsTrackerService
-import com.hoanglong180903.driver.common.service.Polyline
 import com.hoanglong180903.driver.databinding.MapActivityBinding
-import com.hoanglong180903.driver.utils.Constants
-import com.hoanglong180903.driver.utils.SharedPreferences
 import com.mapbox.api.directions.v5.models.RouteOptions
 import com.mapbox.geojson.Point
 import com.mapbox.maps.CameraOptions
 import com.mapbox.maps.EdgeInsets
+import com.mapbox.maps.MapboxDelicateApi
 import com.mapbox.maps.plugin.animation.MapAnimationOptions
 import com.mapbox.maps.plugin.animation.camera
 import com.mapbox.maps.plugin.locationcomponent.LocationComponentPlugin
@@ -65,20 +56,39 @@ import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
 @OptIn(ExperimentalPreviewMapboxNavigationAPI::class)
-class MapActivity : BaseActivity<MapActivityBinding>() {
-    private var isTracking = false
-    private var pathPoints = mutableListOf<Polyline>()
-    private lateinit var preferences: SharedPreferences
+class MapActivity : AppCompatActivity() {
+
+    private val routeCoordinates = listOf(
+        Point.fromLngLat(105.802682, 21.024955),
+        Point.fromLngLat(105.812639 , 21.025943),
+    )
+
     private lateinit var locationComponent: LocationComponentPlugin
 
 
     private lateinit var replayProgressObserver: ReplayProgressObserver
 
+    private val viewBinding: MapActivityBinding by lazy {
+        MapActivityBinding.inflate(layoutInflater)
+    }
+
     private val navigationLocationProvider by lazy {
+        /* route line */
+        Log.e("LogMap","navigationLocationProvider - 3")
         NavigationLocationProvider()
     }
 
+    private val routeLineView by lazy {
+        MapboxRouteLineView(routeLineViewOptions).also {
+            /* route line */
+            Log.e("LogMap","routeLineView MapboxRouteLineView")
+            it.setCalloutAdapter(viewBinding.mapView.viewAnnotationManager, routeCalloutAdapter)
+        }
+    }
+
     private val routeLineViewOptions: MapboxRouteLineViewOptions by lazy {
+        /* route line */
+        Log.e("LogMap","routeLineViewOptions")
         MapboxRouteLineViewOptions.Builder(this)
             .routeLineColorResources(RouteLineColorResources.Builder().build())
             .routeLineBelowLayerId("road-label-navigation")
@@ -86,49 +96,70 @@ class MapActivity : BaseActivity<MapActivityBinding>() {
     }
 
     private val routeLineApiOptions: MapboxRouteLineApiOptions by lazy {
+        /* route line */
+
+        Log.e("LogMap","routeLineApiOptions")
         MapboxRouteLineApiOptions.Builder()
             .vanishingRouteLineEnabled(true)
             .isRouteCalloutsEnabled(true)
             .build()
     }
 
-    private val routeLineView by lazy {
-        MapboxRouteLineView(routeLineViewOptions).also {
-            it.setCalloutAdapter(binding.mapView.viewAnnotationManager, routeCalloutAdapter)
-        }
-    }
     private val routeLineApi: MapboxRouteLineApi by lazy {
+        /* route line */
+        Log.e("LogMap","routeLineApi")
         MapboxRouteLineApi(routeLineApiOptions)
     }
     private val routeArrowApi: MapboxRouteArrowApi by lazy {
+        Log.e("LogMap","routeArrowApi")
+        /* nav */
+
         MapboxRouteArrowApi()
     }
     private val routeArrowOptions by lazy {
+        Log.e("LogMap","routeArrowOptions")
+        /* nav */
+
         RouteArrowOptions.Builder(this)
             .withAboveLayerId(TOP_LEVEL_ROUTE_LINE_LAYER_ID)
             .build()
     }
     private val routeArrowView: MapboxRouteArrowView by lazy {
+        Log.e("LogMap","routeArrowView")
+        /* nav */
+
         MapboxRouteArrowView(routeArrowOptions)
     }
+    private val routeCalloutAdapter: DefaultRouteCalloutAdapter by lazy {
+        /* route line */
+
+        Log.e("LogMap","routeCalloutAdapter")
+        DefaultRouteCalloutAdapter(this, routeCalloutAdapterOptions) { data ->
+            reorderRoutes(data.route)
+        }
+    }
     private val routeCalloutAdapterOptions: DefaultRouteCalloutAdapterOptions by lazy {
+        /* route line */
+
+        Log.e("LogMap","routeCalloutAdapterOptions")
         DefaultRouteCalloutAdapterOptions.Builder()
             .similarDurationDelta(1.minutes)
             .routeCalloutType(RouteCalloutType.ROUTES_OVERVIEW)
             .build()
     }
-    private val routeCalloutAdapter: DefaultRouteCalloutAdapter by lazy {
-        DefaultRouteCalloutAdapter(this, routeCalloutAdapterOptions) { data ->
-            reorderRoutes(data.route)
-        }
-    }
     private val routesObserver: RoutesObserver = RoutesObserver { routeUpdateResult ->
+        /* nav */
+
+        Log.e("LogMap","routesObserver")
         updateRoutes(
             routeUpdateResult.navigationRoutes,
             mapboxNavigation.getAlternativeMetadataFor(routeUpdateResult.navigationRoutes)
         )
     }
     private val routesPreviewObserver: RoutesPreviewObserver = RoutesPreviewObserver { update ->
+        /* route line */
+        /* nav */
+        Log.e("LogMap","routesPreviewObserver")
         val preview = update.routesPreview ?: return@RoutesPreviewObserver
 
         updateRoutes(preview.routesList, preview.alternativesMetadata)
@@ -136,33 +167,55 @@ class MapActivity : BaseActivity<MapActivityBinding>() {
 
     private fun updateRoutes(routesList: List<NavigationRoute>, alternativesMetadata: List<AlternativeRouteMetadata>) {
         routeLineApi.setNavigationRoutes(routesList, alternativesMetadata) { value ->
-            binding.mapView.mapboxMap.style?.apply {
+            /* route line */
+            Log.e("LogMap","updateRoutes  routeLineApi.setNavigationRoutes")
+            /* nav */
+            viewBinding.mapView.mapboxMap.style?.apply {
+                /* route line */
                 routeLineView.renderRouteDrawData(this, value)
+                Log.e("LogMap","updateRoutes  routeLineView.renderRouteDrawData")
+                /* nav */
+
             }
         }
     }
     private val onPositionChangedListener = OnIndicatorPositionChangedListener { point ->
+//        Log.e("LogMap","onPositionChangedListener")
         val result = routeLineApi.updateTraveledRouteLine(point)
-        binding.mapView.mapboxMap.style?.apply {
+        viewBinding.mapView.mapboxMap.style?.apply {
             routeLineView.renderRouteLineUpdate(this, result)
+            /* route line */
+//            Log.e("LogMap","onPositionChangedListener routeLineView.renderRouteLineUpdate")
         }
     }
 
     private val routeProgressObserver = RouteProgressObserver { routeProgress ->
+        Log.e("LogMap","routeProgressObserver")
+        /* nav */
+
         routeLineApi.updateWithRouteProgress(routeProgress) { result ->
-            binding.mapView.mapboxMap.style?.apply {
+            viewBinding.mapView.mapboxMap.style?.apply {
                 routeLineView.renderRouteLineUpdate(this, result)
+                Log.e("LogMap","routeProgressObserver routeLineView.renderRouteLineUpdate")
+
             }
         }
         val arrowUpdate = routeArrowApi.addUpcomingManeuverArrow(routeProgress)
-        binding.mapView.mapboxMap.style?.apply {
+        viewBinding.mapView.mapboxMap.style?.apply {
             routeArrowView.renderManeuverUpdate(this, arrowUpdate)
+            Log.e("LogMap","routeProgressObserver routeLineView.renderManeuverUpdate")
+            /* nav */
+
         }
     }
 
     private val locationObserver = object : LocationObserver {
         override fun onNewRawLocation(rawLocation: com.mapbox.common.location.Location) {}
         override fun onNewLocationMatcherResult(locationMatcherResult: LocationMatcherResult) {
+            /* route line */
+            Log.e("LogMap","locationObserver onNewLocationMatcherResult")
+            /* nav */
+
             val enhancedLocation = locationMatcherResult.enhancedLocation
             navigationLocationProvider.changePosition(
                 enhancedLocation,
@@ -189,6 +242,8 @@ class MapActivity : BaseActivity<MapActivityBinding>() {
                 mapboxNavigation.registerRouteProgressObserver(replayProgressObserver)
                 mapboxNavigation.startReplayTripSession()
                 fetchRoute()
+                /* route line */
+                Log.e("LogMap","mapboxNavigation onAttached - 5")
             }
 
             override fun onDetached(mapboxNavigation: MapboxNavigation) {
@@ -198,94 +253,36 @@ class MapActivity : BaseActivity<MapActivityBinding>() {
                 mapboxNavigation.unregisterRouteProgressObserver(routeProgressObserver)
                 mapboxNavigation.unregisterRouteProgressObserver(replayProgressObserver)
                 mapboxNavigation.mapboxReplayer.finish()
+                Log.e("LogMap","mapboxNavigation onDetached")
+
             }
         },
         onInitialize = this::initNavigation
     )
-    override val bindingInflater: (LayoutInflater) -> MapActivityBinding
-        get() = MapActivityBinding::inflate
 
-    override fun initView() {
-        binding.mapView.mapboxMap.loadStyle(NavigationStyles.NAVIGATION_DAY_STYLE) {
+    @SuppressLint("SetTextI18n")
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(viewBinding.root)
+
+        viewBinding.mapView.mapboxMap.loadStyle(NavigationStyles.NAVIGATION_DAY_STYLE) {
             routeLineView.initializeLayers(it)
+            Log.e("LogMap","routeLineView.initializeLayers")
         }
-    }
 
-    override fun initData() {
-        preferences = SharedPreferences(this)
-    }
-
-    override fun initEvents() {
-        binding.startNavigation.setOnClickListener {
+        viewBinding.startNavigation.setOnClickListener {
             mapboxNavigation.moveRoutesFromPreviewToNavigator()
             updateRouteCalloutType(RouteCalloutType.NAVIGATION)
-            sendCommandToService(Constants.ACTION_START_OR_RESUME_SERVICE)
-            binding.startNavigation.isVisible = false
-            binding.routeOverview.isVisible = true
-            isTracking = true
+            /* nav */
+
+            Log.e("LogMap","startNavigation")
+
         }
-
-        binding.routeOverview.setOnClickListener {
-            if (routeCalloutAdapter.options.routeCalloutType == RouteCalloutType.ROUTES_OVERVIEW) {
-                updateRouteCalloutType(RouteCalloutType.NAVIGATION)
-                binding.routeOverview.text = "Route overview"
-            } else {
-                updateRouteCalloutType(RouteCalloutType.ROUTES_OVERVIEW)
-                binding.routeOverview.text = "Following mode"
-            }
-        }
-    }
-
-    override fun initObserve() {
-        GpsTrackerService.isTracking.observe(this, Observer {
-            updateTracking(it)
-        })
-
-        GpsTrackerService.pathPoints.observe(this, Observer{
-            if (pathPoints.isEmpty()) {
-//                val latLng = LatLng(preferences.getUserLoc()!![1], preferences.getUserLoc()!![0])
-//                val
-//                pathPoints.add(latLng)
-            }
-            pathPoints.add(it)
-            moveCameraToUser()
-//            fetchRoute()
-            Log.e("zzzzzz","${pathPoints}")
-        })
-    }
-
-    private fun updateTracking(isTracking: Boolean) {
-        this.isTracking = isTracking
-        if (!isTracking) {
-            sendCommandToService(Constants.ACTION_START_OR_RESUME_SERVICE)
-//            btnToggleRun.text = "Start"
-//            btnFinishRun.visibility = View.VISIBLE
-
-        } else {
-            //btnToggleRun.text = "Stop"
-            // menu?.getItem(0)?.isVisible = true
-            //btnFinishRun.visibility = View.GONE
-        }
-    }
-
-    private fun sendCommandToService(action: String) = Intent(this@MapActivity, GpsTrackerService::class.java).also {
-        it.action = action
-        startService(it)
-    }
-
-
-    private fun moveCameraToUser() {
-//        if (pathPoints.isNotEmpty() && pathPoints.last().isNotEmpty()) {
-//            map?.animateCamera(
-//                CameraUpdateFactory.newLatLngZoom(
-//                    pathPoints.last().last(),
-//                    MAP_ZOOM
-//                )
-//            )
-//        }
     }
 
     private fun updateRouteCalloutType(@RouteCalloutType.Type type: Int) {
+        /* nav */
+        Log.e("LogMap","updateRouteCalloutType")
         routeCalloutAdapter.updateOptions(
             routeCalloutAdapterOptions.toBuilder()
                 .routeCalloutType(type)
@@ -294,6 +291,8 @@ class MapActivity : BaseActivity<MapActivityBinding>() {
     }
 
     private fun initNavigation() {
+        /* route line */
+        Log.e("LogMap","initNavigation - 1")
         MapboxNavigationApp.setup(
             NavigationOptions.Builder(this)
                 .routeAlternativesOptions(
@@ -303,7 +302,10 @@ class MapActivity : BaseActivity<MapActivityBinding>() {
                 )
                 .build()
         )
-        locationComponent = binding.mapView.location.apply {
+
+        locationComponent = viewBinding.mapView.location.apply {
+            /* route line */
+            Log.e("LogMap","locationComponent - 2")
             setLocationProvider(navigationLocationProvider)
             addOnIndicatorPositionChangedListener(onPositionChangedListener)
             enabled = true
@@ -319,12 +321,6 @@ class MapActivity : BaseActivity<MapActivityBinding>() {
     }
 
     private fun fetchRoute() {
-        val origin = Point.fromLngLat(105.802682, 21.024955)
-        val destination = Point.fromLngLat(105.812639 , 21.025943)
-        val routeCoordinates = listOf(
-            origin,
-            destination,
-        )
         mapboxNavigation.requestRoutes(
             RouteOptions.builder()
                 .applyDefaultNavigationOptions()
@@ -335,59 +331,39 @@ class MapActivity : BaseActivity<MapActivityBinding>() {
                 .build(),
 
             object : NavigationRouterCallback {
-                override fun onRoutesReady(
-                    routes: List<NavigationRoute>,
-                    @RouterOrigin routerOrigin: String
-                ) {
-                    binding.startNavigation.isVisible = true
+                override fun onRoutesReady(routes: List<NavigationRoute>, @RouterOrigin routerOrigin: String) {
+                    viewBinding.startNavigation.isVisible = true
                     mapboxNavigation.setRoutesPreview(routes)
+                    /* route line */
+                    Log.e("LogMap","fetchRoute")
                 }
 
-                override fun onFailure(
-                    reasons: List<RouterFailure>,
-                    routeOptions: RouteOptions
-                ) {
-                    Log.d(LOG_TAG, "onFailure: $reasons")
-                }
+                override fun onFailure(reasons: List<RouterFailure>, routeOptions: RouteOptions) {}
 
-                override fun onCanceled(
-                    routeOptions: RouteOptions,
-                    @RouterOrigin routerOrigin: String
-                ) {
-                    Log.d(LOG_TAG, "onCanceled")
-                }
+                override fun onCanceled(routeOptions: RouteOptions, @RouterOrigin routerOrigin: String) { }
             }
         )
     }
-
+    //hiện vị trí ban đầu
     private fun replayOriginLocation() {
-        val origin = Point.fromLngLat(105.802682, 21.024955)
-        val destination = Point.fromLngLat(105.812639 , 21.025943)
-        val routeCoordinates = listOf(
-            origin,
-            destination,
-        )
+        /* route line */
         with(mapboxNavigation.mapboxReplayer) {
             play()
             pushEvents(listOf(ReplayRouteMapper.mapToUpdateLocation(Date().time.toDouble(), routeCoordinates.first())))
             playFirstLocation()
-            playbackSpeed(0.5)
+            playbackSpeed(1.0)
+            Log.e("LogMap","replayOriginLocation - 4")
         }
     }
 
+    @OptIn(MapboxDelicateApi::class)
     private fun updateCamera(point: Point, bearing: Double?) {
-        val origin = Point.fromLngLat(105.802682, 21.024955)
-        val destination = Point.fromLngLat(105.812639 , 21.025943)
-        val routeCoordinates = listOf(
-            origin,
-            destination,
-        )
         val cameraOptions = if (routeCalloutAdapter.options.routeCalloutType == RouteCalloutType.ROUTES_OVERVIEW) {
-            binding.mapView.mapboxMap.cameraForCoordinates(
+            viewBinding.mapView.mapboxMap.cameraForCoordinates(
                 listOf(point, routeCoordinates.last()),
                 CameraOptions.Builder()
-                    .bearing(bearing)
-                    .padding(EdgeInsets(100.0, 100.0, 100.0, 100.0))
+                    .bearing(0.0)
+                    .padding(EdgeInsets(100.0, 100.0, 800.0, 100.0))
                     .build(),
                 null,
                 null,
@@ -398,12 +374,12 @@ class MapActivity : BaseActivity<MapActivityBinding>() {
                 .center(point)
                 .bearing(bearing)
                 .pitch(45.0)
-                .zoom(20.0)
-                .padding(EdgeInsets(1000.0, 0.0, 0.0, 0.0))
+                .zoom(17.0)
+                .padding(EdgeInsets(300.0, 0.0, 0.0, 0.0))
                 .build()
         }
         val mapAnimationOptionsBuilder = MapAnimationOptions.Builder()
-        binding.mapView.camera.easeTo(
+        viewBinding.mapView.camera.easeTo(
             cameraOptions,
             mapAnimationOptionsBuilder.build(),
         )
@@ -419,13 +395,11 @@ class MapActivity : BaseActivity<MapActivityBinding>() {
                         list.add(0, clickedRoute)
                     }
                 mapboxNavigation.setNavigationRoutes(reOrderedRoutes)
+                Log.e("LogMap","reorderRoutes setNavigationRoutes")
             } else {
                 mapboxNavigation.changeRoutesPreviewPrimaryRoute(clickedRoute)
+                Log.e("LogMap","reorderRoutes changeRoutesPreviewPrimaryRoute")
             }
         }
-    }
-
-    private companion object {
-        val LOG_TAG: String = MapActivity::class.java.simpleName
     }
 }
